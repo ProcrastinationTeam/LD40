@@ -18,7 +18,7 @@ class MenuState extends FlxState
 	{
 		bgColor = 0xFF000000;
 		
-		_title = new FlxText(0, 0, 0, "Human Harvest", 64, true);
+		_title = new FlxText(0, 0, 0, "Not Human Harvest", 64, true);
 		_title.screenCenter();
 		_title.y -= 100;
 		add(_title);
@@ -27,12 +27,12 @@ class MenuState extends FlxState
 		_startDisplay.screenCenter();
 		add(_startDisplay);
 
-		_credit = new FlxText(0, 0, 0, "A stupid game by Lucas Tixier, Guillaume Ambrois & Thomas Fantino", 12, true);
+		_credit = new FlxText(0, 0, 0, "A stupid game by Lucas Tixier & Guillaume Ambrois", 12, true);
 		_credit.screenCenter(FlxAxes.X);
 		_credit.y = FlxG.height - 150;
 		add(_credit);
 
-		_moreCredit = new FlxText(0, 0, 0, "                           Twitter : \n@LucasTixier - @Eponopono - @fanti_fantino", 12, true);
+		_moreCredit = new FlxText(0, 0, 0, "                           Twitter : \n@LucasTixier - @Eponopono", 12, true);
 		_moreCredit.screenCenter(FlxAxes.X);
 		_moreCredit.y = _credit.y + 50;
 		add(_moreCredit);

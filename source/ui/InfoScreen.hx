@@ -56,7 +56,8 @@ class InfoScreen extends FlxSpriteGroup
 		this.x = OFFSET;
 
 		_backgroundSprite = new FlxSprite(0, 0);
-		_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(200, 200, 200), false);
+		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(200, 200, 200), false);
+		_backgroundSprite.loadGraphic("assets/images/Room.png", true, 640, 480, true);
 		
 		_moneyMountain = new FlxSprite(0, Std.int(_height / 1.5));
 		_moneyMountain.makeGraphic(Std.int(FlxG.width / 1.5), 50, FlxColor.YELLOW);
