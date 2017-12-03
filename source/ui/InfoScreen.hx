@@ -13,8 +13,13 @@ import flixel.util.FlxAxes;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
 import flixel.util.FlxTimer;
+import state.PlayState;
+import state.GameOverState;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 
 using flixel.util.FlxSpriteUtil;
+using flixel.util.FlxStringUtil;
 
 class InfoScreen extends FlxSpriteGroup
 {
@@ -33,21 +38,21 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private var _levelOfMoney 					: Int = 0;
 	
-	private var _maxMoney						: Float = 200000;
-	private var _money							: Float = 100000;
+	private var _currentMoney					: Float = Tweaking.PLAYER_START_MONEY;
 	
 	private var _maxMoneyText					: FlxText;
-	private var _moneyText						: FlxText;
+	private var _currentMoneyText				: FlxText;
 	
 	private var i 								: Int = 0;
 	
 	private var _map							: Map<FlxUIButton, Action>;
 	
-	private var _random							: FlxRandom;
+	private var _buttons						: FlxSpriteGroup;
 	
-	private var _buttons						: FlxGroup;
+	private var _totalElapsedTime				: Float;
 	
-	private var _totalElapsedTime					: Float;
+	private var _totalElapsedTimeText			: FlxText;
+	private var _gameOver 						: Bool;
 
 	public function new()
 	{
@@ -67,9 +72,11 @@ class InfoScreen extends FlxSpriteGroup
 
 		_moneyMountain.height = 50;
 		
-		_maxMoneyText = new FlxText(20, 20, 0, "MAX : " + _maxMoney, 20);	
+		_currentMoneyText = new FlxText(50, 5, 0, "CURRENT : " + _currentMoney, 20);
 		
-		_moneyText = new FlxText(20, 120, 0, "CURRENT : " + _money, 20);
+		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + FlxStringUtil.formatMoney(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);	
+		
+		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
@@ -77,49 +84,106 @@ class InfoScreen extends FlxSpriteGroup
 		add(_moneyMountain);
 
 		add(_maxMoneyText);
-		add(_moneyText);
+		add(_currentMoneyText);
+		add(_totalElapsedTimeText);
 		
 		_map = new Map<FlxUIButton, Action>();
-		
-		_random = new FlxRandom();
-		
-		_buttons = new FlxGroup();
-		
+		_buttons = new FlxSpriteGroup();
 		_totalElapsedTime = 0;
+		_gameOver = false;
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		
-		_totalElapsedTime += elapsed;
-
-		_money += Std.random(150);
-
-		i++;
-		if (i % 3 == 0) 
+		if (_gameOver)
 		{
-			_moneyText.text = "CURRENT : " + fixedFloat(_money);
-		}
-		
-		if (FlxG.keys.justPressed.A) 
-		{
-			//createGoodButton();
-		}
-		
-		if (_random.float() > 0.98) 
-		{
-			//createGoodButton();
-		}
-		
-		for (dyn in Action._array) 
-		{
-			// Pour passer du nombre d'occurences par minute au pourcentage (sur 100%) que ça représente par elapsed
-			var chance:Float = (dyn.frequency / 60) * elapsed * 100;
-			if (FlxG.random.bool(chance))
+			// Sinon ça enlève pas tout direct
+			for (button in _buttons)
 			{
-				createGoodButton(new Action(dyn));
+				//trace(button);
+				_buttons.remove(button, true);
+				FlxTween.tween(button, {y: button.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+					button.destroy();
+				}});
 			}
+		} 
+		else 
+		{
+			_totalElapsedTime += elapsed;
+			
+			_totalElapsedTimeText.text = FlxStringUtil.formatTime(_totalElapsedTime, true);
+			
+			// Pour faire accélérer au fur et à mesure
+			var accelerationRate:Float = Math.exp(_totalElapsedTime / 30);
+
+			_currentMoney += FlxG.random.floatNormal(Tweaking.MONEY_PER_SECOND * elapsed, 1) * accelerationRate;
+
+			//i++;
+			//if (i % 3 == 0) 
+			//{
+				var fixedFloat = fixedFloat(_currentMoney);
+				var string = FlxStringUtil.formatMoney(fixedFloat, false);
+				_currentMoneyText.text = "CURRENT : $" + string;
+			//}
+			
+			for (dyn in Action._array) 
+			{
+				// Pour passer du nombre d'occurences par minute au pourcentage (sur 100%) que ça représente par elapsed
+				var chance:Float = (dyn.frequency / 60) * elapsed * 100 * accelerationRate;
+				if (FlxG.random.bool(chance))
+				{
+					createGoodButton(new Action(dyn));
+				}
+			}
+		}
+		
+		if (_currentMoney >= Tweaking.PLAYER_GAME_OVER_MONEY)
+		{
+			_currentMoney = 0; // Pour pas le refaire à chaque frame
+			_gameOver = true;
+			
+			//trace(_buttons.length);
+			//for (button in _buttons)
+			//{
+				////trace(button);
+				//_buttons.remove(button, true);
+				//FlxTween.tween(button, {y: button.y + 500}, 2, {onComplete: function(tween:FlxTween):Void {
+					//button.destroy();
+				//}});
+			//}
+			//trace(_buttons.length);
+			
+			
+			var scoreText:FlxText = new FlxText(0, 0, 0, "You survived \n\n\nGood job !", 30);
+			scoreText.color = FlxColor.BLACK;
+			scoreText.screenCenter();
+			scoreText.screenCenter(FlxAxes.X);
+			scoreText.alignment = FlxTextAlign.CENTER;
+			
+			
+			var text:String = "Try again!";
+			
+			var temp = new FlxText(0, 0, 0, text, 20);
+			var retryButton = new FlxUIButton(0, 0, text, function():Void {
+				FlxG.switchState(new GameOverState());
+			});
+
+			retryButton.resize(temp.fieldWidth + 20, 40);
+			retryButton.label.size = 20;
+			retryButton.screenCenter(FlxAxes.X);
+			retryButton.y = scoreText.y + scoreText.height + 20;
+			
+			add(retryButton);
+			add(scoreText);
+			
+			_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
+			
+			new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION, function(timer:FlxTimer):Void {
+				FlxTween.tween(_totalElapsedTimeText, {x: OFFSET + _width / 2 - 90, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut});
+				FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.BLACK, {ease: FlxEase.elasticOut});
+			}, 1);
 		}
 	}
 	
@@ -127,7 +191,7 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		var action:Action = _map.get(button);
 		
-		_money += action._money;    
+		_currentMoney += action._money;    
 		button.destroy();
 		
 		// TODO: effet kisscool
@@ -145,7 +209,7 @@ class InfoScreen extends FlxSpriteGroup
 		button.label.text = text;
 		button.label.size = 14;
 		button.x = Std.random(Std.int(_width - button.width));
-		button.y = Std.random(Std.int(_height - button.height));
+		button.y = Std.random(Std.int(_height - button.height - 30)) + 30; // Pour pas poluer là haut
 		
 		temp.destroy();
 		
