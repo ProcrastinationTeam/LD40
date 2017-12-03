@@ -13,6 +13,8 @@ import flixel.util.FlxAxes;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
 import flixel.util.FlxTimer;
+import openfl.Lib;
+import openfl.net.URLRequest;
 import state.PlayState;
 import state.GameOverState;
 import flixel.tweens.FlxTween;
@@ -59,7 +61,7 @@ class InfoScreen extends FlxSpriteGroup
 		super();
 
 		this.x = OFFSET;
-
+		
 		_backgroundSprite = new FlxSprite(0, 0);
 		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(200, 200, 200), false);
 		_backgroundSprite.loadGraphic("assets/images/NiceRoom.png", true, 640, 480, true);
@@ -144,18 +146,6 @@ class InfoScreen extends FlxSpriteGroup
 			_currentMoney = 0; // Pour pas le refaire à chaque frame
 			_gameOver = true;
 			
-			//trace(_buttons.length);
-			//for (button in _buttons)
-			//{
-				////trace(button);
-				//_buttons.remove(button, true);
-				//FlxTween.tween(button, {y: button.y + 500}, 2, {onComplete: function(tween:FlxTween):Void {
-					//button.destroy();
-				//}});
-			//}
-			//trace(_buttons.length);
-			
-			
 			var scoreText:FlxText = new FlxText(0, 0, 0, "You survived \n\n\nGood job !", 30);
 			scoreText.color = FlxColor.BLACK;
 			scoreText.screenCenter();
@@ -191,10 +181,27 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		var action:Action = _map.get(button);
 		
-		_currentMoney += action._money;    
-		button.destroy();
+		_currentMoney += action._money;  
 		
-		// TODO: effet kisscool
+		if (action._money > 0) 
+		{
+			FlxG.cameras.shake(0.03, 0.2);
+		}
+		
+		FlxTween.tween(button, {y: -1000}, 0.5, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+			_buttons.remove(button, true);
+			button.destroy();
+		}});
+		
+		action._sound.play();
+		
+		FlxMouseEventManager.remove(button);
+		
+		// Si c'est "acheter notre jeu", gros lol
+		if (action._url)
+		{
+			openfl.Lib.getURL(new URLRequest("https://elryogrande.itch.io/big-mommy-is-watching-over-you"));
+		}
 	}
 	
 	public function createGoodButton(action:Action):Void
@@ -209,19 +216,18 @@ class InfoScreen extends FlxSpriteGroup
 		button.label.text = text;
 		button.label.size = 14;
 		button.x = Std.random(Std.int(_width - button.width));
-		button.y = Std.random(Std.int(_height - button.height - 30)) + 30; // Pour pas poluer là haut
+		button.y = Std.random(Std.int(_height - button.height - 30)) + 30 + 1000; // Pour pas poluer là haut
+		
+		FlxTween.tween(button, {y: button.y - 1000}, 0.5, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+			// On ajoute l'action de cliquer au FlxMouseEventManager (qui permet de récupérer le bouton cliqué)
+			FlxMouseEventManager.add(button, OnButtonClicked);
+		}});
 		
 		temp.destroy();
-		
-		// DEBUG
-		//button.color = value < 0 ? FlxColor.RED : FlxColor.GREEN;
 		
 		// On map l'action (les infos) du bouton au bouton pour pouvoir le récupérer après
 		_map.set(button, action);
 	  
-		// On ajoute l'action de cliquer au FlxMouseEventManager (qui permet de récupérer le bouton cliqué)
-		FlxMouseEventManager.add(button, OnButtonClicked);
-		
 		// On ajoute le bouton à un groupe de boutons (pour avoir une idée du nombre de boutons à l'écran surtout)
 		_buttons.add(button);
 		
@@ -230,10 +236,10 @@ class InfoScreen extends FlxSpriteGroup
 		
 		// Timer avant la mort du bouton
 		new FlxTimer().start(action._duration, function(timer:FlxTimer):Void {
-			_buttons.remove(button, true);
-			button.destroy();
-			
-			// TODO: effet kisscool
+			FlxTween.tween(button, {y: button.y + 1000}, 0.5, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				_buttons.remove(button, true);
+				button.destroy();
+			}});
 		}, 1);
 	}
 	
