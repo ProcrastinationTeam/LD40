@@ -138,11 +138,11 @@ class InfoScreen extends FlxSpriteGroup
 		
 		var text:String = action._description;
 		
-		var temp = new FlxText(0, 0, 0, text, 18);
+		var temp = new FlxText(0, 0, 0, text, 14);
 
-		button.resize(temp.fieldWidth + 20, 100);
+		button.resize(temp.fieldWidth + 20, 40);
 		button.label.text = text;
-		button.label.size = 18;
+		button.label.size = 14;
 		button.x = Std.random(Std.int(_width - button.width));
 		button.y = Std.random(Std.int(_height - button.height));
 		
