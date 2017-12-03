@@ -19,6 +19,7 @@ import state.PlayState;
 import state.GameOverState;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.system.FlxAssets;
 
 using flixel.util.FlxSpriteUtil;
 using flixel.util.FlxStringUtil;
@@ -47,9 +48,11 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private var i 								: Int = 0;
 	
-	private var _map							: Map<FlxUIButton, Action>;
+	private var _mapButtonToAction				: Map<FlxUIButton, Action>;
+	private var _mapButtonToSprite				: Map<FlxUIButton, FlxSprite>;
 	
 	private var _buttons						: FlxSpriteGroup;
+	private var _spritess						: FlxSpriteGroup;
 	
 	private var _totalElapsedTime				: Float;
 	
@@ -89,8 +92,10 @@ class InfoScreen extends FlxSpriteGroup
 		add(_currentMoneyText);
 		add(_totalElapsedTimeText);
 		
-		_map = new Map<FlxUIButton, Action>();
+		_mapButtonToAction = new Map<FlxUIButton, Action>();
+		_mapButtonToSprite= new Map<FlxUIButton, FlxSprite>();
 		_buttons = new FlxSpriteGroup();
+		_spritess = new FlxSpriteGroup();
 		_totalElapsedTime = 0;
 		_gameOver = false;
 	}
@@ -108,6 +113,16 @@ class InfoScreen extends FlxSpriteGroup
 				_buttons.remove(button, true);
 				FlxTween.tween(button, {y: button.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
 					button.destroy();
+				}});
+			}
+			
+			// Sinon ça enlève pas tout direct
+			for (sprite in _spritess)
+			{
+				//trace(button);
+				_spritess.remove(sprite, true);
+				FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+					sprite.destroy();
 				}});
 			}
 		} 
@@ -133,7 +148,7 @@ class InfoScreen extends FlxSpriteGroup
 			for (dyn in Action._array) 
 			{
 				// Pour passer du nombre d'occurences par minute au pourcentage (sur 100%) que ça représente par elapsed
-				var chance:Float = (dyn.frequency / 60) * elapsed * 100 * accelerationRate;
+				var chance:Float = (dyn.frequency / 60) * elapsed * 100 * (dyn.money > 0 ? accelerationRate : 1);
 				if (FlxG.random.bool(chance))
 				{
 					createGoodButton(new Action(dyn));
@@ -151,7 +166,6 @@ class InfoScreen extends FlxSpriteGroup
 			scoreText.screenCenter();
 			scoreText.screenCenter(FlxAxes.X);
 			scoreText.alignment = FlxTextAlign.CENTER;
-			
 			
 			var text:String = "Try again!";
 			
@@ -179,7 +193,8 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private function OnButtonClicked(button:FlxUIButton):Void
 	{
-		var action:Action = _map.get(button);
+		var action:Action = _mapButtonToAction.get(button);
+		var sprite:FlxSprite= _mapButtonToSprite.get(button);
 		
 		_currentMoney += action._money;  
 		
@@ -193,6 +208,11 @@ class InfoScreen extends FlxSpriteGroup
 			button.destroy();
 		}});
 		
+		FlxTween.tween(sprite, {y: -1000}, 0.5, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+			_spritess.remove(button, true);
+			sprite.destroy();
+		}});
+		
 		action._sound.play();
 		
 		FlxMouseEventManager.remove(button);
@@ -200,6 +220,7 @@ class InfoScreen extends FlxSpriteGroup
 		// Si c'est "acheter notre jeu", gros lol
 		if (action._url)
 		{
+			// TODO: changer l'url
 			openfl.Lib.getURL(new URLRequest("https://elryogrande.itch.io/big-mommy-is-watching-over-you"));
 		}
 	}
@@ -208,13 +229,14 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		var button = new FlxUIButton(0, 0, "");
 		
-		var text:String = action._description;
+		var text:String = "  " + action._description;
 		
 		var temp = new FlxText(0, 0, 0, text, 14);
 
-		button.resize(temp.fieldWidth + 20, 40);
+		button.resize(temp.fieldWidth + 20 + 32, 40);
 		button.label.text = text;
 		button.label.size = 14;
+		button.label.alignment = FlxTextAlign.LEFT;
 		button.x = Std.random(Std.int(_width - button.width));
 		button.y = Std.random(Std.int(_height - button.height - 30)) + 30 + 1000; // Pour pas poluer là haut
 		
@@ -225,20 +247,32 @@ class InfoScreen extends FlxSpriteGroup
 		
 		temp.destroy();
 		
+		var sprite = new FlxSprite(button.x + button.label.fieldWidth - 32 - 16, button.y + 3);
+		sprite.loadGraphic(action._sprite, false, 32, 32);
+		
+		FlxTween.tween(sprite, {y: sprite.y - 1000}, 0.5, {ease: FlxEase.backInOut});
+		
 		// On map l'action (les infos) du bouton au bouton pour pouvoir le récupérer après
-		_map.set(button, action);
+		_mapButtonToAction.set(button, action);
+		_mapButtonToSprite.set(button, sprite);
 	  
 		// On ajoute le bouton à un groupe de boutons (pour avoir une idée du nombre de boutons à l'écran surtout)
 		_buttons.add(button);
+		_spritess.add(sprite);
 		
-		// On ajoute le bouton à la scène
+		// On ajoute le bouton et le sprite à la scène
 		add(button);
+		add(sprite);
 		
 		// Timer avant la mort du bouton
 		new FlxTimer().start(action._duration, function(timer:FlxTimer):Void {
 			FlxTween.tween(button, {y: button.y + 1000}, 0.5, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
 				_buttons.remove(button, true);
 				button.destroy();
+			}});
+			FlxTween.tween(sprite, {y: sprite.y + 1000}, 0.5, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				_spritess.remove(button, true);
+				sprite.destroy();
 			}});
 		}, 1);
 	}
