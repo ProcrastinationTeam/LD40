@@ -161,11 +161,19 @@ class InfoScreen extends FlxSpriteGroup
 			_currentMoney = 0; // Pour pas le refaire à chaque frame
 			_gameOver = true;
 			
-			var scoreText:FlxText = new FlxText(0, 0, 0, "You survived \n\n\nGood job !", 30);
+			var scoreText:FlxText = new FlxText(0, 0, 0, "You survived", 30);
 			scoreText.color = FlxColor.BLACK;
 			scoreText.screenCenter();
-			scoreText.screenCenter(FlxAxes.X);
+			scoreText.y -= 100;
 			scoreText.alignment = FlxTextAlign.CENTER;
+			scoreText.x += 1000;
+			
+			var goodJobText:FlxText = new FlxText(0, 0, 0, "Good job!", 30);
+			goodJobText.color = FlxColor.BLACK;
+			goodJobText.screenCenter();
+			goodJobText.y = scoreText.y + 110;
+			goodJobText.alignment = FlxTextAlign.CENTER;
+			goodJobText.x += 1000;
 			
 			var text:String = "Try again!";
 			
@@ -177,16 +185,27 @@ class InfoScreen extends FlxSpriteGroup
 			retryButton.resize(temp.fieldWidth + 20, 40);
 			retryButton.label.size = 20;
 			retryButton.screenCenter(FlxAxes.X);
-			retryButton.y = scoreText.y + scoreText.height + 20;
+			retryButton.y = goodJobText.y + goodJobText.height + 20 + 50;
+			retryButton.alpha = 0;
 			
-			add(retryButton);
 			add(scoreText);
+			add(goodJobText);
+			add(retryButton);
 			
 			_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
 			
 			new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION, function(timer:FlxTimer):Void {
-				FlxTween.tween(_totalElapsedTimeText, {x: OFFSET + _width / 2 - 90, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut});
-				FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.BLACK, {ease: FlxEase.elasticOut});
+				FlxTween.tween(scoreText, {x: scoreText.x - 1000}, 1, {ease: FlxEase.elasticOut});
+				
+				FlxTween.tween(_totalElapsedTimeText, {x: OFFSET + _width / 2 - 90, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut, startDelay: 1});
+				FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.BLACK, {ease: FlxEase.elasticOut, startDelay: 1});
+				
+				FlxTween.tween(_currentMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
+				FlxTween.tween(_maxMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
+				
+				FlxTween.tween(goodJobText, {x: goodJobText.x - 1000}, 1, {ease: FlxEase.elasticOut, startDelay: 2});
+				
+				FlxTween.tween(retryButton, {alpha: 1, y: retryButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
 			}, 1);
 		}
 	}
