@@ -62,13 +62,13 @@ class InfoScreen extends FlxSpriteGroup
 
 		_backgroundSprite = new FlxSprite(0, 0);
 		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(200, 200, 200), false);
-		_backgroundSprite.loadGraphic("assets/images/Room.png", true, 640, 480, true);
+		_backgroundSprite.loadGraphic("assets/images/NiceRoom.png", true, 640, 480, true);
 		
 		_moneyMountain = new FlxSprite(0, Std.int(_height / 1.5));
 		_moneyMountain.makeGraphic(Std.int(FlxG.width / 1.5), 50, FlxColor.YELLOW);
 		_moneyMountain.screenCenter(FlxAxes.X);
 		
-		FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
+		//FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
 
 		_moneyMountain.height = 50;
 		
@@ -81,7 +81,7 @@ class InfoScreen extends FlxSpriteGroup
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
 		
-		add(_moneyMountain);
+		//add(_moneyMountain);
 
 		add(_maxMoneyText);
 		add(_currentMoneyText);
