@@ -13,6 +13,7 @@ class Action
 	public var _url						: Bool;
 	public var _sound					: FlxSound;
 	public var _sprite					: FlxGraphicAsset;
+	public var _isBuy					: Bool;
 	
 	public static var _array 					: Array<Dynamic> = [
 		{
@@ -29,7 +30,7 @@ class Action
 		}, 
 		{
 			description : "BUY", 								// Skyrocket				
-			money : -50 * Tweaking.MONEY_MULTIPLIER,
+			money : 50 * Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
 			frequency : 20,
 			url: false,
@@ -41,7 +42,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// Tank			
-			money : -20 * Tweaking.MONEY_MULTIPLIER,
+			money : 20 * Tweaking.MONEY_MULTIPLIER,
 			duration : 2,
 			frequency : 15,
 			url: false,
@@ -53,7 +54,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// Laptop				
-			money : -2.5 * Tweaking.MONEY_MULTIPLIER,
+			money : 2.5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 30,
 			url: false,
@@ -65,7 +66,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// Yacht
-			money : -5 * Tweaking.MONEY_MULTIPLIER,
+			money : 5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 10,
 			url: false,
@@ -77,7 +78,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
-			money : -100 * Tweaking.MONEY_MULTIPLIER,
+			money : 100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 1,
 
@@ -88,7 +89,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// Skyrocket				
-			money : -50 * Tweaking.MONEY_MULTIPLIER,
+			money : 50 * Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
 			frequency : 20,
 			url: false,
@@ -118,5 +119,6 @@ class Action
 		_url = infos.url;
 		_sound = FlxG.sound.load(infos.sound);
 		_sprite = infos.sprite;
+		_isBuy = FlxG.random.bool(Tweaking.BUY_PERCENT);
 	}
 }

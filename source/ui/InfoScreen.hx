@@ -414,7 +414,7 @@ class InfoScreen extends FlxSpriteGroup
 		var spriteCart:FlxSprite = _mapButtonToSpriteCart.get(button);
 		
 		// Si on peut pas acheter, on remue le bouton et on joue un son
-		if (_currentMoney + action._money < 0) 
+		if (action._isBuy && _currentMoney - action._money < 0) 
 		{
 			_cantBuySound.play();
 			
@@ -436,7 +436,7 @@ class InfoScreen extends FlxSpriteGroup
 		}
 		else 
 		{
-			if (action._money > 0)
+			if (!action._isBuy)
 			{
 				FlxG.cameras.shake(0.03, 0.2);
 			}
@@ -453,8 +453,8 @@ class InfoScreen extends FlxSpriteGroup
 				openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
 			}
 			
-			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency(action._money, true), 22);
-			moneyModifText.color = action._money < 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
+			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency((action._isBuy ? -1 : 1) * action._money, true), 22);
+			moneyModifText.color = action._isBuy ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
 			moneyModifText.alignment = FlxTextAlign.CENTER;
 			moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
 			moneyModifText.y = button.y;
@@ -469,7 +469,7 @@ class InfoScreen extends FlxSpriteGroup
 			
 			FlxTween.tween(_currentMoneyText, {size: 30}, 0.1, {startDelay: 0.5, onComplete: function(tween:FlxTween):Void {
 				FlxTween.tween(_currentMoneyText, {size: 20}, 0.1, {});
-				_currentMoney += action._money;
+				_currentMoney += (action._isBuy ? -1 : 1) * action._money;
 			}});
 			
 			button.destroy();
@@ -533,6 +533,14 @@ class InfoScreen extends FlxSpriteGroup
 		var button = new FlxUIButton(0, 0, "");
 		
 		var text:String = "  " + action._description;
+		if (action._isBuy) 
+		{
+			text = "  " + "BUY";
+		}
+		else
+		{
+			text = "  " + "SELL";
+		}
 		
 		var temp = new FlxText(0, 0, 0, text, 14);
 		
