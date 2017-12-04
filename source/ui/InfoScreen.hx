@@ -15,6 +15,8 @@ import openfl.net.URLRequest;
 import state.MenuState;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxShakeEffect;
 
 using flixel.util.FlxStringUtil;
 
@@ -53,7 +55,7 @@ class InfoScreen extends FlxSpriteGroup
 	private var _gameStarted					: Bool;
 	
 	private var _cantBuySound					: FlxSound;
-
+	
 	public function new()
 	{
 		super();
@@ -308,6 +310,14 @@ class InfoScreen extends FlxSpriteGroup
 		if (_currentMoney + action._money < 0) 
 		{
 			_cantBuySound.play();
+			
+			// TODO: essayer de remplacer par 
+			//var effectSprite = new FlxEffectSprite(button);
+			//add(effectSprite);
+			//
+			//var shake = new FlxShakeEffect(10, 0.4);
+			//
+			//shake.start();
 			
 			var tweenButton = FlxTween.tween(button, {x: button.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
 			var tweenSprite = FlxTween.tween(sprite, {x: sprite.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
