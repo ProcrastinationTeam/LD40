@@ -183,9 +183,6 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private function playGameOverAnimation():Void 
 	{
-		_currentMoney = 0; // Pour pas le refaire à chaque frame
-		_gameOver = true;
-		
 		var scoreText:FlxText = new FlxText(0, 0, 0, "You survived", 30);
 		scoreText.color = FlxColor.BLACK;
 		scoreText.screenCenter();
@@ -295,6 +292,7 @@ class InfoScreen extends FlxSpriteGroup
 				
 				if (_currentMoney >= Tweaking.PLAYER_GAME_OVER_MONEY)
 				{
+					_gameOver = true;
 					playGameOverAnimation();
 				}
 			}
