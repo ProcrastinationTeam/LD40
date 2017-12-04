@@ -20,9 +20,7 @@ import state.PlayState;
 import state.GameOverState;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flixel.system.FlxAssets;
 
-using flixel.util.FlxSpriteUtil;
 using flixel.util.FlxStringUtil;
 
 class InfoScreen extends FlxSpriteGroup
@@ -65,6 +63,8 @@ class InfoScreen extends FlxSpriteGroup
 
 	private var _gameInit						: Bool;
 	private var _gameInited						: Bool;
+	
+	private var _cantBuySound					: FlxSound;
 
 	public function new()
 	{
@@ -129,6 +129,8 @@ class InfoScreen extends FlxSpriteGroup
 
 		_gameInit = true;
 		_gameInited = false;
+		
+		_cantBuySound = FlxG.sound.load(AssetPaths.pnj_tabasse__wav);
 	}
 
 	override public function update(elapsed:Float)
@@ -365,55 +367,74 @@ class InfoScreen extends FlxSpriteGroup
 	private function OnButtonClicked(button:FlxUIButton):Void
 	{
 		var action:Action = _mapButtonToAction.get(button);
-		var sprite:FlxSprite= _mapButtonToSprite.get(button);
-
-		_currentMoney += action._money;
-
-		if (action._money > 0)
+		var sprite:FlxSprite = _mapButtonToSprite.get(button);
+		
+		// Si on peut pas acheter, on remue le bouton et on joue un son
+		if (_currentMoney + action._money < 0) 
 		{
-			FlxG.cameras.shake(0.03, 0.2);
+			_cantBuySound.play();
+			
+			var tweenButton = FlxTween.tween(button, {x: button.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
+			var tweenSprite = FlxTween.tween(sprite, {x: sprite.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
+			
+			new FlxTimer().start(0.4, function(timer:FlxTimer):Void {
+				tweenButton.cancel();
+				tweenSprite.cancel();
+			});
 		}
-
-		FlxTween.tween(button, {y: -1000}, 0.5, {
-			ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-				_buttons.remove(button, true);
-				button.destroy();
-			}
-		});
-
-		FlxTween.tween(sprite, {y: -1000}, 0.5, {
-			ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-				_spritess.remove(button, true);
-				sprite.destroy();
-			}
-		});
-
-		action._sound.play();
-
-		FlxMouseEventManager.remove(button);
-
-		// Si c'est "acheter notre jeu", gros lol
-		if (action._url)
+		else 
 		{
-			// TODO: changer l'url
-			openfl.Lib.getURL(new URLRequest("https://elryogrande.itch.io/big-mommy-is-watching-over-you"));
-		}
-		
-		var moneyModifText = new FlxText(0, 0, 0, floatToCurrency(action._money, true), 22);
-		moneyModifText.color = action._money > 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
-		moneyModifText.alignment = FlxTextAlign.CENTER;
-		moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
-		moneyModifText.y = button.y - 20;
-		
-		add(moneyModifText);
-		
-		FlxTween.tween(moneyModifText, {x: _currentMoneyText.x + _currentMoneyText.fieldWidth - moneyModifText.fieldWidth, y: _currentMoneyText.y + 10}, 0.3, {startDelay: 0.3, ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-			moneyModifText.destroy();
-		}});
-		
-		FlxTween.tween(_currentMoneyText, {size: 30}, 0.1, {startDelay: 0.5, onComplete: function(tween:FlxTween):Void {
+			_currentMoney += action._money;
+
+			if (action._money > 0)
+			{
+				FlxG.cameras.shake(0.03, 0.2);
+			}
+
+			//FlxTween.tween(button, {y: -1000}, 0.5, {
+				//ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+					//_buttons.remove(button, true);
+					//button.destroy();
+				//}
+			//});
+	//
+			//FlxTween.tween(sprite, {y: -1000}, 0.5, {
+				//ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+					//_spritess.remove(button, true);
+					//sprite.destroy();
+				//}
+			//});
+
+			action._sound.play();
+
+			FlxMouseEventManager.remove(button);
+
+			// Si c'est "acheter notre jeu", gros lol
+			if (action._url)
+			{
+				// TODO: changer l'url
+				openfl.Lib.getURL(new URLRequest("https://elryogrande.itch.io/big-mommy-is-watching-over-you"));
+			}
+			
+			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency(action._money, true), 22);
+			moneyModifText.color = action._money > 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
+			moneyModifText.alignment = FlxTextAlign.CENTER;
+			moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
+			moneyModifText.y = button.y;
+			
+			add(moneyModifText);
+			
+			FlxTween.tween(moneyModifText, {x: _currentMoneyText.x + _currentMoneyText.fieldWidth - moneyModifText.fieldWidth, y: _currentMoneyText.y + 10}, 0.3, {startDelay: 0.3, ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				moneyModifText.destroy();
+			}});
+			
+			FlxTween.tween(_currentMoneyText, {size: 30}, 0.1, {startDelay: 0.5, onComplete: function(tween:FlxTween):Void {
 				FlxTween.tween(_currentMoneyText, {size: 20}, 0.1, {});
-		}});
+			}});
+			
+			button.destroy();
+			sprite.destroy();
+		}
 	}
 
 	public function createGoodButton(action:Action):Void
