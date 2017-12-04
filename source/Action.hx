@@ -22,7 +22,8 @@ class Action
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
 			sound: AssetPaths.mom__wav,							// Son à jouer
-			sprite: AssetPaths.SkyRocket__png		// Sprite à afficher
+			sprite: AssetPaths.SkyRocket__png,					// Sprite à afficher
+			acceleration: 50,								// Acceleration
 		}, 
 		{
 			description : "BUY", 								// Skyrocket				
@@ -31,7 +32,8 @@ class Action
 			frequency : 20,
 			url: false,
 			sound: AssetPaths.hey_you__wav,
-			sprite: AssetPaths.SkyRocket__png
+			sprite: AssetPaths.SkyRocket__png,
+			acceleration: 50,
 		},
 		{
 			description : "BUY", 								// Tank			
@@ -40,7 +42,8 @@ class Action
 			frequency : 15,
 			url: false,
 			sound: AssetPaths.aaaah__wav,
-			sprite: AssetPaths.tableau__png
+			sprite: AssetPaths.tableau__png,
+			acceleration: 50,
 		},
 		{
 			description : "BUY", 								// Laptop				
@@ -49,7 +52,8 @@ class Action
 			frequency : 30,
 			url: false,
 			sound: AssetPaths.pnj_tabasse__wav,
-			sprite: AssetPaths.Tank__png
+			sprite: AssetPaths.Tank__png,
+			acceleration: 50,
 		},
 		{
 			description : "BUY", 								// Yacht
@@ -58,7 +62,8 @@ class Action
 			frequency : 10,
 			url: false,
 			sound: AssetPaths.youwin__wav,
-			sprite: AssetPaths.Yacht__png
+			sprite: AssetPaths.Yacht__png,
+			acceleration: 50,
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
@@ -67,7 +72,8 @@ class Action
 			frequency : 1,
 			url: false,
 			sound: AssetPaths.youwin__wav,
-			sprite: AssetPaths.moi__png
+			sprite: AssetPaths.moi__png,
+			acceleration: 50
 		},
 	];
 
