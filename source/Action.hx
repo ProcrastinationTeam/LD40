@@ -23,7 +23,7 @@ class Action
 			url: false,											// Ouvrir page itch.io lol
 			sound: AssetPaths.mom__wav,							// Son à jouer
 			sprite: AssetPaths.SkyRocket__png,					// Sprite à afficher
-			acceleration: 50,								// Acceleration
+			acceleration: 50									// Acceleration
 		}, 
 		{
 			description : "BUY", 								// Skyrocket				
@@ -33,7 +33,7 @@ class Action
 			url: false,
 			sound: AssetPaths.hey_you__wav,
 			sprite: AssetPaths.SkyRocket__png,
-			acceleration: 50,
+			acceleration: 50
 		},
 		{
 			description : "BUY", 								// Tank			
@@ -43,7 +43,7 @@ class Action
 			url: false,
 			sound: AssetPaths.aaaah__wav,
 			sprite: AssetPaths.tableau__png,
-			acceleration: 50,
+			acceleration: 50
 		},
 		{
 			description : "BUY", 								// Laptop				
@@ -53,7 +53,7 @@ class Action
 			url: false,
 			sound: AssetPaths.pnj_tabasse__wav,
 			sprite: AssetPaths.Tank__png,
-			acceleration: 50,
+			acceleration: 50
 		},
 		{
 			description : "BUY", 								// Yacht
@@ -63,7 +63,7 @@ class Action
 			url: false,
 			sound: AssetPaths.youwin__wav,
 			sprite: AssetPaths.Yacht__png,
-			acceleration: 50,
+			acceleration: 50
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
