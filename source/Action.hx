@@ -18,7 +18,7 @@ class Action
 	public static var _array 					: Array<Dynamic> = [
 		{
 			description : "Vendre sa mère", 					// Texte du bouton					
-			money : 10, 										// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
+			money : 1000, 										// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
 			duration : 10,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
@@ -27,25 +27,26 @@ class Action
 		}, 
 		{
 			description : "Acheter un hôpital", 					
-			money : -20000,
+			money : -5000,
 			duration : 3,
 			frequency : 20,
 			url: false,
 			sound: AssetPaths.hey_you__wav,
-			sprite: AssetPaths.duo210_230_250_280_icon__png
+			sprite: AssetPaths.SkyRocket__png
+				//AssetPaths.duo210_230_250_280_icon__png
 		},
 		{
 			description : "Acheter un Picasso", 					
-			money : -200000,
+			money : -20000,
 			duration : 2,
 			frequency : 15,
 			url: false,
 			sound: AssetPaths.aaaah__wav,
-			sprite: AssetPaths.duo210_230_250_280_icon__png
+			sprite: AssetPaths.Tank__png
 		},
 		{
 			description : "Acheter un", 					
-			money : -4.95,
+			money : -2500, 		//-4.95
 			duration : 5,
 			frequency : 60,
 			url: false,
@@ -54,12 +55,12 @@ class Action
 		},
 		{
 			description : "Acheter le jeu", 					
-			money : -100000,
+			money : -10000,
 			duration : 5,
 			frequency : 1,
 			url: false,
 			sound: AssetPaths.youwin__wav,
-			sprite: AssetPaths.duo210_230_250_280_icon__png
+			sprite: AssetPaths.Yacht__png
 		},
 	];
 

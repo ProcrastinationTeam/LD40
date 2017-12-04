@@ -67,7 +67,20 @@ class InfoScreen extends FlxSpriteGroup
 		
 		_backgroundSprite = new FlxSprite(0, 0);
 		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(200, 200, 200), false);
-		_backgroundSprite.loadGraphic("assets/images/NiceRoom.png", true, 640, 480, true);
+		_backgroundSprite.loadGraphic("assets/images/NiceRoomB.png", true, 640, 480, true);
+		
+		//a la bourrin les anims
+		_backgroundSprite.animation.add("Step0", [0], 30, true, false, false);
+		_backgroundSprite.animation.add("Step1", [1], 30, true, false, false);
+		_backgroundSprite.animation.add("Step2", [2], 30, true, false, false);
+		_backgroundSprite.animation.add("Step3", [3], 30, true, false, false);
+		_backgroundSprite.animation.add("Step4", [4], 30, true, false, false);
+		_backgroundSprite.animation.add("Step5", [5], 30, true, false, false);
+		_backgroundSprite.animation.add("Step6", [6], 30, true, false, false);
+		_backgroundSprite.animation.add("Step7", [7], 30, true, false, false);
+		_backgroundSprite.animation.add("Step8", [8], 30, true, false, false);
+		_backgroundSprite.animation.add("Step9", [9], 30, true, false, false);
+		
 		
 		_moneyMountain = new FlxSprite(0, Std.int(_height / 1.5));
 		_moneyMountain.makeGraphic(Std.int(FlxG.width / 1.5), 50, FlxColor.YELLOW);
@@ -103,6 +116,53 @@ class InfoScreen extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		if (!_gameOver)
+		{
+			if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1) )
+			{
+				_backgroundSprite.animation.play("Step0");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2))
+			{
+				_backgroundSprite.animation.play("Step1");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3))
+			{
+				_backgroundSprite.animation.play("Step2");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4))
+			{
+				_backgroundSprite.animation.play("Step3");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
+			{
+				_backgroundSprite.animation.play("Step4");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
+			{
+				_backgroundSprite.animation.play("Step5");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
+			{
+				_backgroundSprite.animation.play("Step6");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
+			{
+				_backgroundSprite.animation.play("Step7");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
+			{
+				_backgroundSprite.animation.play("Step8");
+			}
+			else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9) < _currentMoney && _currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
+			{
+				_backgroundSprite.animation.play("Step9");
+			}
+			
+		}
+		
+		
 		
 		if (_gameOver)
 		{
