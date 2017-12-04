@@ -101,11 +101,11 @@ class InfoScreen extends FlxSpriteGroup
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
-		_maxMoneyText = new FlxText(0, 5, 0, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
-		//_maxMoneyText.autoSize = false;
-		//_maxMoneyText.alignment = FlxTextAlign.LEFT;
-		_maxMoneyText.x += 100;
+		_maxMoneyText.autoSize = false;
+		_maxMoneyText.alignment = FlxTextAlign.LEFT;
+		_maxMoneyText.x += _maxMoneyText.fieldWidth / 2 - 20;
 		_maxMoneyText.borderStyle = FlxTextBorderStyle.SHADOW;
 		_maxMoneyText.borderSize = 2;
 		//_maxMoneyText.font = "Perfect DOS VGA 437";
