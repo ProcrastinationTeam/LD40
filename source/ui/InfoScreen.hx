@@ -402,7 +402,7 @@ class InfoScreen extends FlxSpriteGroup
 		_MycoinSprite.loadGraphic("assets/images/soloCoin.png", true, 16, 16, true);
 		_MycoinSprite.animation.add("Falling", [0, 1, 2, 3, 4, 5, 6], 30, true, false, false);
 		_MycoinSprite.animation.play("Falling");
-		_MycoinSprite.acceleration.y = 100;
+		_MycoinSprite.acceleration.y = 100 + FlxG.random.int(0, 40) - 20;
 		_coins.add(_MycoinSprite);
 	}
 	
