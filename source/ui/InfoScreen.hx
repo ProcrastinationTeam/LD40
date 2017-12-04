@@ -6,6 +6,7 @@ import flixel.addons.text.FlxTypeText;
 import flixel.addons.ui.FlxUIButton;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -34,6 +35,8 @@ class InfoScreen extends FlxSpriteGroup
 	public var _backgroundSprite 				: FlxSprite;
 
 	public var _moneyMountain					: FlxSprite;
+	
+	public var _coinFallingSound				: FlxSound;
 
 	// BUTTONS
 	private var _showHumanInfosButton			: FlxUIButton;
@@ -88,6 +91,10 @@ class InfoScreen extends FlxSpriteGroup
 		
 		_backgroundSprite.animation.play("Step1");
 
+		_coinFallingSound = new FlxSound();
+		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
+		
+		
 		_moneyMountain = new FlxSprite(0, Std.int(_height / 1.5));
 		_moneyMountain.makeGraphic(Std.int(FlxG.width / 1.5), 50, FlxColor.YELLOW);
 		_moneyMountain.screenCenter(FlxAxes.X);
@@ -239,6 +246,10 @@ class InfoScreen extends FlxSpriteGroup
 		}
 		else if (_gameInited)
 		{
+			//Start du son
+			_coinFallingSound.play();
+			
+			
 			if (_gameOver)
 			{
 				// Sinon ça enlève pas tout direct
