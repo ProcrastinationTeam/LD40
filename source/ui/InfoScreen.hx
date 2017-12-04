@@ -414,7 +414,7 @@ class InfoScreen extends FlxSpriteGroup
 			if (action._url)
 			{
 				// TODO: changer l'url
-				openfl.Lib.getURL(new URLRequest("https://elryogrande.itch.io/big-mommy-is-watching-over-you"));
+				openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
 			}
 			
 			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency(action._money, true), 22);

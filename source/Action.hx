@@ -43,7 +43,7 @@ class Action
 			sprite: AssetPaths.Tank__png
 		},
 		{
-			description : "BUY", 						// Laptop				
+			description : "BUY", 								// Laptop				
 			money : -2.5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 30,
@@ -64,7 +64,7 @@ class Action
 			description : "BUY", 								// LE JEU LOL			
 			money : -100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 100,
+			frequency : 1,
 			url: true,
 			sound: AssetPaths.youwin__wav,
 			sprite: AssetPaths.moi__png
