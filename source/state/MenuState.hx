@@ -1,45 +1,58 @@
 package state;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.ui.FlxUIState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxAxes;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxSpriteUtil;
+import flixel.util.FlxTimer;
+import flixel.input.keyboard.FlxKey;
 
-class MenuState extends FlxState 
+class MenuState extends FlxUIState
 {
-	private var _title					: FlxText;
-	private var _alphaModifier 			: Float;
-	private var _startDisplay 			: FlxText;
-	private var _credit 				: FlxText;
-	private var _moreCredit 			: FlxText;
+	private var _volumeSprite			: FlxSprite;
 	
 	override public function create():Void
 	{
 		bgColor = 0xFF000000;
 		
-		_title = new FlxText(0, 0, 0, "Not Human Harvest", 64, true);
-		_title.screenCenter();
-		_title.y -= 100;
-		add(_title);
+		var title = new FlxText(0, 0, 0, "Filthy-rich and Fastuous", 40, true);
+		title.screenCenter();
+		title.y -= 100;
+		add(title);
 		
-		_startDisplay = new FlxText(0, 0, 0, "Click or press SPACE to start", 18, true);
-		_startDisplay.screenCenter();
-		add(_startDisplay);
-
-		_credit = new FlxText(0, 0, 0, "A stupid game by Lucas Tixier & Guillaume Ambrois", 12, true);
-		_credit.screenCenter(FlxAxes.X);
-		_credit.y = FlxG.height - 150;
-		add(_credit);
-
-		_moreCredit = new FlxText(0, 0, 0, "                           Twitter : \n@LucasTixier - @Eponopono", 12, true);
-		_moreCredit.screenCenter(FlxAxes.X);
-		_moreCredit.y = _credit.y + 50;
-		add(_moreCredit);
+		var credit = new FlxText(0, 0, 0, "Another stupid game by Lucas Tixier & Guillaume Ambrois", 12, true);
+		credit.screenCenter(FlxAxes.X);
+		credit.y = title.y + 70;
+		add(credit);
+		
+		var startText = new FlxText(0, 0, 0, "Click or press SPACE to start", 18, true);
+		startText.screenCenter();
+		add(startText);
+		
+		FlxTween.tween(startText, {alpha: 0}, 0.7, {type: FlxTween.PINGPONG, ease: FlxEase.linear});
+		
+		var soundText = new FlxText(0, 0, 0, "You can adjust the volume at any time by pressing the UP or DOWN keys", 10);
+		soundText.screenCenter(FlxAxes.X);
+		soundText.y = FlxG.height - 150;
+		add(soundText);
+		
+		var moreCreditAgain = new FlxText(0, 0, 0, "@LucasTixier - @Eponopono", 12, true);
+		moreCreditAgain.screenCenter(FlxAxes.X);
+		moreCreditAgain.y = FlxG.height - 30;
+		add(moreCreditAgain);
+		
+		var moreCredit = new FlxText(0, 0, 0, "Twitter :", 12, true);
+		moreCredit.screenCenter(FlxAxes.X);
+		moreCredit.y = moreCreditAgain.y - 20;
+		add(moreCredit);
 
 		FlxG.mouse.visible = true;
-		
-		_alphaModifier = 0;
 		
 		FlxG.camera.fade(FlxColor.BLACK, .2, true);
 
@@ -50,8 +63,6 @@ class MenuState extends FlxState
 	{
 		super.update(elapsed);
 		
-		blink();
-
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, .1, false, function() {
@@ -60,24 +71,29 @@ class MenuState extends FlxState
 		}
 	}
 	
-	/**
-	 * Fonction fait blinker le titre en modifiant son alpha
-	 */
-	public function blink()
-	{
-		var currentAlpha : Float;
-
-		if (_startDisplay.alpha == 1)
-		{
-			_alphaModifier = -0.02;
-		}
-
-		if (_startDisplay.alpha == 0)
-		{
-			_alphaModifier = 0.02;
-		}
-
-		currentAlpha = _startDisplay.alpha;
-		_startDisplay.alpha = currentAlpha + _alphaModifier;
-	}
+	//private function updateVolume():Void
+	//{
+		//if (_volumeSprite != null) {
+			//_volumeSprite.destroy();
+		//}
+		//
+		//_volumeSprite = new FlxSprite(0, 40);
+		//_volumeSprite.makeGraphic(200, 40, FlxColor.YELLOW);
+		//_volumeSprite.screenCenter(FlxAxes.X);
+		//add(_volumeSprite);
+		//for (i in 0...10) {
+			//if (FlxG.sound.volume * 10 >= i)
+			//{
+				//FlxSpriteUtil.drawRect(_volumeSprite, i*20, 0, 19, 40, FlxColor.BLUE, {thickness: 1, color: FlxColor.BLACK});
+			//}
+			//else 
+			//{
+				//FlxSpriteUtil.drawRect(_volumeSprite, i*20, 0, 19, 40, FlxColor.TRANSPARENT, {thickness: 1, color: FlxColor.BLACK});
+			//}
+		//}
+		//
+		//new FlxTimer().start(2, function(timer:FlxTimer):Void {
+			//_volumeSprite.destroy();
+		//});
+	//}
 }

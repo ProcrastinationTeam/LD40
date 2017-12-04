@@ -111,7 +111,7 @@ class InfoScreen extends FlxSpriteGroup
 			{
 				//trace(button);
 				_buttons.remove(button, true);
-				FlxTween.tween(button, {y: button.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				FlxTween.tween(button, {y: button.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 					button.destroy();
 				}});
 			}
@@ -121,7 +121,7 @@ class InfoScreen extends FlxSpriteGroup
 			{
 				//trace(button);
 				_spritess.remove(sprite, true);
-				FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 					sprite.destroy();
 				}});
 			}
@@ -194,7 +194,7 @@ class InfoScreen extends FlxSpriteGroup
 			
 			_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
 			
-			new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION, function(timer:FlxTimer):Void {
+			new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION + 1, function(timer:FlxTimer):Void {
 				FlxTween.tween(scoreText, {x: scoreText.x - 1000}, 1, {ease: FlxEase.elasticOut});
 				
 				FlxTween.tween(_totalElapsedTimeText, {x: OFFSET + _width / 2 - 90, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut, startDelay: 1});
