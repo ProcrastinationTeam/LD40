@@ -112,6 +112,16 @@ class InfoScreen extends FlxSpriteGroup
 		
 		//FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
 	
+
+		
+		_currentMoneyText = new FlxText(50, 5, 0, "Current : ", 20);
+		_currentMoneyText = new FlxText(_currentMoneyText.x + _currentMoneyText.fieldWidth, 5, 0,  floatToCurrency(_currentMoney, false), 20);
+		
+		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		
+		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
+
+
 		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
 		_maxMoneyText.autoSize = false;

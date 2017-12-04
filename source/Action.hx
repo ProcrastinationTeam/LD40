@@ -21,8 +21,10 @@ class Action
 			duration : 10,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
-			sound: AssetPaths.mom__wav,							// Son à jouer
-			sprite: AssetPaths.SkyRocket__png,					// Sprite à afficher
+
+			sound: AssetPaths.nope__ogg,							// Son à jouer
+			sprite: AssetPaths.SkyRocket__png,		// Sprite à afficher
+				// Sprite à afficher
 			acceleration: 50									// Acceleration
 		}, 
 		{
@@ -31,9 +33,11 @@ class Action
 			duration : 3,
 			frequency : 20,
 			url: false,
-			sound: AssetPaths.hey_you__wav,
+
+			sound: AssetPaths.cool__ogg,
 			sprite: AssetPaths.SkyRocket__png,
 			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// Tank			
@@ -41,9 +45,11 @@ class Action
 			duration : 2,
 			frequency : 15,
 			url: false,
-			sound: AssetPaths.aaaah__wav,
+			sound: AssetPaths.cool__ogg,
 			sprite: AssetPaths.tableau__png,
+
 			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// Laptop				
@@ -51,9 +57,11 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: false,
-			sound: AssetPaths.pnj_tabasse__wav,
-			sprite: AssetPaths.Tank__png,
+
+			sound: AssetPaths.cool__ogg,
+			sprite: AssetPaths.Tank__png,		
 			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// Yacht
@@ -61,19 +69,32 @@ class Action
 			duration : 5,
 			frequency : 10,
 			url: false,
-			sound: AssetPaths.youwin__wav,
+
+			sound: AssetPaths.cool__ogg,
 			sprite: AssetPaths.Yacht__png,
 			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
 			money : -100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 1,
-			url: false,
-			sound: AssetPaths.youwin__wav,
+
+			url: true,
+			sound: AssetPaths.cool__ogg,
 			sprite: AssetPaths.moi__png,
 			acceleration: 50
+		},
+		{
+			description : "BUY", 								// Skyrocket				
+			money : -50 * Tweaking.MONEY_MULTIPLIER,
+			duration : 3,
+			frequency : 20,
+			url: false,
+			sound: AssetPaths.aaaah__wav,
+			sprite: AssetPaths.misterBelly__png,
+			acceleration : 50
 		},
 	];
 
