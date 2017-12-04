@@ -21,7 +21,7 @@ using flixel.util.FlxStringUtil;
 
 class InfoScreen extends FlxSpriteGroup
 {
-	public static inline var OFFSET 			: Int = 10000;
+	public static inline var OFFSET 			: Int = 0;
 
 	public var _width 							: Int = FlxG.width;
 	public var _height							: Int = FlxG.height;
