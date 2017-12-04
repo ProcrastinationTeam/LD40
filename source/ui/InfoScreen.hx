@@ -66,7 +66,8 @@ class InfoScreen extends FlxSpriteGroup
 		_backgroundSprite = new FlxSprite(0, 0);		
 		_backgroundSprite.loadGraphic("assets/images/backgroundRoom.png", true, 640, 480, true);
 		
-		_moneyMountain = new FlxSprite(0, 0);
+		_moneyMountain = new FlxSprite(37, 230);
+		//_moneyMountain = new FlxSprite(0, 0);
 		_moneyMountain.loadGraphic("assets/images/Gold.png", true, 640, 480, true);
 		
 		//a la bourrin les anims
@@ -84,9 +85,11 @@ class InfoScreen extends FlxSpriteGroup
 		_moneyMountain.animation.play("Step1");
 		
 		//_moneyMountain
-		_moneyMountain.height = 10;
+		
+		_moneyMountain.height = 20;
 		_moneyMountain.width = 566;
-		//_moneyMountain.updateHitbox();
+		_moneyMountain.centerOffsets();
+		//_moneyMountain.offset.set(5,0 );
 		//_moneyMountain.offset.set(40, 0);
 		
 		
@@ -110,7 +113,7 @@ class InfoScreen extends FlxSpriteGroup
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
-		//add(_moneyMountain);
+		add(_moneyMountain);
 		add(_coins);
 		add(_currentMoneyTextText);
 		add(_currentMoneyText);
@@ -258,16 +261,10 @@ class InfoScreen extends FlxSpriteGroup
 				rainingCoin();
 			}
 			
-			//for (piece in _coins)
-			//{
-				//if (FlxG.overlap(piece, _moneyMountain, CoinBlow))
-				//{
-					//trace("YES");
-				//}
-			//}
+			FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 			
 			
-			
+
 			if (_gameOver)
 			{
 				// On le refait sinon ça enlève pas tout direct
@@ -390,7 +387,7 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private function rainingCoin():Void
 	{
-		var randomPos = FlxG.random.int(75, 600);
+		var randomPos = FlxG.random.int(125, 500);
 		var _MycoinSprite = new FlxSprite(randomPos,-10);		
 		_MycoinSprite.loadGraphic("assets/images/soloCoin.png", true, 16, 16, true);
 		_MycoinSprite.animation.add("Falling", [0, 1, 2, 3, 4, 5, 6], 30, true, false, false);
