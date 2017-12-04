@@ -106,7 +106,7 @@ class InfoScreen extends FlxSpriteGroup
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
-<<<<<<< HEAD
+
 		_song = new FlxSound();
 		_song = FlxG.sound.load(AssetPaths.mainS__wav);
 		
@@ -119,7 +119,7 @@ class InfoScreen extends FlxSpriteGroup
 		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		
 		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
-=======
+
 		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
 		_maxMoneyText.autoSize = false;
@@ -143,7 +143,7 @@ class InfoScreen extends FlxSpriteGroup
 		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
 		_totalElapsedTimeText.borderStyle = FlxTextBorderStyle.SHADOW;
 		_totalElapsedTimeText.borderSize = 3;
->>>>>>> 71947149c17ac3b5555bdd14deaebb59b8e5ead8
+
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
@@ -504,6 +504,7 @@ class InfoScreen extends FlxSpriteGroup
 			_moneyMountain.animation.play("Step4");
 		}
 		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
+
 		{
 			_moneyMountain.animation.play("Step5");
 		}
