@@ -65,7 +65,7 @@ class Action
 			money : -100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 1,
-			url: true,
+			url: false,
 			sound: AssetPaths.youwin__wav,
 			sprite: AssetPaths.moi__png
 		},
