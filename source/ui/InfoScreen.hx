@@ -356,10 +356,10 @@ class InfoScreen extends FlxSpriteGroup
 				
 				// Pour faire accélérer au fur et à mesure
 				var accelerationRate:Float = Math.exp(_totalElapsedTime / 50);
-				trace(accelerationRate);
+				//trace(accelerationRate);
 				
 				var moneyEarned = Tweaking.MONEY_PER_SECOND * elapsed * accelerationRate;
-				trace(moneyEarned);
+				//trace(moneyEarned);
 				_currentMoney += moneyEarned;
 				
 				if (_timeSinceLastMoneyRefresh > 1/_numberOfMoneyRefreshPerSecond) 

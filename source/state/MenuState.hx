@@ -31,48 +31,66 @@ class MenuState extends FlxUIState
 		var title = new FlxText(0, 0, 0, "Filthy-rich and Fastuous", 40, true);
 		title.color = 0xFF630000;
 		title.screenCenter();
-		title.y -= 100;
+		title.y -= 150;
+		title.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		title.borderSize = 2;
+		title.borderColor = FlxColor.WHITE;
 		add(title);
 		
 		var credit = new FlxText(0, 0, 0, "Another stupid game by Lucas Tixier & Guillaume Ambrois", 12, true);
 		credit.screenCenter(FlxAxes.X);
-
+		credit.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		credit.borderSize = 1;
+		credit.borderColor = FlxColor.WHITE;
 		credit.color = 0xFF630000;
-		credit.y = title.y + 70;
-
+		credit.y = title.y + 50;
 		add(credit);
 		
-		var description = new FlxText(0, 0, FlxG.width - 50, "Buy (but don't sell!) ALL the items to delay your death by coins-crushing", 20, true);
+		var description = new FlxText(0, 0, FlxG.width - 50, "Buy (but don't sell!) ALL the items to delay your death by coins-crushing", 18, true);
 		description.screenCenter(FlxAxes.X);
 		description.y = credit.y + 50;
 		description.alignment = FlxTextAlign.CENTER;
+		description.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		description.borderSize = 2;
+		description.borderColor = 0xFF630000;
 		add(description);
 		
-		var startText = new FlxText(0, 0, 0, "Click or press SPACE to start", 18, true);
+		var startText = new FlxText(0, 0, 0, "Click or press SPACE to start", 24, true);
 		startText.color = 0xFF630000;
 		startText.screenCenter();
-		startText.y += 80;
+		startText.y += 20;
+		startText.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		startText.borderSize = 2;
+		startText.borderColor = FlxColor.WHITE;
 		add(startText);
 		
 		FlxTween.tween(startText, {alpha: 0}, 0.7, {type: FlxTween.PINGPONG, ease: FlxEase.linear});
 		
-		var soundText = new FlxText(0, 0, 0, "You can adjust the volume at any time by pressing the UP or DOWN keys", 10);
+		var soundText = new FlxText(0, 0, 0, "You can adjust the volume at any time by pressing the UP or DOWN keys", 12);
 		soundText.screenCenter(FlxAxes.X);
-		soundText.color = 0xFF630000;
+		soundText.color = FlxColor.WHITE;
 		soundText.y = FlxG.height - 150;
-
+		soundText.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		soundText.borderSize = 2;
+		soundText.borderColor = 0xFF630000;
 		add(soundText);
 		
 		var moreCreditAgain = new FlxText(0, 0, 0, "@LucasTixier - @Eponopono", 12, true);
 		moreCreditAgain.screenCenter(FlxAxes.X);
 		moreCreditAgain.color = 0xFF630000;
 		moreCreditAgain.y = FlxG.height - 80;
+		moreCreditAgain.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		moreCreditAgain.borderSize = 2;
+		moreCreditAgain.borderColor = FlxColor.WHITE;
 		add(moreCreditAgain);
 		
 		var moreCredit = new FlxText(0, 0, 0, "Twitter :", 12, true);
 		moreCredit.screenCenter(FlxAxes.X);
 		moreCredit.color = 0xFF630000;
 		moreCredit.y = moreCreditAgain.y - 20;
+		moreCredit.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+		moreCredit.borderSize = 1;
+		moreCredit.borderColor = FlxColor.WHITE;
 		add(moreCredit);
 	
 		FlxG.mouse.visible = true;
