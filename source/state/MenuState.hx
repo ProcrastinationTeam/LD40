@@ -36,13 +36,22 @@ class MenuState extends FlxUIState
 		
 		var credit = new FlxText(0, 0, 0, "Another stupid game by Lucas Tixier & Guillaume Ambrois", 12, true);
 		credit.screenCenter(FlxAxes.X);
+
 		credit.color = 0xFF630000;
 		credit.y = title.y + 70;
+
 		add(credit);
+		
+		var description = new FlxText(0, 0, FlxG.width - 50, "Buy (but don't sell!) ALL the items to delay your death by coins-crushing", 20, true);
+		description.screenCenter(FlxAxes.X);
+		description.y = credit.y + 50;
+		description.alignment = FlxTextAlign.CENTER;
+		add(description);
 		
 		var startText = new FlxText(0, 0, 0, "Click or press SPACE to start", 18, true);
 		startText.color = 0xFF630000;
 		startText.screenCenter();
+		startText.y += 80;
 		add(startText);
 		
 		FlxTween.tween(startText, {alpha: 0}, 0.7, {type: FlxTween.PINGPONG, ease: FlxEase.linear});
@@ -51,6 +60,7 @@ class MenuState extends FlxUIState
 		soundText.screenCenter(FlxAxes.X);
 		soundText.color = 0xFF630000;
 		soundText.y = FlxG.height - 150;
+
 		add(soundText);
 		
 		var moreCreditAgain = new FlxText(0, 0, 0, "@LucasTixier - @Eponopono", 12, true);

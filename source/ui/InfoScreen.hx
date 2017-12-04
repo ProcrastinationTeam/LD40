@@ -39,15 +39,16 @@ class InfoScreen extends FlxSpriteGroup
 
 	private var _currentMoney					: Float = Tweaking.PLAYER_START_MONEY;
 
-	private var _currentMoneyTextText			: FlxText;
 	private var _currentMoneyText				: FlxText;
 	private var _maxMoneyText					: FlxText;
 
 	private var _mapButtonToAction				: Map<FlxUIButton, Action>;
-	private var _mapButtonToSprite				: Map<FlxUIButton, FlxSprite>;
+	private var _mapButtonToSpriteItem			: Map<FlxUIButton, FlxSprite>;
+	private var _mapButtonToSpriteCart			: Map<FlxUIButton, FlxSprite>;
 
 	private var _buttons						: FlxSpriteGroup;
-	private var _spritess						: FlxSpriteGroup;
+	private var _spritesItem					: FlxSpriteGroup;
+	private var _spritesCart					: FlxSpriteGroup;
 	private var _coins							: FlxSpriteGroup;
 
 	private var _totalElapsedTime				: Float;
@@ -61,6 +62,9 @@ class InfoScreen extends FlxSpriteGroup
 	private var _song							: FlxSound;
 	
 	private var _musicStart						:Bool = false;
+	
+	private var _numberOfMoneyRefreshPerSecond	: Float = 30;
+	private var _timeSinceLastMoneyRefresh		: Float = 0;
 	
 	public function new()
 	{
@@ -97,12 +101,12 @@ class InfoScreen extends FlxSpriteGroup
 		//_moneyMountain.offset.set(5,0 );
 		//_moneyMountain.offset.set(40, 0);
 		
-		
 		_coins = new FlxSpriteGroup();
 		
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
+<<<<<<< HEAD
 		_song = new FlxSound();
 		_song = FlxG.sound.load(AssetPaths.mainS__wav);
 		
@@ -115,20 +119,47 @@ class InfoScreen extends FlxSpriteGroup
 		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		
 		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
+=======
+		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		_maxMoneyText.screenCenter(FlxAxes.X);
+		_maxMoneyText.autoSize = false;
+		_maxMoneyText.alignment = FlxTextAlign.LEFT;
+		_maxMoneyText.x += _maxMoneyText.fieldWidth / 2 - 20;
+		_maxMoneyText.borderStyle = FlxTextBorderStyle.SHADOW;
+		_maxMoneyText.borderSize = 2;
+		//_maxMoneyText.font = "Perfect DOS VGA 437";
+		
+		//_currentMoneyTextText = new FlxText(50, 5, 0, "MNEY LMIT : ", 20);
+		_currentMoneyText = new FlxText(_maxMoneyText.x - 250, 5, 250,  floatToCurrency(_currentMoney, false), 20);
+		_currentMoneyText.alignment = FlxTextAlign.RIGHT;
+		_currentMoneyText.autoSize = false;
+		_currentMoneyText.borderStyle = FlxTextBorderStyle.SHADOW;
+		_currentMoneyText.borderSize = 2;
+		//_currentMoneyText.font = "Perfect DOS VGA 437";
+		
+		_totalElapsedTimeText = new FlxText(0, 40, 300, FlxStringUtil.formatTime(0, true), 32);
+		_totalElapsedTimeText.screenCenter(FlxAxes.X);
+		_totalElapsedTimeText.autoSize = false;
+		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
+		_totalElapsedTimeText.borderStyle = FlxTextBorderStyle.SHADOW;
+		_totalElapsedTimeText.borderSize = 3;
+>>>>>>> 71947149c17ac3b5555bdd14deaebb59b8e5ead8
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
 		add(_moneyMountain);
 		add(_coins);
-		add(_currentMoneyTextText);
+		//add(_currentMoneyTextText);
 		add(_currentMoneyText);
 		add(_maxMoneyText);
 		add(_totalElapsedTimeText);
 		
 		_mapButtonToAction = new Map<FlxUIButton, Action>();
-		_mapButtonToSprite= new Map<FlxUIButton, FlxSprite>();
+		_mapButtonToSpriteItem = new Map<FlxUIButton, FlxSprite>();
+		_mapButtonToSpriteCart = new Map<FlxUIButton, FlxSprite>();
 		_buttons = new FlxSpriteGroup();
-		_spritess = new FlxSpriteGroup();
+		_spritesItem = new FlxSpriteGroup();
+		_spritesCart = new FlxSpriteGroup();
 		_totalElapsedTime = 0;
 		_gameOver = false;
 		
@@ -147,6 +178,8 @@ class InfoScreen extends FlxSpriteGroup
 		sprite3.x -= 30;
 		sprite3.text = "3...";
 		sprite3.size = 40;
+		sprite3.borderStyle = FlxTextBorderStyle.SHADOW;
+		sprite3.borderSize = 3;
 		add(sprite3);
 		
 		var sprite2 = new FlxText();
@@ -156,6 +189,8 @@ class InfoScreen extends FlxSpriteGroup
 		sprite2.x -= 30;
 		sprite2.text = "2...";
 		sprite2.size = 40;
+		sprite2.borderStyle = FlxTextBorderStyle.SHADOW;
+		sprite2.borderSize = 3;
 		add(sprite2);
 		
 		var sprite1 = new FlxText();
@@ -165,6 +200,8 @@ class InfoScreen extends FlxSpriteGroup
 		sprite1.x -= 30;
 		sprite1.text = "1...";
 		sprite1.size = 40;
+		sprite1.borderStyle = FlxTextBorderStyle.SHADOW;
+		sprite1.borderSize = 3;
 		add(sprite1);
 		
 		var spriteBuy = new FlxText();
@@ -174,6 +211,8 @@ class InfoScreen extends FlxSpriteGroup
 		spriteBuy.x -= 70;
 		spriteBuy.text = "BUY!";
 		spriteBuy.size = 60;
+		spriteBuy.borderStyle = FlxTextBorderStyle.SHADOW;
+		spriteBuy.borderSize = 4;
 		add(spriteBuy);
 		
 		FlxTween.tween(sprite3, {y: -50 + FlxG.height / 2}, 0.5, {ease: FlxEase.backInOut, startDelay: 0, onComplete: function(tween:FlxTween):Void {}});
@@ -201,18 +240,22 @@ class InfoScreen extends FlxSpriteGroup
 	private function playGameOverAnimation():Void 
 	{
 		var scoreText:FlxText = new FlxText(0, 0, 0, "You survived", 30);
-		scoreText.color = FlxColor.BLACK;
+		scoreText.color = FlxColor.WHITE;
 		scoreText.screenCenter();
 		scoreText.y -= 100;
 		scoreText.alignment = FlxTextAlign.CENTER;
 		scoreText.x += 1000;
+		scoreText.borderStyle = FlxTextBorderStyle.SHADOW;
+		scoreText.borderSize = 2;
 		
 		var goodJobText:FlxText = new FlxText(0, 0, 0, "Good job!", 30);
-		goodJobText.color = FlxColor.BLACK;
+		goodJobText.color = FlxColor.WHITE;
 		goodJobText.screenCenter();
 		goodJobText.y = scoreText.y + 110;
 		goodJobText.alignment = FlxTextAlign.CENTER;
 		goodJobText.x -= 1000;
+		goodJobText.borderStyle = FlxTextBorderStyle.SHADOW;
+		goodJobText.borderSize = 2;
 		
 		var text:String = "Try again!";
 		
@@ -237,11 +280,13 @@ class InfoScreen extends FlxSpriteGroup
 		new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION + 1, function(timer:FlxTimer):Void
 		{
 			FlxTween.tween(scoreText, {x: scoreText.x - 1000}, 1, {ease: FlxEase.elasticOut});
+			new FlxTimer().start(1, function(timer:FlxTimer):Void {
+				_totalElapsedTimeText.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+			});
 			
-			FlxTween.tween(_totalElapsedTimeText, {x: OFFSET + _width / 2 - 90, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut, startDelay: 1});
-			FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.BLACK, {ease: FlxEase.elasticOut, startDelay: 1});
+			FlxTween.tween(_totalElapsedTimeText, {x: OFFSET + _width / 2 - _totalElapsedTimeText.width / 2, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut, startDelay: 1});
+			FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.WHITE, {ease: FlxEase.elasticOut, startDelay: 1});
 			
-			FlxTween.tween(_currentMoneyTextText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
 			FlxTween.tween(_currentMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
 			FlxTween.tween(_maxMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
 			
@@ -277,8 +322,6 @@ class InfoScreen extends FlxSpriteGroup
 				FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 			}
 			
-			
-			
 
 			if (_gameOver)
 			{
@@ -294,9 +337,18 @@ class InfoScreen extends FlxSpriteGroup
 					});
 				}
 				
-				for (sprite in _spritess)
+				for (sprite in _spritesItem)
 				{
-					_spritess.remove(sprite, true);
+					_spritesItem.remove(sprite, true);
+					FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
+							sprite.destroy();
+						}
+					});
+				}
+				
+				for (sprite in _spritesCart)
+				{
+					_spritesItem.remove(sprite, true);
 					FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 							sprite.destroy();
 						}
@@ -306,15 +358,20 @@ class InfoScreen extends FlxSpriteGroup
 			else
 			{
 				_totalElapsedTime += elapsed;
+				_timeSinceLastMoneyRefresh += elapsed;
 				
 				_totalElapsedTimeText.text = FlxStringUtil.formatTime(_totalElapsedTime, true);
 				
 				// Pour faire accélérer au fur et à mesure
-				var accelerationRate:Float = Math.exp(_totalElapsedTime / 30);
+				var accelerationRate:Float = Math.exp(_totalElapsedTime / 50);
 				
 				_currentMoney += FlxG.random.floatNormal(Tweaking.MONEY_PER_SECOND * elapsed, 1) * accelerationRate;
 				
-				_currentMoneyText.text = floatToCurrency(_currentMoney, false);
+				if (_timeSinceLastMoneyRefresh > 1/_numberOfMoneyRefreshPerSecond) 
+				{
+					_currentMoneyText.text = floatToCurrency(_currentMoney, false);
+					_timeSinceLastMoneyRefresh = 0;
+				}
 				
 				for (dyn in Action._array)
 				{
@@ -346,7 +403,8 @@ class InfoScreen extends FlxSpriteGroup
 	private function OnButtonClicked(button:FlxUIButton):Void
 	{
 		var action:Action = _mapButtonToAction.get(button);
-		var sprite:FlxSprite = _mapButtonToSprite.get(button);
+		var spriteItem:FlxSprite = _mapButtonToSpriteItem.get(button);
+		var spriteCart:FlxSprite = _mapButtonToSpriteCart.get(button);
 		
 		// Si on peut pas acheter, on remue le bouton et on joue un son
 		if (_currentMoney + action._money < 0) 
@@ -362,7 +420,7 @@ class InfoScreen extends FlxSpriteGroup
 			//shake.start();
 			
 			var tweenButton = FlxTween.tween(button, {x: button.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
-			var tweenSprite = FlxTween.tween(sprite, {x: sprite.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
+			var tweenSprite = FlxTween.tween(spriteItem, {x: spriteItem.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
 			
 			new FlxTimer().start(0.4, function(timer:FlxTimer):Void {
 				tweenButton.cancel();
@@ -385,14 +443,16 @@ class InfoScreen extends FlxSpriteGroup
 			if (action._url)
 			{
 				// TODO: changer l'url
-				openfl.Lib.getURL(new URLRequest("https://elryogrande.itch.io/big-mommy-is-watching-over-you"));
+				openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
 			}
 			
 			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency(action._money, true), 22);
-			moneyModifText.color = action._money > 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
+			moneyModifText.color = action._money < 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
 			moneyModifText.alignment = FlxTextAlign.CENTER;
 			moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
 			moneyModifText.y = button.y;
+			moneyModifText.borderStyle = FlxTextBorderStyle.SHADOW;
+			moneyModifText.borderSize = 2;
 			
 			add(moneyModifText);
 			
@@ -406,7 +466,7 @@ class InfoScreen extends FlxSpriteGroup
 			}});
 			
 			button.destroy();
-			sprite.destroy();
+			spriteItem.destroy();
 		}
 	}
 	
@@ -427,35 +487,35 @@ class InfoScreen extends FlxSpriteGroup
 		{
 			_moneyMountain.animation.play("Step0");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2))
+		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2))
 		{
 			_moneyMountain.animation.play("Step1");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3))
+		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3))
 		{
 			_moneyMountain.animation.play("Step2");
-		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
+
+		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
 		{
 			_moneyMountain.animation.play("Step3");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
 		{
 			_moneyMountain.animation.play("Step4");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
 		{
 			_moneyMountain.animation.play("Step5");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
 		{
 			_moneyMountain.animation.play("Step6");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
 		{
 			_moneyMountain.animation.play("Step7");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9) < _currentMoney && _currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
+		else if (_currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
 		{
 			_moneyMountain.animation.play("Step8");
 		}
@@ -485,22 +545,30 @@ class InfoScreen extends FlxSpriteGroup
 		
 		temp.destroy();
 		
-		var sprite = new FlxSprite(button.x + button.label.fieldWidth - 32 - 16, button.y + 3);
-		sprite.loadGraphic(action._sprite, false, 32, 32);
+		var spriteItem = new FlxSprite(button.x + button.label.fieldWidth - 32 - 20, button.y + 3);
+		spriteItem.loadGraphic(action._sprite, false, 32, 32);
 		
-		FlxTween.tween(sprite, {y: sprite.y - 1000}, 0.5, {ease: FlxEase.backInOut});
+		FlxTween.tween(spriteItem, {y: spriteItem.y - 1000}, 0.5, {ease: FlxEase.backInOut});	
+		
+		var spriteCart = new FlxSprite(button.x + 20, button.y + 3);
+		spriteCart.loadGraphic(AssetPaths.Car222t2__png, false, 32, 32);
+		
+		FlxTween.tween(spriteCart, {y: spriteCart.y - 1000}, 0.5, {ease: FlxEase.backInOut});
 		
 		// On map l'action (les infos) du bouton au bouton pour pouvoir le récupérer après
 		_mapButtonToAction.set(button, action);
-		_mapButtonToSprite.set(button, sprite);
+		_mapButtonToSpriteItem.set(button, spriteItem);
+		_mapButtonToSpriteCart.set(button, spriteCart);
 		
 		// On ajoute le bouton à un groupe de boutons (pour avoir une idée du nombre de boutons à l'écran surtout)
 		_buttons.add(button);
-		_spritess.add(sprite);
+		_spritesItem.add(spriteItem);
+		_spritesCart.add(spriteCart);
 		
 		// On ajoute le bouton et le sprite à la scène
 		add(button);
-		add(sprite);
+		add(spriteItem);
+		//add(spriteCart);
 		
 		// Timer avant la mort du bouton
 		new FlxTimer().start(action._duration, function(timer:FlxTimer):Void {
@@ -510,10 +578,16 @@ class InfoScreen extends FlxSpriteGroup
 					button.destroy();
 				}
 			});
-			FlxTween.tween(sprite, {y: sprite.y + 1000}, 0.5, {
+			FlxTween.tween(spriteItem, {y: spriteItem.y + 1000}, 0.5, {
 				ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-					_spritess.remove(button, true);
-					sprite.destroy();
+					_spritesItem.remove(spriteItem, true);
+					spriteItem.destroy();
+				}
+			});
+			FlxTween.tween(spriteCart, {y: spriteCart.y + 1000}, 0.5, {
+				ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+					_spritesCart.remove(spriteCart, true);
+					spriteCart.destroy();
 				}
 			});
 		}, 1);
@@ -521,7 +595,7 @@ class InfoScreen extends FlxSpriteGroup
 	
 	public static function floatToCurrency(float:Float, isTransaction:Bool):String 
 	{
-		return (float < 0 ? "-" : (isTransaction ? "+" : "")) + "$" + FlxStringUtil.formatMoney(fixedFloat(Math.abs(float)), false);
+		return (float < 0 ? "-" : (isTransaction ? "+" : "")) + "$" + FlxStringUtil.formatMoney(Math.abs(float), false);
 	}
 	
 	// Fonction pompée sur internet pour pouvoir arrondir un chiffre avec le nombre de chiffres après la virgule qu'on veut
