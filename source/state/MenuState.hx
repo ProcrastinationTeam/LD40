@@ -44,6 +44,7 @@ class MenuState extends FlxUIState
 		
 		var description = new FlxText(0, 0, FlxG.width - 50, "Buy (but don't sell!) ALL the items to delay your death by coins-crushing", 20, true);
 		description.screenCenter(FlxAxes.X);
+		description.color = 0xFF630000;
 		description.y = credit.y + 50;
 		description.alignment = FlxTextAlign.CENTER;
 		add(description);
