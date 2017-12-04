@@ -16,8 +16,8 @@ class Action
 	
 	public static var _array 					: Array<Dynamic> = [
 		{
-			description : "Vendre sa mère", 					// Texte du bouton					
-			money : 1000, 										// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
+			description : "Sell", 								// Texte du bouton					
+			money : 2 * Tweaking.MONEY_MULTIPLIER, 				// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
 			duration : 10,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
@@ -25,18 +25,17 @@ class Action
 			sprite: AssetPaths.duo210_230_250_280_icon__png		// Sprite à afficher
 		}, 
 		{
-			description : "Acheter un hôpital", 					
-			money : -5000,
+			description : "Buy", 								// Skyrocket				
+			money : -50 * Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
 			frequency : 20,
 			url: false,
 			sound: AssetPaths.hey_you__wav,
 			sprite: AssetPaths.SkyRocket__png
-				//AssetPaths.duo210_230_250_280_icon__png
 		},
 		{
-			description : "Acheter un Picasso", 					
-			money : -20000,
+			description : "Buy", 								// Tank			
+			money : -20 * Tweaking.MONEY_MULTIPLIER,
 			duration : 2,
 			frequency : 15,
 			url: false,
@@ -44,22 +43,31 @@ class Action
 			sprite: AssetPaths.Tank__png
 		},
 		{
-			description : "Acheter un", 					
-			money : -2500, 		//-4.95
+			description : "Acheter un", 						// Laptop				
+			money : -2.5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 60,
+			frequency : 30,
 			url: false,
 			sound: AssetPaths.pnj_tabasse__wav,
 			sprite: AssetPaths.duo210_230_250_280_icon__png
 		},
 		{
-			description : "Acheter le jeu", 					
-			money : -10000,
+			description : "Buy", 								// Yacht
+			money : -5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 1,
+			frequency : 10,
 			url: false,
 			sound: AssetPaths.youwin__wav,
 			sprite: AssetPaths.Yacht__png
+		},
+		{
+			description : "Buy", 								// LE JEU LOL			
+			money : -100 * Tweaking.MONEY_MULTIPLIER,
+			duration : 5,
+			frequency : 1,
+			url: true,
+			sound: AssetPaths.youwin__wav,
+			sprite: AssetPaths.duo210_230_250_280_icon__png
 		},
 	];
 
