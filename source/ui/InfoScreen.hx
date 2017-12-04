@@ -363,19 +363,19 @@ class InfoScreen extends FlxSpriteGroup
 			FlxG.cameras.shake(0.03, 0.2);
 		}
 
-		FlxTween.tween(button, {y: -1000}, 0.5, {
-			ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-				_buttons.remove(button, true);
-				button.destroy();
-			}
-		});
-
-		FlxTween.tween(sprite, {y: -1000}, 0.5, {
-			ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-				_spritess.remove(button, true);
-				sprite.destroy();
-			}
-		});
+		//FlxTween.tween(button, {y: -1000}, 0.5, {
+			//ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				//_buttons.remove(button, true);
+				//button.destroy();
+			//}
+		//});
+//
+		//FlxTween.tween(sprite, {y: -1000}, 0.5, {
+			//ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+				//_spritess.remove(button, true);
+				//sprite.destroy();
+			//}
+		//});
 
 		action._sound.play();
 
@@ -392,7 +392,7 @@ class InfoScreen extends FlxSpriteGroup
 		moneyModifText.color = action._money > 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
 		moneyModifText.alignment = FlxTextAlign.CENTER;
 		moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
-		moneyModifText.y = button.y - 20;
+		moneyModifText.y = button.y;
 		
 		add(moneyModifText);
 		
@@ -401,8 +401,11 @@ class InfoScreen extends FlxSpriteGroup
 		}});
 		
 		FlxTween.tween(_currentMoneyText, {size: 30}, 0.1, {startDelay: 0.5, onComplete: function(tween:FlxTween):Void {
-				FlxTween.tween(_currentMoneyText, {size: 20}, 0.1, {});
+			FlxTween.tween(_currentMoneyText, {size: 20}, 0.1, {});
 		}});
+		
+		button.destroy();
+		sprite.destroy();
 	}
 
 	public function createGoodButton(action:Action):Void
