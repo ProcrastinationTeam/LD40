@@ -420,33 +420,29 @@ class InfoScreen extends FlxSpriteGroup
 		{
 			_moneyMountain.animation.play("Step2");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4))
+		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
 		{
 			_moneyMountain.animation.play("Step3");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
+		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
 		{
 			_moneyMountain.animation.play("Step4");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
+		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
 		{
 			_moneyMountain.animation.play("Step5");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
+		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
 		{
 			_moneyMountain.animation.play("Step6");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
+		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
 		{
 			_moneyMountain.animation.play("Step7");
 		}
-		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
-		{
-			_moneyMountain.animation.play("Step8");
-		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9) < _currentMoney && _currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
 		{
-			_moneyMountain.animation.play("Step9");
+			_moneyMountain.animation.play("Step8");
 		}
 	}
 
