@@ -31,7 +31,7 @@ class InfoScreen extends FlxSpriteGroup
 	public var _backgroundSprite 				: FlxSprite;
 
 	public var _moneyMountain					: FlxSprite;
-	public var _coinSprite							: FlxSprite;
+	public var _coinSprite						: FlxSprite;
 	
 	public var _coinFallingSound				: FlxSound;
 
@@ -59,6 +59,9 @@ class InfoScreen extends FlxSpriteGroup
 	private var _gameStarted					: Bool;
 	
 	private var _cantBuySound					: FlxSound;
+	private var _song							: FlxSound;
+	
+	private var _musicStart						:Bool = false;
 	
 	private var _numberOfMoneyRefreshPerSecond	: Float = 30;
 	private var _timeSinceLastMoneyRefresh		: Float = 0;
@@ -103,6 +106,20 @@ class InfoScreen extends FlxSpriteGroup
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
+
+		_song = new FlxSound();
+		_song = FlxG.sound.load(AssetPaths.mainS__wav);
+		
+		//FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
+	
+		
+		_currentMoneyTextText = new FlxText(50, 5, 0, "Current : ", 20);
+		_currentMoneyText = new FlxText(_currentMoneyTextText.x + _currentMoneyTextText.fieldWidth, 5, 0,  floatToCurrency(_currentMoney, false), 20);
+		
+		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		
+		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
+
 		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
 		_maxMoneyText.autoSize = false;
@@ -126,6 +143,7 @@ class InfoScreen extends FlxSpriteGroup
 		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
 		_totalElapsedTimeText.borderStyle = FlxTextBorderStyle.SHADOW;
 		_totalElapsedTimeText.borderSize = 3;
+
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
@@ -282,21 +300,33 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 
+		if (!_musicStart)
+		{
+			_musicStart = true;
+			_song.play();
+		}
+		
 		if (_gameStarted)
 		{
-			//Start du son
-			_coinFallingSound.play();
-			
-			var randomize = FlxG.random.int(0, 10);
-			if (randomize < 3)
+			if (!_gameOver)
 			{
-				rainingCoin();
+				//Start du son
+				_coinFallingSound.play();
+				
+				var randomize = FlxG.random.int(0, 10);
+				if (randomize < 3)
+				{
+					rainingCoin();
+				}
+				
+				FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 			}
 			
-			FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 
 			if (_gameOver)
 			{
+				_song.stop();
+				
 				// On le refait sinon ça enlève pas tout direct
 				for (button in _buttons)
 				{
@@ -369,7 +399,6 @@ class InfoScreen extends FlxSpriteGroup
 
 	private function CoinBlow(coin:FlxObject, goldMountain:FlxObject):Void
 	{
-		//trace("OVERLAP");
 		coin.kill();
 	}
 	
@@ -467,34 +496,31 @@ class InfoScreen extends FlxSpriteGroup
 		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3))
 		{
 			_moneyMountain.animation.play("Step2");
-		}
-		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4))
+
+		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
 		{
 			_moneyMountain.animation.play("Step3");
 		}
-		else if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
 		{
 			_moneyMountain.animation.play("Step4");
 		}
-		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
+
 		{
 			_moneyMountain.animation.play("Step5");
 		}
-		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
 		{
 			_moneyMountain.animation.play("Step6");
 		}
-		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
+		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
 		{
 			_moneyMountain.animation.play("Step7");
 		}
-		else if (_currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
-		{
-			_moneyMountain.animation.play("Step8");
-		}
 		else if (_currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
 		{
-			_moneyMountain.animation.play("Step9");
+			_moneyMountain.animation.play("Step8");
 		}
 	}
 
