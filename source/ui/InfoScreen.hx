@@ -1,6 +1,7 @@
 package ui;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.ui.FlxUIButton;
 import flixel.group.FlxSpriteGroup;
@@ -28,6 +29,7 @@ class InfoScreen extends FlxSpriteGroup
 	public var _backgroundSprite 				: FlxSprite;
 
 	public var _moneyMountain					: FlxSprite;
+	public var _coinSprite							: FlxSprite;
 	
 	public var _coinFallingSound				: FlxSound;
 
@@ -44,6 +46,7 @@ class InfoScreen extends FlxSpriteGroup
 
 	private var _buttons						: FlxSpriteGroup;
 	private var _spritess						: FlxSpriteGroup;
+	private var _coins							: FlxSpriteGroup;
 
 	private var _totalElapsedTime				: Float;
 
@@ -60,36 +63,43 @@ class InfoScreen extends FlxSpriteGroup
 		
 		this.x = OFFSET;
 		
-		_backgroundSprite = new FlxSprite(0, 0);
-		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(200, 200, 200), false);
+		_backgroundSprite = new FlxSprite(0, 0);		
+		_backgroundSprite.loadGraphic("assets/images/backgroundRoom.png", true, 640, 480, true);
 		
-		_backgroundSprite.loadGraphic("assets/images/NiceRoomB.png", true, 640, 480, true);
+		_moneyMountain = new FlxSprite(0, 0);
+		_moneyMountain.loadGraphic("assets/images/Gold.png", true, 640, 480, true);
 		
 		//a la bourrin les anims
-		_backgroundSprite.animation.add("Step0", [0], 30, true, false, false);
-		_backgroundSprite.animation.add("Step1", [1], 30, true, false, false);
-		_backgroundSprite.animation.add("Step2", [2], 30, true, false, false);
-		_backgroundSprite.animation.add("Step3", [3], 30, true, false, false);
-		_backgroundSprite.animation.add("Step4", [4], 30, true, false, false);
-		_backgroundSprite.animation.add("Step5", [5], 30, true, false, false);
-		_backgroundSprite.animation.add("Step6", [6], 30, true, false, false);
-		_backgroundSprite.animation.add("Step7", [7], 30, true, false, false);
-		_backgroundSprite.animation.add("Step8", [8], 30, true, false, false);
-		_backgroundSprite.animation.add("Step9", [9], 30, true, false, false);
+		_moneyMountain.animation.add("Step0", [0], 30, true, false, false);
+		_moneyMountain.animation.add("Step1", [1], 30, true, false, false);
+		_moneyMountain.animation.add("Step2", [2], 30, true, false, false);
+		_moneyMountain.animation.add("Step3", [3], 30, true, false, false);
+		_moneyMountain.animation.add("Step4", [4], 30, true, false, false);
+		_moneyMountain.animation.add("Step5", [5], 30, true, false, false);
+		_moneyMountain.animation.add("Step6", [6], 30, true, false, false);
+		_moneyMountain.animation.add("Step7", [7], 30, true, false, false);
+		_moneyMountain.animation.add("Step8", [8], 30, true, false, false);
+		_moneyMountain.animation.add("Step9", [9], 30, true, false, false);
 		
-		_backgroundSprite.animation.play("Step1");
+		_moneyMountain.animation.play("Step1");
+		
+		//_moneyMountain
+		_moneyMountain.height = 10;
+		_moneyMountain.width = 566;
+		//_moneyMountain.updateHitbox();
+		//_moneyMountain.offset.set(40, 0);
+		
+		
+		_coins = new FlxSpriteGroup();
 		
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
 		
-		_moneyMountain = new FlxSprite(0, Std.int(_height / 1.5));
-		_moneyMountain.makeGraphic(Std.int(FlxG.width / 1.5), 50, FlxColor.YELLOW);
-		_moneyMountain.screenCenter(FlxAxes.X);
+		
 		
 		//FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
-		
-		_moneyMountain.height = 50;
+	
 		
 		_currentMoneyTextText = new FlxText(50, 5, 0, "Current : ", 20);
 		_currentMoneyText = new FlxText(_currentMoneyTextText.x + _currentMoneyTextText.fieldWidth, 5, 0,  floatToCurrency(_currentMoney, false), 20);
@@ -100,9 +110,8 @@ class InfoScreen extends FlxSpriteGroup
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
-		
 		//add(_moneyMountain);
-		
+		add(_coins);
 		add(_currentMoneyTextText);
 		add(_currentMoneyText);
 		add(_maxMoneyText);
@@ -243,6 +252,22 @@ class InfoScreen extends FlxSpriteGroup
 			//Start du son
 			_coinFallingSound.play();
 			
+			var randomize = FlxG.random.int(0, 10);
+			if (randomize < 3)
+			{
+				rainingCoin();
+			}
+			
+			//for (piece in _coins)
+			//{
+				//if (FlxG.overlap(piece, _moneyMountain, CoinBlow))
+				//{
+					//trace("YES");
+				//}
+			//}
+			
+			
+			
 			if (_gameOver)
 			{
 				// On le refait sinon ça enlève pas tout direct
@@ -299,6 +324,12 @@ class InfoScreen extends FlxSpriteGroup
 		}
 	}
 
+	private function CoinBlow(coin:FlxObject, goldMountain:FlxObject):Void
+	{
+		trace("OVERLAP");
+		coin.kill();
+	}
+	
 	private function OnButtonClicked(button:FlxUIButton):Void
 	{
 		var action:Action = _mapButtonToAction.get(button);
@@ -357,47 +388,58 @@ class InfoScreen extends FlxSpriteGroup
 		}
 	}
 	
+	private function rainingCoin():Void
+	{
+		var randomPos = FlxG.random.int(75, 600);
+		var _MycoinSprite = new FlxSprite(randomPos,-10);		
+		_MycoinSprite.loadGraphic("assets/images/soloCoin.png", true, 16, 16, true);
+		_MycoinSprite.animation.add("Falling", [0, 1, 2, 3, 4, 5, 6], 30, true, false, false);
+		_MycoinSprite.animation.play("Falling");
+		_MycoinSprite.acceleration.y = 100;
+		_coins.add(_MycoinSprite);
+	}
+	
 	private function updateBackgroundSprite():Void 
 	{
 		if (_currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1) )
 		{
-			_backgroundSprite.animation.play("Step0");
+			_moneyMountain.animation.play("Step0");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2))
 		{
-			_backgroundSprite.animation.play("Step1");
+			_moneyMountain.animation.play("Step1");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3))
 		{
-			_backgroundSprite.animation.play("Step2");
+			_moneyMountain.animation.play("Step2");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4))
 		{
-			_backgroundSprite.animation.play("Step3");
+			_moneyMountain.animation.play("Step3");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 4) < _currentMoney && _currentMoney < ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5))
 		{
-			_backgroundSprite.animation.play("Step4");
+			_moneyMountain.animation.play("Step4");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6))
 		{
-			_backgroundSprite.animation.play("Step5");
+			_moneyMountain.animation.play("Step5");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7))
 		{
-			_backgroundSprite.animation.play("Step6");
+			_moneyMountain.animation.play("Step6");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8))
 		{
-			_backgroundSprite.animation.play("Step7");
+			_moneyMountain.animation.play("Step7");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8) < _currentMoney && _currentMoney <= ((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9))
 		{
-			_backgroundSprite.animation.play("Step8");
+			_moneyMountain.animation.play("Step8");
 		}
 		else if (((Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9) < _currentMoney && _currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
 		{
-			_backgroundSprite.animation.play("Step9");
+			_moneyMountain.animation.play("Step9");
 		}
 	}
 
