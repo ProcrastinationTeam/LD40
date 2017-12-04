@@ -1,6 +1,5 @@
 package;
 
-import flixel.graphics.frames.FlxAtlasFrames.TexturePackerObject;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.system.FlxSound;
 import flixel.FlxG;
