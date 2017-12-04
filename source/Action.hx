@@ -22,7 +22,7 @@ class Action
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
 			sound: AssetPaths.mom__wav,							// Son à jouer
-			sprite: AssetPaths.duo210_230_250_280_icon__png		// Sprite à afficher
+			sprite: AssetPaths.SkyRocket__png		// Sprite à afficher
 		}, 
 		{
 			description : "Acheter un hôpital", 					
@@ -41,7 +41,7 @@ class Action
 			frequency : 15,
 			url: false,
 			sound: AssetPaths.aaaah__wav,
-			sprite: AssetPaths.Tank__png
+			sprite: AssetPaths.tableau__png
 		},
 		{
 			description : "Acheter un", 					
@@ -50,7 +50,7 @@ class Action
 			frequency : 60,
 			url: false,
 			sound: AssetPaths.pnj_tabasse__wav,
-			sprite: AssetPaths.duo210_230_250_280_icon__png
+			sprite: AssetPaths.Tank__png
 		},
 		{
 			description : "Acheter le jeu", 					

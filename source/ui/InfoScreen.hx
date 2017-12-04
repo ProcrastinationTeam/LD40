@@ -31,7 +31,7 @@ class InfoScreen extends FlxSpriteGroup
 	public var _backgroundSprite 				: FlxSprite;
 
 	public var _moneyMountain					: FlxSprite;
-	public var _coinSprite							: FlxSprite;
+	public var _coinSprite						: FlxSprite;
 	
 	public var _coinFallingSound				: FlxSound;
 
@@ -58,6 +58,9 @@ class InfoScreen extends FlxSpriteGroup
 	private var _gameStarted					: Bool;
 	
 	private var _cantBuySound					: FlxSound;
+	private var _song							: FlxSound;
+	
+	private var _musicStart						:Bool = false;
 	
 	public function new()
 	{
@@ -100,8 +103,8 @@ class InfoScreen extends FlxSpriteGroup
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
-		
-		
+		_song = new FlxSound();
+		_song = FlxG.sound.load(AssetPaths.mainS__wav);
 		
 		//FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
 	
@@ -252,23 +255,35 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 
+		if (!_musicStart)
+		{
+			_musicStart = true;
+			_song.play();
+		}
+		
 		if (_gameStarted)
 		{
-			//Start du son
-			_coinFallingSound.play();
-			
-			var randomize = FlxG.random.int(0, 10);
-			if (randomize < 3)
+			if (!_gameOver)
 			{
-				rainingCoin();
+				//Start du son
+				_coinFallingSound.play();
+				
+				var randomize = FlxG.random.int(0, 10);
+				if (randomize < 3)
+				{
+					rainingCoin();
+				}
+				
+				FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 			}
 			
-			FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 			
 			
 
 			if (_gameOver)
 			{
+				_song.stop();
+				
 				// On le refait sinon ça enlève pas tout direct
 				for (button in _buttons)
 				{
@@ -325,7 +340,6 @@ class InfoScreen extends FlxSpriteGroup
 
 	private function CoinBlow(coin:FlxObject, goldMountain:FlxObject):Void
 	{
-		trace("OVERLAP");
 		coin.kill();
 	}
 	
