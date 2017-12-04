@@ -365,6 +365,7 @@ class InfoScreen extends FlxSpriteGroup
 			action._sound.play();
 			
 			FlxMouseEventManager.remove(button);
+			_buttons.remove(button, true);
 			
 			// Si c'est "acheter notre jeu", gros lol
 			if (action._url)
