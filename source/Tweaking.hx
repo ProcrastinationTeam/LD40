@@ -9,4 +9,6 @@ class Tweaking
 	public static inline var MONEY_PER_SECOND				: Float =  	1.5 * MONEY_MULTIPLIER;
 	
 	public static inline var BUTTON_DISPARITION_DURATION	: Float = 1;
+	
+	public static inline var BUY_PERCENT					: Float = 50;
 }
