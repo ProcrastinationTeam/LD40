@@ -335,7 +335,9 @@ class InfoScreen extends FlxSpriteGroup
 				// Pour faire accélérer au fur et à mesure
 				var accelerationRate:Float = Math.exp(_totalElapsedTime / 50);
 				
-				_currentMoney += FlxG.random.floatNormal(Tweaking.MONEY_PER_SECOND * elapsed, 1) * accelerationRate;
+				var moneyEarned = Tweaking.MONEY_PER_SECOND * elapsed * accelerationRate;
+				trace(moneyEarned);
+				_currentMoney += moneyEarned;
 				
 				if (_timeSinceLastMoneyRefresh > 1/_numberOfMoneyRefreshPerSecond) 
 				{
