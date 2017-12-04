@@ -21,8 +21,11 @@ class Action
 			duration : 10,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
+
 			sound: AssetPaths.nope__ogg,							// Son à jouer
-			sprite: AssetPaths.SkyRocket__png		// Sprite à afficher
+			sprite: AssetPaths.SkyRocket__png,		// Sprite à afficher
+				// Sprite à afficher
+			acceleration: 50									// Acceleration
 		}, 
 		{
 			description : "BUY", 								// Skyrocket				
@@ -30,8 +33,11 @@ class Action
 			duration : 3,
 			frequency : 20,
 			url: false,
+
 			sound: AssetPaths.cool__ogg,
-			sprite: AssetPaths.SkyRocket__png
+			sprite: AssetPaths.SkyRocket__png,
+			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// Tank			
@@ -40,7 +46,10 @@ class Action
 			frequency : 15,
 			url: false,
 			sound: AssetPaths.cool__ogg,
-			sprite: AssetPaths.tableau__png
+			sprite: AssetPaths.tableau__png,
+
+			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// Laptop				
@@ -48,8 +57,11 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: false,
+
 			sound: AssetPaths.cool__ogg,
-			sprite: AssetPaths.Tank__png
+			sprite: AssetPaths.Tank__png,		
+			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// Yacht
@@ -57,17 +69,22 @@ class Action
 			duration : 5,
 			frequency : 10,
 			url: false,
+
 			sound: AssetPaths.cool__ogg,
-			sprite: AssetPaths.Yacht__png
+			sprite: AssetPaths.Yacht__png,
+			acceleration: 50
+
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
 			money : -100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 1,
+
 			url: true,
 			sound: AssetPaths.cool__ogg,
-			sprite: AssetPaths.moi__png
+			sprite: AssetPaths.moi__png,
+			acceleration: 50
 		},
 		{
 			description : "BUY", 								// Skyrocket				
@@ -76,7 +93,8 @@ class Action
 			frequency : 20,
 			url: false,
 			sound: AssetPaths.aaaah__wav,
-			sprite: AssetPaths.misterBelly__png
+			sprite: AssetPaths.misterBelly__png,
+			acceleration : 50
 		},
 	];
 
