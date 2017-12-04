@@ -43,10 +43,12 @@ class InfoScreen extends FlxSpriteGroup
 	private var _maxMoneyText					: FlxText;
 
 	private var _mapButtonToAction				: Map<FlxUIButton, Action>;
-	private var _mapButtonToSprite				: Map<FlxUIButton, FlxSprite>;
+	private var _mapButtonToSpriteItem			: Map<FlxUIButton, FlxSprite>;
+	private var _mapButtonToSpriteCart			: Map<FlxUIButton, FlxSprite>;
 
 	private var _buttons						: FlxSpriteGroup;
-	private var _spritess						: FlxSpriteGroup;
+	private var _spritesItem					: FlxSpriteGroup;
+	private var _spritesCart					: FlxSpriteGroup;
 	private var _coins							: FlxSpriteGroup;
 
 	private var _totalElapsedTime				: Float;
@@ -135,9 +137,11 @@ class InfoScreen extends FlxSpriteGroup
 		add(_totalElapsedTimeText);
 		
 		_mapButtonToAction = new Map<FlxUIButton, Action>();
-		_mapButtonToSprite= new Map<FlxUIButton, FlxSprite>();
+		_mapButtonToSpriteItem = new Map<FlxUIButton, FlxSprite>();
+		_mapButtonToSpriteCart = new Map<FlxUIButton, FlxSprite>();
 		_buttons = new FlxSpriteGroup();
-		_spritess = new FlxSpriteGroup();
+		_spritesItem = new FlxSpriteGroup();
+		_spritesCart = new FlxSpriteGroup();
 		_totalElapsedTime = 0;
 		_gameOver = false;
 		
@@ -303,9 +307,18 @@ class InfoScreen extends FlxSpriteGroup
 					});
 				}
 				
-				for (sprite in _spritess)
+				for (sprite in _spritesItem)
 				{
-					_spritess.remove(sprite, true);
+					_spritesItem.remove(sprite, true);
+					FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
+							sprite.destroy();
+						}
+					});
+				}
+				
+				for (sprite in _spritesCart)
+				{
+					_spritesItem.remove(sprite, true);
 					FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 							sprite.destroy();
 						}
@@ -361,7 +374,8 @@ class InfoScreen extends FlxSpriteGroup
 	private function OnButtonClicked(button:FlxUIButton):Void
 	{
 		var action:Action = _mapButtonToAction.get(button);
-		var sprite:FlxSprite = _mapButtonToSprite.get(button);
+		var spriteItem:FlxSprite = _mapButtonToSpriteItem.get(button);
+		var spriteCart:FlxSprite = _mapButtonToSpriteCart.get(button);
 		
 		// Si on peut pas acheter, on remue le bouton et on joue un son
 		if (_currentMoney + action._money < 0) 
@@ -377,7 +391,7 @@ class InfoScreen extends FlxSpriteGroup
 			//shake.start();
 			
 			var tweenButton = FlxTween.tween(button, {x: button.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
-			var tweenSprite = FlxTween.tween(sprite, {x: sprite.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
+			var tweenSprite = FlxTween.tween(spriteItem, {x: spriteItem.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
 			
 			new FlxTimer().start(0.4, function(timer:FlxTimer):Void {
 				tweenButton.cancel();
@@ -404,7 +418,7 @@ class InfoScreen extends FlxSpriteGroup
 			}
 			
 			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency(action._money, true), 22);
-			moneyModifText.color = action._money > 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
+			moneyModifText.color = action._money < 0 ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
 			moneyModifText.alignment = FlxTextAlign.CENTER;
 			moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
 			moneyModifText.y = button.y;
@@ -423,7 +437,7 @@ class InfoScreen extends FlxSpriteGroup
 			}});
 			
 			button.destroy();
-			sprite.destroy();
+			spriteItem.destroy();
 		}
 	}
 	
@@ -506,22 +520,30 @@ class InfoScreen extends FlxSpriteGroup
 		
 		temp.destroy();
 		
-		var sprite = new FlxSprite(button.x + button.label.fieldWidth - 32 - 16, button.y + 3);
-		sprite.loadGraphic(action._sprite, false, 32, 32);
+		var spriteItem = new FlxSprite(button.x + button.label.fieldWidth - 32 - 20, button.y + 3);
+		spriteItem.loadGraphic(action._sprite, false, 32, 32);
 		
-		FlxTween.tween(sprite, {y: sprite.y - 1000}, 0.5, {ease: FlxEase.backInOut});
+		FlxTween.tween(spriteItem, {y: spriteItem.y - 1000}, 0.5, {ease: FlxEase.backInOut});	
+		
+		var spriteCart = new FlxSprite(button.x + 20, button.y + 3);
+		spriteCart.loadGraphic(AssetPaths.Car222t2__png, false, 32, 32);
+		
+		FlxTween.tween(spriteCart, {y: spriteCart.y - 1000}, 0.5, {ease: FlxEase.backInOut});
 		
 		// On map l'action (les infos) du bouton au bouton pour pouvoir le récupérer après
 		_mapButtonToAction.set(button, action);
-		_mapButtonToSprite.set(button, sprite);
+		_mapButtonToSpriteItem.set(button, spriteItem);
+		_mapButtonToSpriteCart.set(button, spriteCart);
 		
 		// On ajoute le bouton à un groupe de boutons (pour avoir une idée du nombre de boutons à l'écran surtout)
 		_buttons.add(button);
-		_spritess.add(sprite);
+		_spritesItem.add(spriteItem);
+		_spritesCart.add(spriteCart);
 		
 		// On ajoute le bouton et le sprite à la scène
 		add(button);
-		add(sprite);
+		add(spriteItem);
+		//add(spriteCart);
 		
 		// Timer avant la mort du bouton
 		new FlxTimer().start(action._duration, function(timer:FlxTimer):Void {
@@ -531,10 +553,16 @@ class InfoScreen extends FlxSpriteGroup
 					button.destroy();
 				}
 			});
-			FlxTween.tween(sprite, {y: sprite.y + 1000}, 0.5, {
+			FlxTween.tween(spriteItem, {y: spriteItem.y + 1000}, 0.5, {
 				ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
-					_spritess.remove(button, true);
-					sprite.destroy();
+					_spritesItem.remove(spriteItem, true);
+					spriteItem.destroy();
+				}
+			});
+			FlxTween.tween(spriteCart, {y: spriteCart.y + 1000}, 0.5, {
+				ease: FlxEase.backInOut, onComplete: function(tween:FlxTween):Void {
+					_spritesCart.remove(spriteCart, true);
+					spriteCart.destroy();
 				}
 			});
 		}, 1);

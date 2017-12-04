@@ -16,7 +16,7 @@ class Action
 	
 	public static var _array 					: Array<Dynamic> = [
 		{
-			description : "Sell", 								// Texte du bouton					
+			description : "SELL", 								// Texte du bouton					
 			money : 2 * Tweaking.MONEY_MULTIPLIER, 				// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
 			duration : 10,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
@@ -25,7 +25,7 @@ class Action
 			sprite: AssetPaths.duo210_230_250_280_icon__png		// Sprite à afficher
 		}, 
 		{
-			description : "Buy", 								// Skyrocket				
+			description : "BUY", 								// Skyrocket				
 			money : -50 * Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
 			frequency : 20,
@@ -34,7 +34,7 @@ class Action
 			sprite: AssetPaths.SkyRocket__png
 		},
 		{
-			description : "Buy", 								// Tank			
+			description : "BUY", 								// Tank			
 			money : -20 * Tweaking.MONEY_MULTIPLIER,
 			duration : 2,
 			frequency : 15,
@@ -43,7 +43,7 @@ class Action
 			sprite: AssetPaths.Tank__png
 		},
 		{
-			description : "Acheter un", 						// Laptop				
+			description : "BUY", 						// Laptop				
 			money : -2.5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 30,
@@ -52,7 +52,7 @@ class Action
 			sprite: AssetPaths.duo210_230_250_280_icon__png
 		},
 		{
-			description : "Buy", 								// Yacht
+			description : "BUY", 								// Yacht
 			money : -5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 10,
@@ -61,13 +61,13 @@ class Action
 			sprite: AssetPaths.Yacht__png
 		},
 		{
-			description : "Buy", 								// LE JEU LOL			
+			description : "BUY", 								// LE JEU LOL			
 			money : -100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 1,
+			frequency : 100,
 			url: true,
 			sound: AssetPaths.youwin__wav,
-			sprite: AssetPaths.duo210_230_250_280_icon__png
+			sprite: AssetPaths.moi__png
 		},
 	];
 
