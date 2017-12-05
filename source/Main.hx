@@ -13,7 +13,14 @@ class Main extends Sprite
 		super();
 		addChild(new FlxGame(0, 0, MenuState));
 		FlxG.sound.volume = 0.3;
+		
+		#if (web || desktop)
 		FlxG.sound.volumeUpKeys = [FlxKey.PLUS, UP];
 		FlxG.sound.volumeDownKeys = [FlxKey.MINUS, DOWN];
+		#end
+		
+		#if mobile
+		FlxG.mouse.visible = false;
+		#end
 	}
 }

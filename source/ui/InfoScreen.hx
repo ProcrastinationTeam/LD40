@@ -300,6 +300,11 @@ class InfoScreen extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		if (FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.L)
+		{
+			_currentMoney = Tweaking.PLAYER_GAME_OVER_MONEY;
+		}
 
 		if (!_musicStart)
 		{
@@ -371,11 +376,12 @@ class InfoScreen extends FlxSpriteGroup
 				//trace(moneyEarned);
 				_currentMoney += moneyEarned;
 				
-				if (_timeSinceLastMoneyRefresh > 1/_numberOfMoneyRefreshPerSecond) 
-				{
-					_currentMoneyText.text = floatToCurrency(_currentMoney, false);
-					_timeSinceLastMoneyRefresh = 0;
-				}
+				//if (_timeSinceLastMoneyRefresh > 1/_numberOfMoneyRefreshPerSecond) 
+				//{
+				// Sinon des fois on a l'impression qu'on a pas atteint le montant max, c'est bizarre
+				_currentMoneyText.text = floatToCurrency(_currentMoney, false);
+					//_timeSinceLastMoneyRefresh = 0;
+				//}
 				
 				for (dyn in Action._array)
 				{
@@ -448,14 +454,14 @@ class InfoScreen extends FlxSpriteGroup
 			_buttons.remove(button, true);
 			
 			// Si c'est "acheter notre jeu", gros lol
-			if (action._url)
-			{
+			//if (action._url)
+			//{
 				// TODO: changer l'url
 				//openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
-			}
+			//}
 			
 			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency((action._isBuy ? -1 : 1) * action._money, true), 22);
-			moneyModifText.color = action._isBuy ? FlxColor.fromRGB(0, 255, 0) : FlxColor.fromRGB(255, 0, 0);
+			moneyModifText.color = action._isBuy ? FlxColor.fromRGB(0, 240, 0) : FlxColor.fromRGB(255, 0, 0);
 			moneyModifText.alignment = FlxTextAlign.CENTER;
 			moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
 			moneyModifText.y = button.y;

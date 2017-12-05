@@ -28,6 +28,10 @@ class PlayState extends FlxState
 		
 		FlxG.camera.fade(FlxColor.BLACK, .1, true);
 		//infoScreenCam.fade(FlxColor.BLACK, .1, true);
+		
+		#if mobile
+		FlxG.mouse.visible = false;
+		#end
 	}
 
 	override public function update(elapsed:Float):Void

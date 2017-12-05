@@ -56,7 +56,16 @@ class MenuState extends FlxUIState
 		description.borderColor = 0xFF630000;
 		add(description);
 		
-		var startText = new FlxText(0, 0, 0, "Click or press SPACE to start", 24, true);
+		var startText = new FlxText(0, 0, 0, "", 24, true);
+		
+		#if mobile
+		startText.text = "Touch anywhere to start";
+		#end
+		
+		#if (web || desktop)
+		startText.text = "Click or press SPACE to start";
+		#end
+		
 		startText.color = 0xFF630000;
 		startText.screenCenter();
 		startText.y += 20;
@@ -67,6 +76,7 @@ class MenuState extends FlxUIState
 		
 		FlxTween.tween(startText, {alpha: 0}, 0.7, {type: FlxTween.PINGPONG, ease: FlxEase.linear});
 		
+		#if (web || desktop)
 		var soundText = new FlxText(0, 0, 0, "You can adjust the volume at any time by pressing the UP or DOWN keys", 12);
 		soundText.screenCenter(FlxAxes.X);
 		soundText.color = FlxColor.WHITE;
@@ -75,6 +85,7 @@ class MenuState extends FlxUIState
 		soundText.borderSize = 2;
 		soundText.borderColor = 0xFF630000;
 		add(soundText);
+		#end
 		
 		var moreCreditAgain = new FlxText(0, 0, 0, "@LucasTixier - @Eponopono", 12, true);
 		moreCreditAgain.screenCenter(FlxAxes.X);
@@ -94,7 +105,9 @@ class MenuState extends FlxUIState
 		moreCredit.borderColor = FlxColor.WHITE;
 		add(moreCredit);
 	
-		FlxG.mouse.visible = true;
+		#if mobile
+		FlxG.mouse.visible = false;
+		#end
 		
 		FlxG.camera.fade(FlxColor.BLACK, .2, true);
 
@@ -105,12 +118,24 @@ class MenuState extends FlxUIState
 	{
 		super.update(elapsed);
 		_backgroundSprite.animation.play("YOLO");
+		
+		#if (web || desktop)
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, .1, false, function() {
 				FlxG.switchState(new PlayState());
 			});
 		}
+		#end
+		
+		#if mobile
+		if (FlxG.mouse.justPressed)
+		{
+			FlxG.camera.fade(FlxColor.BLACK, .1, false, function() {
+				FlxG.switchState(new PlayState());
+			});
+		}
+		#end
 	}
 	
 	//private function updateVolume():Void
