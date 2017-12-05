@@ -66,6 +66,9 @@ class InfoScreen extends FlxSpriteGroup
 	private var _numberOfMoneyRefreshPerSecond	: Float = 30;
 	private var _timeSinceLastMoneyRefresh		: Float = 0;
 	
+	private var _buySound						: FlxSound;
+	private var _sellSound						: FlxSound;
+	
 	public function new()
 	{
 		super();
@@ -106,13 +109,8 @@ class InfoScreen extends FlxSpriteGroup
 		_coinFallingSound = new FlxSound();
 		_coinFallingSound = FlxG.sound.load(AssetPaths.midCoin__ogg);
 		
-
 		_song = new FlxSound();
 		_song = FlxG.sound.load(AssetPaths.mainS__wav);
-		
-		//FlxSpriteUtil.drawRect(_backgroundSprite, _moneyMountain.x - 2, 47, Std.int(_width / 1.5) + 4, Std.int(_height / 1.5) + 4, FlxColor.TRANSPARENT, {thickness : 4, color : FlxColor.WHITE});
-	
-
 		
 		_currentMoneyText = new FlxText(50, 5, 0, "Current : ", 20);
 		_currentMoneyText = new FlxText(_currentMoneyText.x + _currentMoneyText.fieldWidth, 5, 0,  floatToCurrency(_currentMoney, false), 20);
@@ -120,7 +118,6 @@ class InfoScreen extends FlxSpriteGroup
 		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		
 		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
-
 
 		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
@@ -166,6 +163,8 @@ class InfoScreen extends FlxSpriteGroup
 		_gameOver = false;
 		
 		_cantBuySound = FlxG.sound.load(AssetPaths.pnj_tabasse__wav);
+		_buySound = FlxG.sound.load(AssetPaths.cool__wav);
+		_sellSound = FlxG.sound.load(AssetPaths.nope__wav);
 		
 		_gameStarted = false;
 		playStartingAnimation();
@@ -439,9 +438,11 @@ class InfoScreen extends FlxSpriteGroup
 			if (!action._isBuy)
 			{
 				FlxG.cameras.shake(0.03, 0.2);
+				_sellSound.play();
 			}
-			
-			action._sound.play();
+			else {
+				_buySound.play();
+			}
 			
 			FlxMouseEventManager.remove(button);
 			_buttons.remove(button, true);

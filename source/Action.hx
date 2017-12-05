@@ -22,10 +22,8 @@ class Action
 			duration : 10,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
-
-			sound: AssetPaths.nope__ogg,							// Son à jouer
-			sprite: AssetPaths.SkyRocket__png,		// Sprite à afficher
-				// Sprite à afficher
+			sound: AssetPaths.nope__wav,						// Son à jouer
+			sprite: AssetPaths.SkyRocket__png,					// Sprite à afficher
 			acceleration: 50									// Acceleration
 		}, 
 		{
@@ -34,11 +32,9 @@ class Action
 			duration : 3,
 			frequency : 20,
 			url: false,
-
-			sound: AssetPaths.cool__ogg,
+			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.SkyRocket__png,
 			acceleration: 50
-
 		},
 		{
 			description : "BUY", 								// Tank			
@@ -46,11 +42,9 @@ class Action
 			duration : 2,
 			frequency : 15,
 			url: false,
-			sound: AssetPaths.cool__ogg,
+			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.tableau__png,
-
 			acceleration: 50
-
 		},
 		{
 			description : "BUY", 								// Laptop				
@@ -58,11 +52,9 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: false,
-
-			sound: AssetPaths.cool__ogg,
+			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.Tank__png,		
 			acceleration: 50
-
 		},
 		{
 			description : "BUY", 								// Yacht
@@ -70,25 +62,22 @@ class Action
 			duration : 5,
 			frequency : 10,
 			url: false,
-
-			sound: AssetPaths.cool__ogg,
+			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.Yacht__png,
 			acceleration: 50
-
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
 			money : 100 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 1,
-
 			url: true,
-			sound: AssetPaths.cool__ogg,
+			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.moi__png,
 			acceleration: 50
 		},
 		{
-			description : "BUY", 								// Skyrocket				
+			description : "BUY", 								// MisterBelly				
 			money : 50 * Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
 			frequency : 20,
