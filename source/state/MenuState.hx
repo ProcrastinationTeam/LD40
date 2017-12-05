@@ -24,8 +24,8 @@ class MenuState extends FlxUIState
 		bgColor = 0xFF000000;
 		
 		_backgroundSprite = new FlxSprite(0, 0);
-		_backgroundSprite.loadGraphic(AssetPaths.artwork__png, true, 640, 480, true);
-		_backgroundSprite.animation.add("YOLO", [11, 10,9, 8, 7, 6, 5, 4, 3,2,1], 9, true, false, false);
+		_backgroundSprite.loadGraphic(AssetPaths.artworkS__png, true, 640, 480, true);
+		_backgroundSprite.animation.add("YOLO", [0,1, 2,3, 4, 5, 6, 7, 8, 9,0,0], 9, true, false, false);
 		
 		add(_backgroundSprite);
 		var title = new FlxText(0, 0, 0, "Filthy-rich and Fastuous", 40, true);
