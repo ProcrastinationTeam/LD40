@@ -17,50 +17,50 @@ class Action
 	
 	public static var _array 					: Array<Dynamic> = [
 		{
-			description : "SELL", 								// Texte du bouton					
+			description : "SELL", 								// Skyrocket (Texte du bouton)
 			money : 2 * Tweaking.MONEY_MULTIPLIER, 				// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
-			duration : 10,										// Durée d'existence du bouton
+			duration : 7,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
 			sound: AssetPaths.nope__wav,						// Son à jouer
 			sprite: AssetPaths.SkyRocket__png,					// Sprite à afficher
 			acceleration: 50									// Acceleration
 		}, 
+		//{
+			//description : "BUY", 								// 				
+			//money : 50 * Tweaking.MONEY_MULTIPLIER,
+			//duration : 3,
+			//frequency : 20,
+			//url: false,
+			//sound: AssetPaths.cool__wav,
+			//sprite: AssetPaths.SkyRocket__png,
+			//acceleration: 50
+		//},
 		{
-			description : "BUY", 								// Skyrocket				
-			money : 50 * Tweaking.MONEY_MULTIPLIER,
-			duration : 3,
-			frequency : 20,
-			url: false,
-			sound: AssetPaths.cool__wav,
-			sprite: AssetPaths.SkyRocket__png,
-			acceleration: 50
-		},
-		{
-			description : "BUY", 								// Tank			
-			money : 20 * Tweaking.MONEY_MULTIPLIER,
+			description : "BUY", 								// Tableau			
+			money : 5 * Tweaking.MONEY_MULTIPLIER,
 			duration : 2,
 			frequency : 15,
 			url: false,
 			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.tableau__png,
-			acceleration: 50
+			acceleration: 40
 		},
 		{
-			description : "BUY", 								// Laptop				
-			money : 2.5 * Tweaking.MONEY_MULTIPLIER,
+			description : "BUY", 								// Tank				
+			money : 10 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 30,
+			frequency : 10,
 			url: false,
 			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.Tank__png,		
-			acceleration: 50
+			acceleration: 30
 		},
 		{
 			description : "BUY", 								// Yacht
-			money : 5 * Tweaking.MONEY_MULTIPLIER,
+			money : 2 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 10,
+			frequency : 30,
 			url: false,
 			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.Yacht__png,
@@ -68,9 +68,9 @@ class Action
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
-			money : 100 * Tweaking.MONEY_MULTIPLIER,
+			money : 1 * Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
-			frequency : 1,
+			frequency : 30,
 			url: true,
 			sound: AssetPaths.cool__wav,
 			sprite: AssetPaths.moi__png,
@@ -78,9 +78,9 @@ class Action
 		},
 		{
 			description : "BUY", 								// MisterBelly				
-			money : 50 * Tweaking.MONEY_MULTIPLIER,
+			money : 15 * Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
-			frequency : 20,
+			frequency : 15,
 			url: false,
 			sound: AssetPaths.aaaah__wav,
 			sprite: AssetPaths.misterBelly__png,

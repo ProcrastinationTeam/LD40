@@ -162,9 +162,9 @@ class InfoScreen extends FlxSpriteGroup
 		_totalElapsedTime = 0;
 		_gameOver = false;
 		
-		_cantBuySound = FlxG.sound.load(AssetPaths.pnj_tabasse__wav);
+		_cantBuySound = FlxG.sound.load(AssetPaths.nope__wav);
 		_buySound = FlxG.sound.load(AssetPaths.cool__wav);
-		_sellSound = FlxG.sound.load(AssetPaths.nope__wav);
+		_sellSound = FlxG.sound.load(AssetPaths.pnj_tabasse__wav);
 		
 		_gameStarted = false;
 		playStartingAnimation();
@@ -323,7 +323,7 @@ class InfoScreen extends FlxSpriteGroup
 				FlxG.overlap(_coins, _moneyMountain, CoinBlow);
 			}
 			
-
+			
 			if (_gameOver)
 			{
 				_song.stop();
