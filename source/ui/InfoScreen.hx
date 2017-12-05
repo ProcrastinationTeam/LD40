@@ -364,7 +364,7 @@ class InfoScreen extends FlxSpriteGroup
 				_totalElapsedTimeText.text = FlxStringUtil.formatTime(_totalElapsedTime, true);
 				
 				// Pour faire accélérer au fur et à mesure
-				var accelerationRate:Float = Math.exp(_totalElapsedTime / 50);
+				var accelerationRate:Float = Math.exp(_totalElapsedTime / Tweaking.MONEY_ACCELERATION_RATE);
 				//trace(accelerationRate);
 				
 				var moneyEarned = Tweaking.MONEY_PER_SECOND * elapsed * accelerationRate;
@@ -451,7 +451,7 @@ class InfoScreen extends FlxSpriteGroup
 			if (action._url)
 			{
 				// TODO: changer l'url
-				openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
+				//openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
 			}
 			
 			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency((action._isBuy ? -1 : 1) * action._money, true), 22);
