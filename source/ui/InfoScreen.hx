@@ -1,5 +1,8 @@
 package ui;
 
+import extension.share.Share;
+import flash.display.Bitmap;
+import flash.display3D.textures.RectangleTexture;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -12,12 +15,15 @@ import flixel.util.FlxAxes;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxTimer;
 import openfl.Lib;
+import openfl._legacy.geom.Rectangle;
+import openfl.display.BitmapData;
 import openfl.net.URLRequest;
 import state.MenuState;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxShakeEffect;
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 
 using flixel.util.FlxStringUtil;
 
@@ -69,9 +75,15 @@ class InfoScreen extends FlxSpriteGroup
 	private var _buySound						: FlxSound;
 	private var _sellSound						: FlxSound;
 	
+	
+	//private var gameScreen 						: Bitmap;
+	//private var screenGrab						: FlxScreenGrab;
+	
 	public function new()
 	{
 		super();
+		
+		//screenGrab = new FlxScreenGrab();
 		
 		this.x = OFFSET;
 		
@@ -272,9 +284,29 @@ class InfoScreen extends FlxSpriteGroup
 		retryButton.y = goodJobText.y + goodJobText.height + 20 + 50;
 		retryButton.alpha = 0;
 		
+		var shareButton = new FlxUIButton(0, 0, "Share your score!", function():Void{
+			
+			trace("PHOTOOOOOO");
+			//var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true,false);
+			var screen = FlxScreenGrab.grab(null, true,false);
+			//var bit = BitmapData(screen.width, screen.height, false);
+			//bit.
+			//Share.init(Share.TWITTER);
+			//Share.share("HELLO, TRY TO BEAT MY SCORE AT : Filthy-Rich and Famous",null,null,null,null,null,null,null,screen.bitmapData);
+			
+			
+		});
+		
+		shareButton.resize(temp.fieldWidth + 20, 40);
+		shareButton.label.size = 20;
+		shareButton.screenCenter(FlxAxes.X);
+		shareButton.y = retryButton.y + retryButton.height + 20 + 50;
+		shareButton.alpha = 0;
+		
 		add(scoreText);
 		add(goodJobText);
 		add(retryButton);
+		add(shareButton);
 		
 		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
 		
@@ -294,6 +326,9 @@ class InfoScreen extends FlxSpriteGroup
 			FlxTween.tween(goodJobText, {x: goodJobText.x + 1000}, 1, {ease: FlxEase.elasticOut, startDelay: 2});
 			
 			FlxTween.tween(retryButton, {alpha: 1, y: retryButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
+			
+			FlxTween.tween(shareButton, {alpha: 1, y: shareButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
+			
 		}, 1);
 	}
 
