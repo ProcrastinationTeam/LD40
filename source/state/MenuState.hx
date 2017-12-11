@@ -4,7 +4,9 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.display.FlxSliceSprite;
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import flixel.addons.ui.FlxUIState;
+import flixel.addons.util.PNGEncoder;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxAxes;
@@ -14,6 +16,13 @@ import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import haxe.Http;
+import openfl.geom.Rectangle;
+import openfl.utils.ByteArray;
+import sys.io.File;
+
+//SHARING OPTIONS
+//import extension.share.Share;
+import extension.share.Share;
 
 class MenuState extends FlxUIState
 {
@@ -119,7 +128,17 @@ class MenuState extends FlxUIState
 	{
 		super.update(elapsed);
 		_backgroundSprite.animation.play("YOLO");
-
+		
+		if (FlxG.keys.justPressed.S)
+		{
+			shareScore();
+		}
+		
+		if (FlxG.keys.justPressed.F)
+		{
+			shareScoreF();
+		}
+		
 		#if (web || desktop)
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
@@ -166,5 +185,31 @@ class MenuState extends FlxUIState
 			trace(msg);
 		};
 		req.request(true);
+	}
+	
+	private function shareScore()
+	{
+		
+		var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true, true);
+		
+		FlxScreenGrab.defineHotKeys([FlxKey.K], true);
+		FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), false);
+		
+		var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
+		
+		var filename = 'C:/test' + FlxG.random.int(0,1000) + '_' +'.png';
+		File.saveBytes(filename, png);
+		
+		
+		Share.init(Share.TWITTER);
+		Share.share("HELLO COME PLAY MY GAME",null,filename );
+		
+	}
+	
+	private function shareScoreF()
+	{
+		Share.init(Share.FACEBOOK);
+		Share.share("HELLO COME PLAY MY GAME");
+		
 	}
 }
