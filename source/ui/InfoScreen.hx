@@ -1,5 +1,6 @@
 package ui;
 
+import flash.geom.Rectangle;
 import extension.share.Share;
 import flash.display.Bitmap;
 import flash.display3D.textures.RectangleTexture;
@@ -16,6 +17,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxAxes;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxTimer;
+import haxe.Int64;
 import openfl.Lib;
 import openfl._legacy.geom.Rectangle;
 import openfl.display.BitmapData;
@@ -28,6 +30,12 @@ import flixel.tweens.FlxEase;
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxShakeEffect;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
+import flixel.input.keyboard.FlxKey;
+import flixel.addons.util.PNGEncoder;
+import flash.utils.ByteArray;
+import flash.net.FileReference;
+import haxe.Http;
+import haxe.Json;
 
 using flixel.util.FlxStringUtil;
 
@@ -181,6 +189,8 @@ class InfoScreen extends FlxSpriteGroup
 		_cantBuySound = FlxG.sound.load(AssetPaths.nope__wav);
 		_buySound = FlxG.sound.load(AssetPaths.cool__wav);
 		_sellSound = FlxG.sound.load(AssetPaths.pnj_tabasse__wav);
+		
+		FlxScreenGrab.defineHotKeys([FlxKey.K], true);
 		
 		_gameStarted = false;
 		playStartingAnimation();
@@ -345,16 +355,19 @@ class InfoScreen extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		#if (web || desktop)
+		
+		#if debug 
+		#if FLX_KEYBOARD
 		if (FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.L)
 		{
 			_currentMoney = Tweaking.PLAYER_GAME_OVER_MONEY;
 		}
 		#end
+		
 		if (!_musicStart)
 		{
 			_musicStart = true;
-			_song.play();
+			//_song.play();
 		}
 		
 		if (_gameStarted)
@@ -362,7 +375,7 @@ class InfoScreen extends FlxSpriteGroup
 			if (!_gameOver)
 			{
 				//Start du son
-				_coinFallingSound.play();
+				//_coinFallingSound.play();
 				
 				var randomize = FlxG.random.int(0, 10);
 				if (randomize < 3)
@@ -658,6 +671,73 @@ class InfoScreen extends FlxSpriteGroup
 				}
 			});
 		}, 1);
+		
+		
+		FlxScreenGrab.grab(null, true);
+		
+		//var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
+		
+		//var filename = 'D:/test' + button.x + '_' + button.y +'.png';
+		//File.saveBytes(filename, png);
+		
+		//getLeaderboard();
+	}
+	
+	public function sendToLeaderboard():Void
+	{
+		//var url:String = "http://httpbin.org/post";
+		var url:String = "localhost:8000";
+		var name:String = "Eponopono";
+		
+		var data:Dynamic = {name: name, time: _totalElapsedTime, date: Date.now()};
+		var jsonData:String = haxe.Json.stringify(data);
+		
+		var req = new Http(url);
+		req.setPostData(jsonData);
+		
+		req.onData = function(data:String):Void
+		{
+			trace(data);
+		};
+		req.onError = function(msg:String):Void
+		{
+			trace(msg);
+		};
+		req.request(true);
+	}
+	
+
+	
+	public function getLeaderboard():Void
+	{
+		var url:String = "localhost:8000";
+		
+		var req = new Http(url);
+		req.onData = function(data:String):Void
+		{
+			
+			//trace(data);
+			//var score:Score = Json.parse(data);
+			//
+			//trace(score.name);
+			//trace(FlxStringUtil.formatTime(score.time, true));
+			//trace(Date.fromTime(score.date));
+			
+			var leaderboard:Array<Score> = Json.parse(data);
+
+			//trace(leaderboard);
+			//trace(leaderboard.scores);
+			
+			for (score in leaderboard)
+			{
+				trace('${score.name} : ${FlxStringUtil.formatTime(score.time, true)}');
+			}
+		};
+		req.onError = function(msg:String):Void
+		{
+			trace(msg);
+		};
+		req.request(false);
 	}
 	
 	public static function floatToCurrency(float:Float, isTransaction:Bool):String 
@@ -670,4 +750,14 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		return Math.round( v * Math.pow(10, precision) ) / Math.pow(10, precision);
 	}
+}
+
+typedef Leaderboard = {
+	var scores:Array<Score>;
+}
+
+typedef Score = {
+	var name:String;
+	var time:Float;
+	var date:Float;
 }
