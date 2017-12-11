@@ -15,6 +15,22 @@
                     'name': 'Lulu',
                     'time': 53.21,
                     'date': Date.now()
+                }, { 
+                    'name': 'nul',
+                    'time': 1,
+                    'date': Date.now()
+                }, { 
+                    'name': 'fort',
+                    'time': 100,
+                    'date': Date.now()
+                }, { 
+                    'name': 'bof-egalite',
+                    'time': 20,
+                    'date': Date.now()
+                }, { 
+                    'name': 'bof-egalite-prems',
+                    'time': 20,
+                    'date': Date.now() - 100000
                 }
             ]
             );

@@ -18,6 +18,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import openfl._legacy.geom.Rectangle;
 import openfl.utils.ByteArray;
+import source.Leaderboard;
 import source.Utils;
 import state.MenuState;
 import state.PlayState;
@@ -32,26 +33,31 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private var _backgroundSprite 				: FlxSprite;
 
+	private var _levelOfMoney 					: Int 			= 0;
 	private var _moneyMountain					: FlxSprite;
-	private var _coinSprite						: FlxSprite;
 	
+	private var _coins							: FlxSpriteGroup;
 	private var _coinFallingSound				: FlxSound;
-
-	private var _levelOfMoney 					: Int = 0;
 
 	private var _currentMoneyText				: FlxText;
 	private var _maxMoneyText					: FlxText;
 
-	private var _mapButtonToAction				: Map<FlxUIButton, Action>;
-	private var _mapButtonToSpriteItem			: Map<FlxUIButton, FlxSprite>;
-	private var _mapButtonToSpriteCart			: Map<FlxUIButton, FlxSprite>;
+	private var _totalElapsedTimeText			: FlxText;
 
 	private var _buttons						: FlxSpriteGroup;
 	private var _spritesItem					: FlxSpriteGroup;
 	private var _spritesCart					: FlxSpriteGroup;
-	private var _coins							: FlxSpriteGroup;
-
-	private var _totalElapsedTimeText			: FlxText;
+	
+	private var _mapButtonToAction				: Map<FlxUIButton, Action>;
+	private var _mapButtonToSpriteItem			: Map<FlxUIButton, FlxSprite>;
+	private var _mapButtonToSpriteCart			: Map<FlxUIButton, FlxSprite>;
+	
+	//
+	private var _leaderboardButton				: FlxUIButton;
+	private var _gameOverSprites				: FlxSpriteGroup;
+	private var _leaderboardVisible				: Bool 			= false;
+	private var _leaderboard					: Leaderboard;
+	
 	
 	public function new(playState:PlayState)
 	{
@@ -223,94 +229,6 @@ class InfoScreen extends FlxSpriteGroup
 			_coinFallingSound.play();
 			_playState._gameStarted = true;
 		}});
-	}
-	
-	public function playGameOverAnimation():Void 
-	{
-		var scoreText:FlxText = new FlxText(0, 0, 0, "You survived", 30);
-		scoreText.color = FlxColor.WHITE;
-		scoreText.screenCenter();
-		scoreText.y -= 100;
-		scoreText.alignment = FlxTextAlign.CENTER;
-		scoreText.x += 1000;
-		scoreText.borderStyle = FlxTextBorderStyle.SHADOW;
-		scoreText.borderSize = 2;
-		
-		var goodJobText:FlxText = new FlxText(0, 0, 0, "Good job!", 30);
-		goodJobText.color = FlxColor.WHITE;
-		goodJobText.screenCenter();
-		goodJobText.y = scoreText.y + 110;
-		goodJobText.alignment = FlxTextAlign.CENTER;
-		goodJobText.x -= 1000;
-		goodJobText.borderStyle = FlxTextBorderStyle.SHADOW;
-		goodJobText.borderSize = 2;
-		
-		var text:String = "Try again!";
-		
-		var temp = new FlxText(0, 0, 0, text, 20);
-		var retryButton = new FlxUIButton(0, 0, text, function():Void
-		{
-			FlxG.switchState(new MenuState());
-		});
-		
-		retryButton.resize(temp.fieldWidth + 20, 40);
-		retryButton.label.size = 20;
-		retryButton.screenCenter(FlxAxes.X);
-		retryButton.y = goodJobText.y + goodJobText.height + 20 + 50;
-		retryButton.alpha = 0;
-		
-		var shareButton = new FlxUIButton(0, 0, "Share your score!", function():Void{
-			
-			trace("PHOTOOOOOO");
-			var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true, true);
-		
-			FlxScreenGrab.defineHotKeys([FlxKey.K], true);
-			FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), false);
-		
-			var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
-		
-			var filename = 'F:/test' + FlxG.random.int(0,1000) + '_' +'.png';
-			File.saveBytes(filename, png);
-		
-		
-			Share.init(Share.TWITTER);
-			var text = "I have survived " + _totalElapsedTimeText.text + " sec in Filthy-Rich and Famous come try it here ! \n https://elryogrande.itch.io/filthy-rich";
-			Share.share(text,null,filename );
-		});
-		
-		shareButton.resize(temp.fieldWidth + 20, 40);
-		shareButton.label.size = 20;
-		shareButton.screenCenter(FlxAxes.X);
-		shareButton.y = retryButton.y + retryButton.height + 20 + 50;
-		shareButton.alpha = 0;
-		
-		add(scoreText);
-		add(goodJobText);
-		add(retryButton);
-		add(shareButton);
-		
-		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
-		
-		new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION + 1, function(timer:FlxTimer):Void
-		{
-			FlxTween.tween(scoreText, {x: scoreText.x - 1000}, 1, {ease: FlxEase.elasticOut});
-			new FlxTimer().start(1, function(timer:FlxTimer):Void {
-				_totalElapsedTimeText.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
-			});
-			
-			FlxTween.tween(_totalElapsedTimeText, {x: FlxG.width / 2 - _totalElapsedTimeText.width / 2, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut, startDelay: 1});
-			FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.WHITE, {ease: FlxEase.elasticOut, startDelay: 1});
-			
-			FlxTween.tween(_currentMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
-			FlxTween.tween(_maxMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
-			
-			FlxTween.tween(goodJobText, {x: goodJobText.x + 1000}, 1, {ease: FlxEase.elasticOut, startDelay: 2});
-			
-			FlxTween.tween(retryButton, {alpha: 1, y: retryButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
-			
-			FlxTween.tween(shareButton, {alpha: 1, y: shareButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
-			
-		}, 1);
 	}
 	
 	public function rainingCoin():Void
@@ -546,6 +464,156 @@ class InfoScreen extends FlxSpriteGroup
 					sprite.destroy();
 				}
 			});
+		}
+	}
+	
+	public function playGameOverAnimation():Void 
+	{
+		_gameOverSprites = new FlxSpriteGroup();
+		
+		var scoreText:FlxText = new FlxText(0, 0, 0, "You survived", 30);
+		scoreText.color = FlxColor.WHITE;
+		scoreText.screenCenter();
+		scoreText.y -= 100;
+		scoreText.alignment = FlxTextAlign.CENTER;
+		scoreText.x += 1000;
+		scoreText.borderStyle = FlxTextBorderStyle.SHADOW;
+		scoreText.borderSize = 2;
+		
+		var goodJobText:FlxText = new FlxText(0, 0, 0, "Good job!", 30);
+		goodJobText.color = FlxColor.WHITE;
+		goodJobText.screenCenter();
+		goodJobText.y = scoreText.y + 110;
+		goodJobText.alignment = FlxTextAlign.CENTER;
+		goodJobText.x -= 1000;
+		goodJobText.borderStyle = FlxTextBorderStyle.SHADOW;
+		goodJobText.borderSize = 2;
+		
+		//
+		var text:String = "Share!";
+		var size:Int = 20;
+		
+		var temp = new FlxText(0, 0, 0, text, size);
+		
+		var shareButton = new FlxUIButton(0, 20, text, function():Void{
+			
+			trace("PHOTOOOOOO");
+			var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true, true);
+		
+			FlxScreenGrab.defineHotKeys([FlxKey.K], true);
+			FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), false);
+		
+			var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
+		
+			var filename = 'F:/test' + FlxG.random.int(0,1000) + '_' +'.png';
+			File.saveBytes(filename, png);
+		
+		
+			Share.init(Share.TWITTER);
+			var text = "I survived " + _totalElapsedTimeText.text + " sec in Filthy-Rich and Famous come try it here ! \n https://elryogrande.itch.io/filthy-rich";
+			Share.share(text, null, filename );
+		});
+		
+		shareButton.screenCenter(FlxAxes.X);
+		shareButton.label.size = size;
+		shareButton.resize(temp.fieldWidth + 20, 40);
+		shareButton.x = FlxG.width / 2 - 20 - shareButton.label.fieldWidth;
+		shareButton.y = goodJobText.y + goodJobText.height + 20 + 50;
+		shareButton.alpha = 0;
+		
+		//
+		text = "Try again!";
+		size = 20;
+		
+		temp = new FlxText(0, 0, 0, text, size);
+		
+		var retryButton = new FlxUIButton(0, 0, text, function():Void
+		{
+			FlxG.switchState(new MenuState());
+		});
+		
+		retryButton.label.size = size;
+		retryButton.resize(temp.fieldWidth + 20, 40);
+		retryButton.x = FlxG.width / 2 + 20;
+		retryButton.y = shareButton.y;
+		retryButton.alpha = 0;
+		
+		//
+		text = "Leaderboard (coming soon)";
+		size = 20;
+		
+		temp = new FlxText(0, 0, 0, text, size);
+		
+		_leaderboardButton = new FlxUIButton(0, 20, text, function():Void {
+			// TODO: afficher leaderboard
+			toggleLeaderboard();
+		});
+		
+		_leaderboardButton.label.size = size;
+		_leaderboardButton.resize(temp.fieldWidth + 20, 40);
+		_leaderboardButton.screenCenter(FlxAxes.X);
+		_leaderboardButton.y = retryButton.y;
+		_leaderboardButton.alpha = 0;
+		
+		_gameOverSprites.add(scoreText);
+		_gameOverSprites.add(goodJobText);
+		_gameOverSprites.add(retryButton);
+		_gameOverSprites.add(shareButton);
+		
+		remove(_totalElapsedTimeText);
+		_gameOverSprites.add(_totalElapsedTimeText);
+		
+		add(_leaderboardButton);
+		add(_gameOverSprites);
+		
+		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
+		
+		new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION + 1, function(timer:FlxTimer):Void
+		{
+			FlxTween.tween(scoreText, {x: scoreText.x - 1000}, 1, {ease: FlxEase.elasticOut});
+			new FlxTimer().start(1, function(timer:FlxTimer):Void {
+				_totalElapsedTimeText.borderStyle = FlxTextBorderStyle.OUTLINE_FAST;
+			});
+			
+			FlxTween.tween(_totalElapsedTimeText, {x: FlxG.width / 2 - _totalElapsedTimeText.width / 2, y: scoreText.y + 50, size: 40}, 1, {ease: FlxEase.elasticOut, startDelay: 1});
+			FlxTween.color(_totalElapsedTimeText, 1, FlxColor.WHITE, FlxColor.WHITE, {ease: FlxEase.elasticOut, startDelay: 1});
+			
+			FlxTween.tween(_currentMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
+			FlxTween.tween(_maxMoneyText, {alpha: 0}, 1.5, {ease: FlxEase.quadInOut, startDelay: 1});
+			
+			FlxTween.tween(goodJobText, {x: goodJobText.x + 1000}, 1, {ease: FlxEase.elasticOut, startDelay: 2});
+			
+			FlxTween.tween(retryButton, {alpha: 1, y: retryButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
+			FlxTween.tween(shareButton, {alpha: 1, y: shareButton.y - 50}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
+			
+			FlxTween.tween(_leaderboardButton, {alpha: 1, y: _leaderboardButton.y + 75}, 1.5, {ease: FlxEase.quadInOut, startDelay: 2.5});
+		}, 1);
+		
+		temp.destroy();
+	}
+	
+	private function toggleLeaderboard():Void
+	{
+		_leaderboardVisible = !_leaderboardVisible;
+		
+		if (_leaderboardVisible)
+		{
+			_gameOverSprites.visible = false;
+			_leaderboardButton.label.text = "Back";
+			
+			if (_leaderboard == null) 
+			{
+				_leaderboard = new Leaderboard(_playState._totalElapsedTime);
+				add(_leaderboard);
+			} 
+			_leaderboard.visible = true;
+		}
+		else 
+		{
+			_gameOverSprites.visible = true;
+			_leaderboardButton.label.text = "Leaderboard (coming soon)";
+			
+			_leaderboard.visible = false;
 		}
 	}
 }

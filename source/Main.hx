@@ -13,7 +13,7 @@ class Main extends Sprite
 	{
 		super();
 		addChild(new FlxGame(0, 0, MenuState));
-		FlxG.sound.volume = 0.3;
+		FlxG.sound.volume = 0.0;
 		
 		#if (web || desktop)
 		FlxG.sound.volumeUpKeys = [FlxKey.PLUS, UP];

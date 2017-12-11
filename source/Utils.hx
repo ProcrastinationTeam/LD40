@@ -5,7 +5,7 @@ import flash.utils.ByteArray;
 import flixel.util.FlxStringUtil;
 import flixel.addons.util.PNGEncoder;
 
-typedef Leaderboard =
+typedef Scores =
 {
 	var scores:Array<Score>;
 }
