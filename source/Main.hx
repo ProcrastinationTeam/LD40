@@ -5,6 +5,7 @@ import openfl.display.Sprite;
 import state.MenuState;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 
 class Main extends Sprite
 {
@@ -17,6 +18,8 @@ class Main extends Sprite
 		#if (web || desktop)
 		FlxG.sound.volumeUpKeys = [FlxKey.PLUS, UP];
 		FlxG.sound.volumeDownKeys = [FlxKey.MINUS, DOWN];
+		
+		FlxScreenGrab.defineHotKeys([FlxKey.K], true);
 		#end
 		
 		#if mobile
