@@ -5,6 +5,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import flixel.addons.ui.FlxUIButton;
+import flixel.addons.util.PNGEncoder;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.mouse.FlxMouseEventManager;
@@ -15,8 +16,12 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import state.MenuState;
+import openfl._legacy.geom.Rectangle;
+import openfl.utils.ByteArray;
 import source.Utils;
+import state.MenuState;
+import sys.io.File;
+import extension.share.Share;
 
 using flixel.util.FlxStringUtil;
 
@@ -282,14 +287,20 @@ class InfoScreen extends FlxSpriteGroup
 		var shareButton = new FlxUIButton(0, 0, "Share your score!", function():Void{
 			
 			trace("PHOTOOOOOO");
-			//var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true,false);
-			var screen = FlxScreenGrab.grab(null, true,false);
-			//var bit = BitmapData(screen.width, screen.height, false);
-			//bit.
-			//Share.init(Share.TWITTER);
-			//Share.share("HELLO, TRY TO BEAT MY SCORE AT : Filthy-Rich and Famous",null,null,null,null,null,null,null,screen.bitmapData);
-			
-			
+			var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true, true);
+		
+			FlxScreenGrab.defineHotKeys([FlxKey.K], true);
+			FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), false);
+		
+			var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
+		
+			var filename = 'F:/test' + FlxG.random.int(0,1000) + '_' +'.png';
+			File.saveBytes(filename, png);
+		
+		
+			Share.init(Share.TWITTER);
+			var text = "I have survived " + _totalElapsedTimeText.text + " sec in Filthy-Rich and Famous come try it here ! \n https://elryogrande.itch.io/filthy-rich";
+			Share.share(text,null,filename );
 		});
 		
 		shareButton.resize(temp.fieldWidth + 20, 40);
@@ -339,7 +350,7 @@ class InfoScreen extends FlxSpriteGroup
 		}
 		#end
 		#end
-
+		
 		if (!_musicStart)
 		{
 			_musicStart = true;
