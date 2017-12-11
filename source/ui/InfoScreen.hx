@@ -1,37 +1,22 @@
 package ui;
 
-import flash.geom.Rectangle;
-import extension.share.Share;
-import flash.display.Bitmap;
-import flash.display3D.textures.RectangleTexture;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import flixel.addons.ui.FlxUIButton;
 import flixel.group.FlxSpriteGroup;
+import flixel.input.keyboard.FlxKey;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
-import flixel.util.FlxColor;
-import flixel.util.FlxAxes;
-import flixel.input.mouse.FlxMouseEventManager;
-import flixel.util.FlxTimer;
-import haxe.Int64;
-import openfl.Lib;
-import openfl._legacy.geom.Rectangle;
-import openfl.display.BitmapData;
-import openfl.net.URLRequest;
-import state.MenuState;
-import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxShakeEffect;
-import flixel.addons.plugin.screengrab.FlxScreenGrab;
-import flixel.input.keyboard.FlxKey;
-import flixel.addons.util.PNGEncoder;
-import flash.utils.ByteArray;
-import flash.net.FileReference;
-import haxe.Http;
-import haxe.Json;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import state.MenuState;
+import source.Utils;
 
 using flixel.util.FlxStringUtil;
 
@@ -133,13 +118,13 @@ class InfoScreen extends FlxSpriteGroup
 		_song = FlxG.sound.load(AssetPaths.mainS__wav);
 		
 		_currentMoneyText = new FlxText(50, 5, 0, "Current : ", 20);
-		_currentMoneyText = new FlxText(_currentMoneyText.x + _currentMoneyText.fieldWidth, 5, 0,  floatToCurrency(_currentMoney, false), 20);
+		_currentMoneyText = new FlxText(_currentMoneyText.x + _currentMoneyText.fieldWidth, 5, 0,  Utils.floatToCurrency(_currentMoney, false), 20);
 		
-		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + Utils.floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		
 		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
 
-		_maxMoneyText = new FlxText(0, 5, 300, " / " + floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		_maxMoneyText = new FlxText(0, 5, 300, " / " + Utils.floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
 		_maxMoneyText.autoSize = false;
 		_maxMoneyText.alignment = FlxTextAlign.LEFT;
@@ -149,7 +134,7 @@ class InfoScreen extends FlxSpriteGroup
 		//_maxMoneyText.font = "Perfect DOS VGA 437";
 		
 		//_currentMoneyTextText = new FlxText(50, 5, 0, "MNEY LMIT : ", 20);
-		_currentMoneyText = new FlxText(_maxMoneyText.x - 250, 5, 250,  floatToCurrency(_currentMoney, false), 20);
+		_currentMoneyText = new FlxText(_maxMoneyText.x - 250, 5, 250,  Utils.floatToCurrency(_currentMoney, false), 20);
 		_currentMoneyText.alignment = FlxTextAlign.RIGHT;
 		_currentMoneyText.autoSize = false;
 		_currentMoneyText.borderStyle = FlxTextBorderStyle.SHADOW;
@@ -428,7 +413,7 @@ class InfoScreen extends FlxSpriteGroup
 				//if (_timeSinceLastMoneyRefresh > 1/_numberOfMoneyRefreshPerSecond) 
 				//{
 				// Sinon des fois on a l'impression qu'on a pas atteint le montant max, c'est bizarre
-				_currentMoneyText.text = floatToCurrency(_currentMoney, false);
+				_currentMoneyText.text = Utils.floatToCurrency(_currentMoney, false);
 					//_timeSinceLastMoneyRefresh = 0;
 				//}
 				
@@ -509,7 +494,7 @@ class InfoScreen extends FlxSpriteGroup
 				//openfl.Lib.getURL(new URLRequest("https://itch.io/games/newest"));
 			//}
 			
-			var moneyModifText = new FlxText(0, 0, 0, floatToCurrency((action._isBuy ? -1 : 1) * action._money, true), 22);
+			var moneyModifText = new FlxText(0, 0, 0, Utils.floatToCurrency((action._isBuy ? -1 : 1) * action._money, true), 22);
 			moneyModifText.color = action._isBuy ? FlxColor.fromRGB(0, 240, 0) : FlxColor.fromRGB(255, 0, 0);
 			moneyModifText.alignment = FlxTextAlign.CENTER;
 			moneyModifText.x = -OFFSET + button.x + button.label.fieldWidth / 2 - moneyModifText.fieldWidth / 2;
@@ -662,93 +647,5 @@ class InfoScreen extends FlxSpriteGroup
 				}
 			});
 		}, 1);
-		
-		
-		FlxScreenGrab.grab(null, true);
-		
-		//var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
-		
-		//var filename = 'D:/test' + button.x + '_' + button.y +'.png';
-		//File.saveBytes(filename, png);
-		
-		//getLeaderboard();
 	}
-	
-	public function sendToLeaderboard():Void
-	{
-		//var url:String = "http://httpbin.org/post";
-		var url:String = "localhost:8000";
-		var name:String = "Eponopono";
-		
-		var data:Dynamic = {name: name, time: _totalElapsedTime, date: Date.now()};
-		var jsonData:String = haxe.Json.stringify(data);
-		
-		var req = new Http(url);
-		req.setPostData(jsonData);
-		
-		req.onData = function(data:String):Void
-		{
-			trace(data);
-		};
-		req.onError = function(msg:String):Void
-		{
-			trace(msg);
-		};
-		req.request(true);
-	}
-	
-
-	
-	public function getLeaderboard():Void
-	{
-		var url:String = "localhost:8000";
-		
-		var req = new Http(url);
-		req.onData = function(data:String):Void
-		{
-			
-			//trace(data);
-			//var score:Score = Json.parse(data);
-			//
-			//trace(score.name);
-			//trace(FlxStringUtil.formatTime(score.time, true));
-			//trace(Date.fromTime(score.date));
-			
-			var leaderboard:Array<Score> = Json.parse(data);
-
-			//trace(leaderboard);
-			//trace(leaderboard.scores);
-			
-			for (score in leaderboard)
-			{
-				trace('${score.name} : ${FlxStringUtil.formatTime(score.time, true)}');
-			}
-		};
-		req.onError = function(msg:String):Void
-		{
-			trace(msg);
-		};
-		req.request(false);
-	}
-	
-	public static function floatToCurrency(float:Float, isTransaction:Bool):String 
-	{
-		return (float < 0 ? "-" : (isTransaction ? "+" : "")) + "$" + FlxStringUtil.formatMoney(Math.abs(float), false);
-	}
-	
-	// Fonction pompée sur internet pour pouvoir arrondir un chiffre avec le nombre de chiffres après la virgule qu'on veut
-	public static function fixedFloat(v:Float, ?precision:Int = 2):Float
-	{
-		return Math.round( v * Math.pow(10, precision) ) / Math.pow(10, precision);
-	}
-}
-
-typedef Leaderboard = {
-	var scores:Array<Score>;
-}
-
-typedef Score = {
-	var name:String;
-	var time:Float;
-	var date:Float;
 }
