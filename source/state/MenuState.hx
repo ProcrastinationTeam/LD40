@@ -128,6 +128,7 @@ class MenuState extends FlxUIState
 		super.update(elapsed);
 		_backgroundSprite.animation.play("YOLO");
 		
+		#if (web || desktop)
 		if (FlxG.keys.justPressed.S)
 		{
 			shareScore();
@@ -137,7 +138,7 @@ class MenuState extends FlxUIState
 		{
 			shareScoreF();
 		}
-		
+		#end
 		#if (web || desktop)
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
@@ -167,12 +168,12 @@ class MenuState extends FlxUIState
 		
 		var png:ByteArray = PNGEncoder.encode(FlxScreenGrab.screenshot.bitmapData);
 		
-		var filename = 'C:/test' + FlxG.random.int(0,1000) + '_' +'.png';
+		var filename = 'F:/test' + FlxG.random.int(0,1000) + '_' +'.png';
 		File.saveBytes(filename, png);
 		
 		
 		Share.init(Share.TWITTER);
-		Share.share("HELLO COME PLAY MY GAME",null,filename );
+		Share.share("HELLO COME PLAY MY GAME : https://elryogrande.itch.io/filthy-rich",null,filename );
 		
 	}
 	

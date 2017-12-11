@@ -25,6 +25,8 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="portrait" fullscreen="true" />
 
+	<!--android target-sdk-version="23" if="android" />
+	
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
@@ -45,7 +47,10 @@
 	<haxelib name="nape" />
 	
 	<haxelib name="extension-share" />
-
+	
+	<!--Google Play Games Services-->
+	<haxelib name="extension-googleplaygames" />
+	<setenv name="GOOGLE_PLAY_GAMES_ID" value="LeRyokan" />
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Enable the Flixel core recording system-->
