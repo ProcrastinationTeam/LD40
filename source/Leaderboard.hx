@@ -1,30 +1,38 @@
 package source;
 
-import flixel.FlxSprite;
-import flixel.group.FlxSpriteGroup;
-import haxe.Json;
-import source.Utils.Score;
-import haxe.Http;
 import flixel.FlxG;
-import flixel.util.FlxStringUtil;
-import flixel.addons.ui.FlxUIButton;
-import flixel.text.FlxText;
-import flixel.group.FlxSpriteGroup;
-import haxe.ds.ArraySort;
+import flixel.FlxSprite;
 import flixel.addons.ui.FlxInputText;
+import flixel.addons.ui.FlxUIButton;
+import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
+import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import haxe.Http;
+import haxe.Json;
+import haxe.ds.ArraySort;
+import source.Utils.Score;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxStringUtil;
+import flixel.util.FlxAxes;
 
 class Leaderboard extends FlxSpriteGroup
 {
-	private static inline var BASE_URL 				: String = "localhost:8000";
-	private static inline var GET_LEADERBOARD		: String = "/leaderboard";
-	private static inline var PUT_LEADERBOARD		: String = "/leaderboard";
+	private static inline var BASE_URL 				: String 			= "localhost:8000";
+	private static inline var GET_LEADERBOARD		: String 			= "/leaderboard";
+	private static inline var PUT_LEADERBOARD		: String 			= "/leaderboard";
 	
-	private var _timeSurvived						: Float;
-	
+	private var _nicknameExplicationText 			: FlxText;
 	private var _nicknameTextField					: FlxInputText;
+	private var _sendToLeaderboardButton			: FlxUIButton;
 	
 	private var _backgroundSprite 					: FlxSprite;
+	
+	private var _scoreSent							: Bool 				= false;
+	
+	private var _scoreLines							: FlxSpriteGroup 	= new FlxSpriteGroup();
 
 	public function new(timeSurvived:Float)
 	{
@@ -35,21 +43,19 @@ class Leaderboard extends FlxSpriteGroup
 		
 		add(_backgroundSprite);
 		
-		_timeSurvived = timeSurvived;
-		
 		_nicknameTextField = new FlxInputText(65, FlxG.height - 175, 320, "", 26);
 		_nicknameTextField.maxLength = 16;
-		_nicknameTextField.callback = function(str:String, str2:String):Void
+		_nicknameTextField.callback = function(currentText:String, action:String):Void
 		{
-			trace(str);
-			trace(str2);
+			//trace(currentText);
+			//trace(action); // "input" / "backspace"	/ "delete"
 		};
 		add(_nicknameTextField);
 		
-		var nicknameExplicationText = new FlxText(_nicknameTextField.x, _nicknameTextField.y - 45, 0, "Nickname:", 30);
-		nicknameExplicationText.borderStyle = FlxTextBorderStyle.SHADOW;
-		nicknameExplicationText.borderSize = 3;
-		add(nicknameExplicationText);
+		_nicknameExplicationText = new FlxText(_nicknameTextField.x, _nicknameTextField.y - 45, 0, "Nickname:", 30);
+		_nicknameExplicationText.borderStyle = FlxTextBorderStyle.SHADOW;
+		_nicknameExplicationText.borderSize = 3;
+		add(_nicknameExplicationText);
 		
 		//
 		var text = "Send time";
@@ -57,52 +63,85 @@ class Leaderboard extends FlxSpriteGroup
 		
 		var temp = new FlxText(0, 20, 0, text, size);
 		
-		var sendToLeaderboardButton = new FlxUIButton(_nicknameTextField.x + _nicknameTextField.width + 35, _nicknameTextField.y - 3, text, function():Void
+		_sendToLeaderboardButton = new FlxUIButton(_nicknameTextField.x + _nicknameTextField.width + 35, _nicknameTextField.y - 3, text, function():Void
 		{
-			sendToLeaderboard("bite", _timeSurvived);
+			sendToLeaderboard(_nicknameTextField.text, timeSurvived);
 		});
 		
-		sendToLeaderboardButton.label.size = size;
-		sendToLeaderboardButton.resize(temp.fieldWidth + 20, 40);
+		_sendToLeaderboardButton.label.size = size;
+		_sendToLeaderboardButton.resize(temp.fieldWidth + 20, 40);
 		
-		add(sendToLeaderboardButton);
+		add(_sendToLeaderboardButton);
 		
-
+		add(_scoreLines);
 		
 		getLeaderboard();
 	}
 	
 	public function sendToLeaderboard(nickname:String, timeSurvived:Float):Void
 	{
-		var data:Score = {name: nickname, time: timeSurvived, date: Date.now().getTime()};
-		var jsonData:String = Json.stringify(data);
+		nickname = StringTools.trim(nickname);
 		
-		var request = new Http(BASE_URL + GET_LEADERBOARD);
-		request.setPostData(jsonData);
-		
-		request.onData = function(data:String):Void
+		if (nickname.length > 0) 
 		{
-			// TODO: feedback OK
-			//trace(data);
-		};
-		
-		request.onError = function(msg:String):Void
+			var data:Score = {name: nickname, time: timeSurvived, date: Date.now().getTime()};
+			var jsonData:String = Json.stringify(data);
+			
+			var request = new Http(BASE_URL + GET_LEADERBOARD);
+			request.setPostData(jsonData);
+			
+			request.onData = function(data:String):Void
+			{
+				// TODO: feedback OK
+				//trace(data);
+				_scoreSent = true;
+				
+				_nicknameExplicationText.destroy();
+				_nicknameTextField.destroy();
+				_sendToLeaderboardButton.destroy();
+				
+				var scoreSentText = new FlxText(0, FlxG.height - 225, 0, "Score sent!", 40);
+				scoreSentText.color = FlxColor.GREEN;
+				scoreSentText.borderStyle = FlxTextBorderStyle.SHADOW;
+				scoreSentText.borderSize = 2;
+				scoreSentText.color = FlxColor.fromRGB(0, 250, 0);
+				scoreSentText.screenCenter(FlxAxes.X);
+				add(scoreSentText);
+				
+				getLeaderboard();
+			};
+			
+			request.onError = function(msg:String):Void
+			{
+				// TODO: feedback NOT OK
+				//trace(msg);
+			};
+			
+			request.request(true);
+		}
+		else 
 		{
-			// TODO: feedback NOT OK
-			//trace(msg);
-		};
-		
-		request.request(true);
+			var tween = FlxTween.tween(_nicknameTextField, {x: _nicknameTextField.x + 10}, 0.03, {type: FlxTween.PINGPONG, ease: FlxEase.circInOut});
+			
+			new FlxTimer().start(0.4, function(timer:FlxTimer):Void {
+				tween.cancel();
+			});
+		}
 	}
 	
 	public function getLeaderboard():Void
 	{
+		_scoreLines.forEach(function(sprite:FlxSprite):Void {
+			_scoreLines.remove(sprite);
+			sprite.destroy();
+		});
+		
 		var request = new Http(BASE_URL);
 		
 		request.onData = function(data:String):Void
 		{
 			var scores:Array<Score> = Json.parse(data);
-
+			
 			trace("unsorted");
 			for (score in scores)
 			{
@@ -137,7 +176,7 @@ class Leaderboard extends FlxSpriteGroup
 					positionClassement.borderStyle = FlxTextBorderStyle.SHADOW;
 					positionClassement.borderSize = 3;
 					positionClassement.fieldWidth = 40; 
-					add(positionClassement);
+					_scoreLines.add(positionClassement);
 					
 					var nickname = new FlxText(positionClassement.x + positionClassement.fieldWidth + 10, positionClassement.y, 0, '${score.name}', 24);
 					nickname.color = FlxColor.WHITE;
@@ -145,7 +184,7 @@ class Leaderboard extends FlxSpriteGroup
 					nickname.borderStyle = FlxTextBorderStyle.SHADOW;
 					nickname.borderSize = 3;
 					nickname.fieldWidth = 325;
-					add(nickname);
+					_scoreLines.add(nickname);
 					
 					var time = new FlxText(nickname.x + nickname.fieldWidth + 10, positionClassement.y, 0, '${FlxStringUtil.formatTime(score.time, true)}', 24);
 					time.color = FlxColor.WHITE;
@@ -153,7 +192,7 @@ class Leaderboard extends FlxSpriteGroup
 					time.borderStyle = FlxTextBorderStyle.SHADOW;
 					time.borderSize = 3;
 					time.fieldWidth = 125;
-					add(time);
+					_scoreLines.add(time);
 				}
 				
 				i++;
