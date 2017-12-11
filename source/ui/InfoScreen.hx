@@ -706,20 +706,23 @@ class InfoScreen extends FlxSpriteGroup
 		var req = new Http(url);
 		req.onData = function(data:String):Void
 		{
+			
 			//trace(data);
+			//var score:Score = Json.parse(data);
+			//
+			//trace(score.name);
+			//trace(FlxStringUtil.formatTime(score.time, true));
+			//trace(Date.fromTime(score.date));
 			
-			var leaderboard:Score = haxe.Json.parse(data);
+			var leaderboard:Array<Score> = Json.parse(data);
+
 			//trace(leaderboard);
+			//trace(leaderboard.scores);
 			
-			trace(leaderboard.name);
-			trace(FlxStringUtil.formatTime(leaderboard.time / 1000, true));
-			trace(Date.fromTime(leaderboard.date));
-			//trace(leaderboard.date);
-			
-			//for (score in leaderboard.scores)
-			//{
-				//trace(score);
-			//}
+			for (score in leaderboard)
+			{
+				trace('${score.name} : ${FlxStringUtil.formatTime(score.time, true)}');
+			}
 		};
 		req.onError = function(msg:String):Void
 		{
