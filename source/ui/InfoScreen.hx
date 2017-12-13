@@ -606,6 +606,10 @@ class InfoScreen extends FlxSpriteGroup
 				_leaderboard = new Leaderboard(_playState._totalElapsedTime);
 				add(_leaderboard);
 			} 
+			else
+			{
+				_leaderboard.getLeaderboard();
+			}
 			_leaderboard.visible = true;
 		}
 		else 

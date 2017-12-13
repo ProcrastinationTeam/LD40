@@ -1,11 +1,29 @@
     var http = require('http');
     var qs = require('querystring');
+    var fs = require('fs');
+
+    var lineReader = require('line-reader');
+
+    var scores = [];
+
+    lineReader.eachLine('scores.txt', function(line, last) {
+      var cells = line.split(';');
+      var score = {
+        name: cells[0].replace(/\"/g, ''),
+        time: parseFloat(cells[1]),
+        date: parseFloat(cells[2])
+      }
+      scores.push(score);
+      if(last) {
+        console.log('fini');
+      }
+    });
 
     var server = http.createServer ( function(request,response){
 
     response.writeHead(200,{"Content-Type":"text\plain"});
     if(request.method == "GET") {
-        var json = JSON.stringify(
+        /*var json = JSON.stringify(
             [
                 { 
                     'name': 'Epo',
@@ -33,7 +51,9 @@
                     'date': Date.now() - 100000
                 }
             ]
-            );
+            );*/
+            var json = JSON.stringify(scores);
+            //console.log(json);
         response.end(json)
     }
     else if(request.method == "POST") {
@@ -50,8 +70,20 @@
 
         request.on('end', function () {
             var post = qs.parse(body);
-            console.log(post);
+            //console.log(post);
             // use post['blah'], etc.
+            var jsonObj = JSON.parse(body);
+            console.log(jsonObj);
+            console.log(jsonObj.name);
+            console.log(jsonObj.time);
+            console.log(jsonObj.date);
+
+            scores.push(jsonObj);
+
+            fs.appendFile('scores.txt', '"' + jsonObj.name.replace(/\"/, '') + '";' + jsonObj.time + ';' + jsonObj.date + '\r\n', function (err) {
+            if (err) throw err;
+                console.log('Saved!');
+            });
         });
         response.end("received POST request.");
     }
