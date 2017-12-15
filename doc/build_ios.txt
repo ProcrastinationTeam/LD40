@@ -1,0 +1,16 @@
+https://www.pcsteps.com/2157-mac-os-x-virtual-machine-vmware-player/
+(Version générique pour l'OS)
+
+https://www.quora.com/How-do-I-Download-Xcode-8
+https://developer.apple.com/services-account/download?path=%2FDeveloper_Tools%2FXcode_8%2FXcode_8.xip
+(Avec le 9, le 13/12/2017, ça marchait pas)
+
+aller là où est installé haxe
+cd /usr/local/lib/haxe/lib/hxcpp/3,4,188/
+cd project/
+neko build.n ios //(peut être la même chose que quand on build pour windows dans haxedevelop et que ça prend 3 plombes)
+
+dans le dossier du projet
+lime build (ou test) ios
+
+lime build ios -Dsource-header=0 (si pas de target "by")
