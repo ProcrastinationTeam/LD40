@@ -81,6 +81,7 @@ class Leaderboard extends FlxSpriteGroup
 	public function sendToLeaderboard(nickname:String, timeSurvived:Float):Void
 	{
 		nickname = StringTools.trim(nickname);
+		nickname = StringTools.replace(nickname, ";", "");
 		
 		if (nickname.length > 0) 
 		{
@@ -145,6 +146,7 @@ class Leaderboard extends FlxSpriteGroup
 			trace("unsorted");
 			for (score in scores)
 			{
+				trace(score);
 				trace('${score.name} : ${FlxStringUtil.formatTime(score.time, true)}');
 			}
 			
