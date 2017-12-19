@@ -44,13 +44,14 @@
 	<haxelib name="flixel-ui" />
 
 	<!--In case you want to use nape with flixel-->
-	<haxelib name="nape" />
+	<!--<haxelib name="nape" />-->
 	
 	<haxelib name="extension-share" />
 	
 	<!--Google Play Games Services-->
 	<haxelib name="extension-googleplaygames" />
 	<setenv name="GOOGLE_PLAY_GAMES_ID" value="LeRyokan" />
+		
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Enable the Flixel core recording system-->
@@ -81,7 +82,7 @@
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
-	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+	<!--<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />-->
 
 	<!-- _________________________________ Custom _______________________________ -->
 
