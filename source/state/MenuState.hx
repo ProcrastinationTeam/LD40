@@ -18,7 +18,9 @@ import flixel.input.keyboard.FlxKey;
 import haxe.Http;
 import openfl.geom.Rectangle;
 import openfl.utils.ByteArray;
+#if !flash
 import sys.io.File;
+#end
 import firetongue.FireTongue;
 import asset_paths.ImageAssetPaths;
 
@@ -197,7 +199,7 @@ class MenuState extends FlxUIState
 	
 	private function shareScore()
 	{
-		
+		#if !flash
 		var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true, true);
 		
 		FlxScreenGrab.defineHotKeys([FlxKey.K], true);
@@ -211,7 +213,7 @@ class MenuState extends FlxUIState
 		
 		Share.init(Share.TWITTER);
 		Share.share("HELLO COME PLAY MY GAME : https://elryogrande.itch.io/filthy-rich",null,filename );
-		
+		#end
 	}
 	
 	private function shareScoreF()

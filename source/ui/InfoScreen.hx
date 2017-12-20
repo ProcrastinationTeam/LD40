@@ -25,7 +25,9 @@ import source.Leaderboard;
 import source.Utils;
 import state.MenuState;
 import state.PlayState;
+#if !flash
 import sys.io.File;
+#end
 import extension.share.Share;
 
 using flixel.util.FlxStringUtil;
@@ -501,6 +503,7 @@ class InfoScreen extends FlxSpriteGroup
 		var shareButton = new FlxUIButton(0, 20, text, function():Void{
 			
 			trace("PHOTOOOOOO");
+			#if !flash
 			var screen = FlxScreenGrab.grab(new Rectangle(0, 0, 640, 480), true, true);
 		
 			FlxScreenGrab.defineHotKeys([FlxKey.K], true);
@@ -515,6 +518,7 @@ class InfoScreen extends FlxSpriteGroup
 			Share.init(Share.TWITTER);
 			var text = "I survived " + _totalElapsedTimeText.text + " sec in Filthy-Rich and Famous come try it here ! \n https://elryogrande.itch.io/filthy-rich";
 			Share.share(text, null, filename );
+			#end
 		});
 		
 		shareButton.screenCenter(FlxAxes.X);
