@@ -30,7 +30,9 @@
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
+	
 	<classpath name="source" />
+	
 	<assets path="assets" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
@@ -51,7 +53,8 @@
 	<!--Google Play Games Services-->
 	<haxelib name="extension-googleplaygames" />
 	<setenv name="GOOGLE_PLAY_GAMES_ID" value="LeRyokan" />
-		
+	
+	<haxelib name="firetongue" /> 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Enable the Flixel core recording system-->

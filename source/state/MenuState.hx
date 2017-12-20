@@ -19,6 +19,8 @@ import haxe.Http;
 import openfl.geom.Rectangle;
 import openfl.utils.ByteArray;
 import sys.io.File;
+import firetongue.FireTongue;
+import asset_paths.ImageAssetPaths;
 
 //SHARING OPTIONS
 //import extension.share.Share;
@@ -28,13 +30,18 @@ class MenuState extends FlxUIState
 {
 	private var _volumeSprite			: FlxSprite;
 	private var _backgroundSprite 		: FlxSprite;
+	
+	private var _tonguee					: FireTongue;
 
 	override public function create():Void
 	{
 		bgColor = 0xFF000000;
+		
+		_tonguee = new FireTongue(Framework.OpenFL);
+		_tonguee.init("fr-FR", onLoadedFireTongue);
 
 		_backgroundSprite = new FlxSprite(0, 0);
-		_backgroundSprite.loadGraphic(AssetPaths.artworkS__png, true, 640, 480, true);
+		_backgroundSprite.loadGraphic(ImageAssetPaths.artworkS__png, true, 640, 480, true);
 		_backgroundSprite.animation.add("YOLO", [0,1, 2,3, 4, 5, 6, 7, 8, 9,0,0], 9, true, false, false);
 
 		add(_backgroundSprite);
@@ -212,5 +219,10 @@ class MenuState extends FlxUIState
 		Share.init(Share.FACEBOOK);
 		Share.share("HELLO COME PLAY MY GAME");
 		
+	}
+	
+	private function onLoadedFireTongue()
+	{
+		trace(_tonguee.get("$HELLO_WORLD", "data"));
 	}
 }

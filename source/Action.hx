@@ -1,5 +1,7 @@
 package;
 
+import asset_paths.SoundsAssetPaths;
+import asset_paths.ImageAssetPaths;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.system.FlxSound;
 import flixel.FlxG;
@@ -22,8 +24,8 @@ class Action
 			duration : 7,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
-			sound: AssetPaths.nope__wav,						// Son à jouer
-			sprite: AssetPaths.SkyRocket__png,					// Sprite à afficher
+			sound: SoundsAssetPaths.nope__wav,					// Son à jouer
+			sprite: ImageAssetPaths.SkyRocket__png,				// Sprite à afficher
 			acceleration: 50									// Acceleration
 		}, 
 		//{
@@ -32,7 +34,7 @@ class Action
 			//duration : 3,
 			//frequency : 20,
 			//url: false,
-			//sound: AssetPaths.cool__wav,
+			//sound: SoundAssetPaths.cool__wav,
 			//sprite: AssetPaths.SkyRocket__png,
 			//acceleration: 50
 		//},
@@ -42,8 +44,8 @@ class Action
 			duration : 2,
 			frequency : 15,
 			url: false,
-			sound: AssetPaths.cool__wav,
-			sprite: AssetPaths.tableau__png,
+			sound: SoundsAssetPaths.cool__wav,
+			sprite: ImageAssetPaths.tableau__png,
 			acceleration: 40
 		},
 		{
@@ -52,8 +54,8 @@ class Action
 			duration : 5,
 			frequency : 10,
 			url: false,
-			sound: AssetPaths.cool__wav,
-			sprite: AssetPaths.Tank__png,		
+			sound: SoundsAssetPaths.cool__wav,
+			sprite: ImageAssetPaths.Tank__png,		
 			acceleration: 30
 		},
 		{
@@ -62,8 +64,8 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: false,
-			sound: AssetPaths.cool__wav,
-			sprite: AssetPaths.Yacht__png,
+			sound: SoundsAssetPaths.cool__wav,
+			sprite: ImageAssetPaths.Yacht__png,
 			acceleration: 50
 		},
 		{
@@ -72,8 +74,8 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: true,
-			sound: AssetPaths.cool__wav,
-			sprite: AssetPaths.moi__png,
+			sound: SoundsAssetPaths.cool__wav,
+			sprite: ImageAssetPaths.moi__png,
 			acceleration: 50
 		},
 		{
@@ -82,8 +84,8 @@ class Action
 			duration : 3,
 			frequency : 15,
 			url: false,
-			sound: AssetPaths.aaaah__wav,
-			sprite: AssetPaths.misterBelly__png,
+			sound: SoundsAssetPaths.aaaah__wav,
+			sprite: ImageAssetPaths.misterBelly__png,
 			acceleration : 50
 		},
 	];
