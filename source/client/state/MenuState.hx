@@ -30,7 +30,7 @@ import shared.Score;
 //import extension.share.Share;
 import extension.share.Share;
 
-class MenuState extends FlxUIState
+class MenuState extends FlxState
 {
 	private var _volumeSprite			: FlxSprite;
 	private var _backgroundSprite 		: FlxSprite;
