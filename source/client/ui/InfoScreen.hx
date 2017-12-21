@@ -1,8 +1,9 @@
-package ui;
+package client.ui;
 
-import assetspath.ImageAssetsPath;
-import assetspath.SoundAssetsPaths;
-import assetspath.MusicAssetsPath;
+import client.Tweaking;
+import client.assetspath.ImageAssetsPath;
+import client.assetspath.SoundAssetsPaths;
+import client.assetspath.MusicAssetsPath;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -21,10 +22,10 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import openfl._legacy.geom.Rectangle;
 import openfl.utils.ByteArray;
-import source.Leaderboard;
-import source.Utils;
-import state.MenuState;
-import state.PlayState;
+import client.Leaderboard;
+import client.Utils;
+import client.state.MenuState;
+import client.state.PlayState;
 #if !flash
 import sys.io.File;
 #end
@@ -106,11 +107,11 @@ class InfoScreen extends FlxSpriteGroup
 		_currentMoneyText = new FlxText(50, 5, 0, "Current : ", 20);
 		_currentMoneyText = new FlxText(_currentMoneyText.x + _currentMoneyText.fieldWidth, 5, 0,  Utils.floatToCurrency(_playState._currentMoney, false), 20);
 		
-		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + Utils.floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		_maxMoneyText = new FlxText(350, 5, 0, "MAX : " + Utils.floatToCurrency(client.Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		
 		_totalElapsedTimeText = new FlxText(550, 5, 0, "", 18);
 
-		_maxMoneyText = new FlxText(0, 5, 300, " / " + Utils.floatToCurrency(Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
+		_maxMoneyText = new FlxText(0, 5, 300, " / " + Utils.floatToCurrency(client.Tweaking.PLAYER_GAME_OVER_MONEY, false), 20);
 		_maxMoneyText.screenCenter(FlxAxes.X);
 		_maxMoneyText.autoSize = false;
 		_maxMoneyText.alignment = FlxTextAlign.LEFT;
@@ -401,39 +402,39 @@ class InfoScreen extends FlxSpriteGroup
 	
 	public function updateBackgroundSprite():Void 
 	{
-		if (_playState._currentMoney < (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1)
+		if (_playState._currentMoney < (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 1)
 		{
 			_moneyMountain.animation.play("Step0");
 		}
-		else if (_playState._currentMoney < (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2)
+		else if (_playState._currentMoney < (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 2)
 		{
 			_moneyMountain.animation.play("Step1");
 		}
-		else if (_playState._currentMoney < (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3)
+		else if (_playState._currentMoney < (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 3)
 		{
 			_moneyMountain.animation.play("Step2");
 		}
-		else if (_playState._currentMoney < (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5)
+		else if (_playState._currentMoney < (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 5)
 		{
 			_moneyMountain.animation.play("Step3");
 		}
-		else if (_playState._currentMoney <= (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6)
+		else if (_playState._currentMoney <= (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 6)
 		{
 			_moneyMountain.animation.play("Step4");
 		}
-		else if (_playState._currentMoney <= (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7)
+		else if (_playState._currentMoney <= (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 7)
 		{
 			_moneyMountain.animation.play("Step5");
 		}
-		else if (_playState._currentMoney <= (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8)
+		else if (_playState._currentMoney <= (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 8)
 		{
 			_moneyMountain.animation.play("Step6");
 		}
-		else if (_playState._currentMoney <= (Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9)
+		else if (_playState._currentMoney <= (client.Tweaking.PLAYER_GAME_OVER_MONEY / 10) * 9)
 		{
 			_moneyMountain.animation.play("Step7");
 		}
-		else if (_playState._currentMoney <= Tweaking.PLAYER_GAME_OVER_MONEY)
+		else if (_playState._currentMoney <= client.Tweaking.PLAYER_GAME_OVER_MONEY)
 		{
 			_moneyMountain.animation.play("Step8");
 		}
@@ -447,7 +448,7 @@ class InfoScreen extends FlxSpriteGroup
 		for (button in _buttons)
 		{
 			_buttons.remove(button, true);
-			FlxTween.tween(button, {y: button.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
+			FlxTween.tween(button, {y: button.y + 500}, client.Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 					button.destroy();
 				}
 			});
@@ -456,7 +457,7 @@ class InfoScreen extends FlxSpriteGroup
 		for (sprite in _spritesItem)
 		{
 			_spritesItem.remove(sprite, true);
-			FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
+			FlxTween.tween(sprite, {y: sprite.y + 500}, client.Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 					sprite.destroy();
 				}
 			});
@@ -465,7 +466,7 @@ class InfoScreen extends FlxSpriteGroup
 		for (sprite in _spritesCart)
 		{
 			_spritesItem.remove(sprite, true);
-			FlxTween.tween(sprite, {y: sprite.y + 500}, Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
+			FlxTween.tween(sprite, {y: sprite.y + 500}, client.Tweaking.BUTTON_DISPARITION_DURATION, {ease: FlxEase.backInOut, startDelay: 1, onComplete: function(tween:FlxTween):Void {
 					sprite.destroy();
 				}
 			});
@@ -575,7 +576,7 @@ class InfoScreen extends FlxSpriteGroup
 		
 		_totalElapsedTimeText.alignment = FlxTextAlign.CENTER;
 		
-		new FlxTimer().start(Tweaking.BUTTON_DISPARITION_DURATION + 1, function(timer:FlxTimer):Void
+		new FlxTimer().start(client.Tweaking.BUTTON_DISPARITION_DURATION + 1, function(timer:FlxTimer):Void
 		{
 			FlxTween.tween(scoreText, {x: scoreText.x - 1000}, 1, {ease: FlxEase.elasticOut});
 			new FlxTimer().start(1, function(timer:FlxTimer):Void {

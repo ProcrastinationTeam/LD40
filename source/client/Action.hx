@@ -1,7 +1,8 @@
-package;
+package client;
 
-import assetspath.SoundAssetsPaths;
-import assetspath.ImageAssetsPath;
+import client.Tweaking;
+import client.assetspath.SoundAssetsPaths;
+import client.assetspath.ImageAssetsPath;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.system.FlxSound;
 import flixel.FlxG;
@@ -20,7 +21,7 @@ class Action
 	public static var _array 					: Array<Dynamic> = [
 		{
 			description : "SELL", 								// Skyrocket (Texte du bouton)
-			money : 2 * Tweaking.MONEY_MULTIPLIER, 				// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
+			money : 2 * client.Tweaking.MONEY_MULTIPLIER, 				// Argent que ça donne / enlève (quand c'est négatif, ça enlève, c'est bien)
 			duration : 7,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
@@ -40,7 +41,7 @@ class Action
 		//},
 		{
 			description : "BUY", 								// Tableau			
-			money : 5 * Tweaking.MONEY_MULTIPLIER,
+			money : 5 * client.Tweaking.MONEY_MULTIPLIER,
 			duration : 2,
 			frequency : 15,
 			url: false,
@@ -50,7 +51,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// Tank				
-			money : 10 * Tweaking.MONEY_MULTIPLIER,
+			money : 10 * client.Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 10,
 			url: false,
@@ -60,7 +61,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// Yacht
-			money : 2 * Tweaking.MONEY_MULTIPLIER,
+			money : 2 * client.Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 30,
 			url: false,
@@ -70,7 +71,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// LE JEU LOL			
-			money : 1 * Tweaking.MONEY_MULTIPLIER,
+			money : 1 * client.Tweaking.MONEY_MULTIPLIER,
 			duration : 5,
 			frequency : 30,
 			url: true,
@@ -80,7 +81,7 @@ class Action
 		},
 		{
 			description : "BUY", 								// MisterBelly				
-			money : 15 * Tweaking.MONEY_MULTIPLIER,
+			money : 15 * client.Tweaking.MONEY_MULTIPLIER,
 			duration : 3,
 			frequency : 15,
 			url: false,
@@ -110,6 +111,6 @@ class Action
 		_url = infos.url;
 		_sound = FlxG.sound.load(infos.sound);
 		_sprite = infos.sprite;
-		_isBuy = FlxG.random.bool(Tweaking.BUY_PERCENT);
+		_isBuy = FlxG.random.bool(client.Tweaking.BUY_PERCENT);
 	}
 }

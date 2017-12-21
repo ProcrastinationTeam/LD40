@@ -1,21 +1,9 @@
-package source;
+package client;
 
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import flash.utils.ByteArray;
 import flixel.util.FlxStringUtil;
 import flixel.addons.util.PNGEncoder;
-
-typedef Scores =
-{
-	var scores:Array<Score>;
-}
-
-typedef Score =
-{
-	var name:String;
-	var time:Float;
-	var date:Float;
-}
 
 class Utils
 {

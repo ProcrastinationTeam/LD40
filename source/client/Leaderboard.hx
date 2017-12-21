@@ -1,4 +1,4 @@
-package source;
+package client;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -13,7 +13,7 @@ import flixel.util.FlxTimer;
 import haxe.Http;
 import haxe.Json;
 import haxe.ds.ArraySort;
-import source.Utils.Score;
+import shared.Score;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxAxes;
@@ -85,7 +85,7 @@ class Leaderboard extends FlxSpriteGroup
 		
 		if (nickname.length > 0) 
 		{
-			var data:Score = {name: nickname, time: timeSurvived, date: Date.now().getTime()};
+			var data:Score = {nickname: nickname, time: timeSurvived, date: Date.now().getTime()};
 			var jsonData:String = Json.stringify(data);
 			
 			var request = new Http(BASE_URL + GET_LEADERBOARD);
@@ -147,7 +147,7 @@ class Leaderboard extends FlxSpriteGroup
 			for (score in scores)
 			{
 				trace(score);
-				trace('${score.name} : ${FlxStringUtil.formatTime(score.time, true)}');
+				trace('${score.nickname} : ${FlxStringUtil.formatTime(score.time, true)}');
 			}
 			
 			ArraySort.sort(scores, function(scoreA:Score, scoreB:Score): Int {
@@ -167,7 +167,7 @@ class Leaderboard extends FlxSpriteGroup
 			var i = 0;
 			for (score in scores)
 			{
-				var message = '[${i + 1}] ${score.name} : ${FlxStringUtil.formatTime(score.time, true)}';
+				var message = '[${i + 1}] ${score.nickname} : ${FlxStringUtil.formatTime(score.time, true)}';
 				trace(message);
 				
 				if (i < 5) 
@@ -180,7 +180,7 @@ class Leaderboard extends FlxSpriteGroup
 					positionClassement.fieldWidth = 40; 
 					_scoreLines.add(positionClassement);
 					
-					var nickname = new FlxText(positionClassement.x + positionClassement.fieldWidth + 10, positionClassement.y, 0, '${score.name}', 24);
+					var nickname = new FlxText(positionClassement.x + positionClassement.fieldWidth + 10, positionClassement.y, 0, '${score.nickname}', 24);
 					nickname.color = FlxColor.WHITE;
 					nickname.alignment = FlxTextAlign.LEFT;
 					nickname.borderStyle = FlxTextBorderStyle.SHADOW;

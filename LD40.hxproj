@@ -8,10 +8,10 @@
     <movie fps="60" />
     <movie width="640" />
     <movie height="480" />
-    <movie version="1" />
+    <movie version="0" />
     <movie minorVersion="0" />
     <movie platform="Lime" />
-    <movie background="000000" />
+    <movie background="#000000" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -26,13 +26,14 @@
     <class path="C:\HaxeToolkit\haxe\lib\extension-android-support-v4\1,0,0" />
     <class path="C:\HaxeToolkit\haxe\lib\extension-googleplayservices-basement\1,1,0" />
     <class path="C:\HaxeToolkit\haxe\lib\firetongue\2,0,0" />
+    <class path="C:\HaxeToolkit\haxe\lib\csv\0,4,0\lib" />
     <class path="source" />
     <class path="C:\HaxeToolkit\haxe\lib\openfl\3,6,1\extern" />
     <class path="export\windows\neko\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="flixel=4.3.0&#xA;openfl=3.6.1&#xA;lime=2.9.1&#xA;hscript=2.1.1&#xA;flixel-addons=2.5.0&#xA;flixel-ui=2.2.0&#xA;extension-share=2.4.3&#xA;extension-googleplaygames=1.5.7&#xA;extension-android-support-v4=1.0.0&#xA;extension-googleplayservices-basement=1.1.0&#xA;firetongue=2.0.0&#xA;HXCPP_QUIET&#xA;openfl-next&#xA;tools=2.9.1&#xA;NAPE_NO_INLINE&#xA;no-compilation&#xA;native&#xA;FLX_NO_TOUCH&#xA;lime-native&#xA;openfl-native&#xA;windows&#xA;desktop&#xA;display" />
+    <option directives="flixel=4.3.0&#xA;openfl=3.6.1&#xA;lime=2.9.1&#xA;hscript=2.1.1&#xA;flixel-addons=2.5.0&#xA;flixel-ui=2.2.0&#xA;extension-share=2.4.3&#xA;extension-googleplaygames=1.5.7&#xA;extension-android-support-v4=1.0.0&#xA;extension-googleplayservices-basement=1.1.0&#xA;firetongue=2.0.0&#xA;csv=0.4.0&#xA;HXCPP_QUIET&#xA;openfl-next&#xA;tools=2.9.1&#xA;NAPE_NO_INLINE&#xA;no-compilation&#xA;native&#xA;FLX_NO_TOUCH&#xA;lime-native&#xA;openfl-native&#xA;windows&#xA;desktop&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
@@ -54,7 +55,7 @@
   <!-- Executed before build -->
   <preBuildCommand>"$(CompilerPath)/haxelib" run lime build "$(OutputFile)" $(TargetBuild) -$(BuildConfig) -Dfdb</preBuildCommand>
   <!-- Executed after build -->
-  <postBuildCommand alwaysRun="False" />
+  <postBuildCommand alwaysRun="False">haxe -cp source -main server.Main -lib csv -neko export\windows\neko\bin\server.n</postBuildCommand>
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />

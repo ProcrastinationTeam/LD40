@@ -1,8 +1,8 @@
-package;
+package client;
 
 import flixel.FlxGame;
 import openfl.display.Sprite;
-import state.MenuState;
+import client.state.MenuState;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;

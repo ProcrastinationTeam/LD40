@@ -1,0 +1,16 @@
+il est build auto par le hxproj (après le build du client)
+
+# Pour le build depuis le dossier du projet
+haxe -cp source -main server.Main -lib csv -neko export\windows\neko\bin\server.n
+
+# Pour lancer le server
+# "nekotools server" pour lancer le serveur de neko
+# "-p 2000" pour dire sur quel port le lancer
+# "-h 0.0.0.0" pour être à l'écoute des autres ip (si on met localhost, on n'accepte que les requêtes locales)
+# "-d ./" pour dire que le dossier dans lequel est le fichier ("server.n") est celui où on lance la commande
+# https://nekovm.org/doc/tools/#webserver
+nekotools server -p 2000 -h 0.0.0.0 -d ./
+
+pour qu'il fonctionne, faut qu'il ait le "scores.txt" à côté
+
+côté client, l'url à viser est "54.213.250.240:2000/server.n", où "server.n" est le nom du fichier compilé plus haut

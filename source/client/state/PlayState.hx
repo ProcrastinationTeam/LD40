@@ -1,21 +1,21 @@
-package state;
+package client.state;
 
-import assetspath.MusicAssetsPath;
-import assetspath.SoundAssetsPaths;
+import client.assetspath.MusicAssetsPath;
+import client.assetspath.SoundAssetsPaths;
 import flixel.FlxCamera;
 import flixel.FlxState;
-import ui.InfoScreen;
+import client.ui.InfoScreen;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.system.FlxSound;
-import Tweaking;
+import client.Tweaking;
 
 class PlayState extends FlxState
 {
 	private var _infoScreen				: InfoScreen;
 	
 	public var _totalElapsedTime		: Float 		= 0;
-	public var _currentMoney			: Float 		= Tweaking.PLAYER_START_MONEY;
+	public var _currentMoney			: Float 		= client.Tweaking.PLAYER_START_MONEY;
 	
 	public var _gameStarted				: Bool 			= false;
 	public var _gameOver 				: Bool 			= false;
@@ -54,7 +54,7 @@ class PlayState extends FlxState
 		#if FLX_KEYBOARD
 		if (FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.L)
 		{
-			_currentMoney = Tweaking.PLAYER_GAME_OVER_MONEY;
+			_currentMoney = client.Tweaking.PLAYER_GAME_OVER_MONEY;
 		}
 		#end
 		#end
@@ -71,9 +71,9 @@ class PlayState extends FlxState
 				_totalElapsedTime += elapsed;
 				
 				// Pour faire accélérer au fur et à mesure
-				var accelerationRate:Float = Math.exp(_totalElapsedTime / Tweaking.MONEY_ACCELERATION_RATE);
+				var accelerationRate:Float = Math.exp(_totalElapsedTime / client.Tweaking.MONEY_ACCELERATION_RATE);
 				
-				var moneyEarned = Tweaking.MONEY_PER_SECOND * elapsed * accelerationRate;
+				var moneyEarned = client.Tweaking.MONEY_PER_SECOND * elapsed * accelerationRate;
 				_currentMoney += moneyEarned;
 				
 				// On choisit ce qu'on va faire spawn
@@ -95,7 +95,7 @@ class PlayState extends FlxState
 				// MAJ du tas de pièces
 				_infoScreen.updateBackgroundSprite();
 				
-				if (_currentMoney >= Tweaking.PLAYER_GAME_OVER_MONEY)
+				if (_currentMoney >= client.Tweaking.PLAYER_GAME_OVER_MONEY)
 				{
 					_gameOver = true;
 					_infoScreen.playGameOverAnimation();

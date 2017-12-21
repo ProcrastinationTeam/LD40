@@ -1,4 +1,4 @@
-package;
+package client;
  
 import flixel.system.FlxBasePreloader;
  

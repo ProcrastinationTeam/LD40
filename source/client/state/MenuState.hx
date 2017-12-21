@@ -1,4 +1,4 @@
-package state;
+package client.state;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -16,13 +16,15 @@ import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import haxe.Http;
+import haxe.remoting.HttpAsyncConnection;
 import openfl.geom.Rectangle;
 import openfl.utils.ByteArray;
 #if !flash
 import sys.io.File;
 #end
 import firetongue.FireTongue;
-import assetspath.ImageAssetsPath;
+import client.assetspath.ImageAssetsPath;
+import shared.Score;
 
 //SHARING OPTIONS
 //import extension.share.Share;
@@ -139,27 +141,12 @@ class MenuState extends FlxUIState
 		_backgroundSprite.animation.play("YOLO");
 		
 		#if (web || desktop)
-		if (FlxG.keys.justPressed.S)
-		{
-			shareScore();
-		}
-		
-		if (FlxG.keys.justPressed.F)
-		{
-			shareScoreF();
-		}
-		#end
-		#if (web || desktop)
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, .1, false, function()
 			{
 				FlxG.switchState(new PlayState());
 			});
-		}
-		if (FlxG.keys.justPressed.R)
-		{
-			sendToLeaderboard();
 		}
 		#end
 
@@ -172,29 +159,64 @@ class MenuState extends FlxUIState
 			});
 		}
 		#end
+		
+		#if debug
+		#if (web || desktop)
+		if (FlxG.keys.justPressed.S)
+		{
+			shareScore();
+		}
+		
+		if (FlxG.keys.justPressed.F)
+		{
+			shareScoreF();
+		}
+		
+		if (FlxG.keys.justPressed.L)
+		{
+			sendToLeaderboard();
+		}
+		if (FlxG.keys.justPressed.M)
+		{
+			getScores();
+		}
+		#end
+		#end
 	}
 	
 	public function sendToLeaderboard():Void
 	{
-		//var url:String = "http://httpbin.org/post";
-		var url:String = "localhost:8000";
-		var name:String = "Eponopono";
-		
-		var data:Dynamic = {name: name, time: 150450, date: Date.now().getTime()};
-		var jsonData:String = haxe.Json.stringify(data);
-		
-		var req = new Http(url);
-		req.setPostData(jsonData);
-		
-		req.onData = function(data:String):Void
-		{
-			trace(data);
-		};
-		req.onError = function(msg:String):Void
-		{
-			trace(msg);
-		};
-		req.request(true);
+		////var url:String = "http://httpbin.org/post";
+		//var url:String = "localhost:8000";
+		var nickname:String = "Eponopono";
+		//
+		var data:Score = {nickname: nickname, time: FlxG.random.float(10, 30), date: Date.now().getTime()};
+		//var jsonData:String = haxe.Json.stringify(data);
+		//
+		//var req = new Http(url);
+		//req.setPostData(jsonData);
+		//
+		//req.onData = function(data:String):Void
+		//{
+			//trace(data);
+		//};
+		//req.onError = function(msg:String):Void
+		//{
+			//trace(msg);
+		//};
+		//req.request(true);
+		var url = "http://localhost:2000/server.n";
+		var connection = HttpAsyncConnection.urlConnect(url);
+		connection.setErrorHandler(function(err) { trace("Error : " + Std.string(err)); });
+		connection.Server.sendScore.call([data], function(v) { trace(v);  getScores(); });
+	}
+	
+	public function getScores()
+	{
+		var url = "http://localhost:2000/server.n";
+		var connection = HttpAsyncConnection.urlConnect(url);
+		connection.setErrorHandler(function(err) { trace("Error : " + Std.string(err)); });
+		connection.Server.getScores.call([], function(v) { trace(v); });
 	}
 	
 	private function shareScore()
