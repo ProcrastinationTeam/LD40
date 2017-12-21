@@ -1,8 +1,8 @@
 package ui;
 
-import asset_paths.ImageAssetPaths;
-import asset_paths.SoundsAssetPaths;
-import asset_paths.MusicAssetPaths;
+import assetspath.ImageAssetsPath;
+import assetspath.SoundAssetsPaths;
+import assetspath.MusicAssetsPath;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -101,7 +101,7 @@ class InfoScreen extends FlxSpriteGroup
 		
 		_coins = new FlxSpriteGroup();
 		
-		_coinFallingSound = FlxG.sound.load(MusicAssetPaths.midCoin__ogg, 1, true);
+		_coinFallingSound = FlxG.sound.load(MusicAssetsPath.midCoin__ogg, 1, true);
 		
 		_currentMoneyText = new FlxText(50, 5, 0, "Current : ", 20);
 		_currentMoneyText = new FlxText(_currentMoneyText.x + _currentMoneyText.fieldWidth, 5, 0,  Utils.floatToCurrency(_playState._currentMoney, false), 20);
@@ -292,7 +292,7 @@ class InfoScreen extends FlxSpriteGroup
 		FlxTween.tween(spriteItem, {y: spriteItem.y - 1000}, 0.5, {ease: FlxEase.backInOut});	
 		
 		var spriteCart = new FlxSprite(button.x + 20, button.y + 3);
-		spriteCart.loadGraphic(ImageAssetPaths.Car222t2__png, false, 32, 32);
+		spriteCart.loadGraphic(ImageAssetsPath.Car222t2__png, false, 32, 32);
 		
 		FlxTween.tween(spriteCart, {y: spriteCart.y - 1000}, 0.5, {ease: FlxEase.backInOut});
 		

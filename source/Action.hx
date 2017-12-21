@@ -1,7 +1,7 @@
 package;
 
-import asset_paths.SoundsAssetPaths;
-import asset_paths.ImageAssetPaths;
+import assetspath.SoundAssetsPaths;
+import assetspath.ImageAssetsPath;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.system.FlxSound;
 import flixel.FlxG;
@@ -24,8 +24,8 @@ class Action
 			duration : 7,										// Durée d'existence du bouton
 			frequency : 30,										// Nombre moyen par minute
 			url: false,											// Ouvrir page itch.io lol
-			sound: SoundsAssetPaths.nope__wav,					// Son à jouer
-			sprite: ImageAssetPaths.SkyRocket__png,				// Sprite à afficher
+			sound: SoundAssetsPaths.nope__wav,					// Son à jouer
+			sprite: ImageAssetsPath.SkyRocket__png,				// Sprite à afficher
 			acceleration: 50									// Acceleration
 		}, 
 		//{
@@ -44,8 +44,8 @@ class Action
 			duration : 2,
 			frequency : 15,
 			url: false,
-			sound: SoundsAssetPaths.cool__wav,
-			sprite: ImageAssetPaths.tableau__png,
+			sound: SoundAssetsPaths.cool__wav,
+			sprite: ImageAssetsPath.tableau__png,
 			acceleration: 40
 		},
 		{
@@ -54,8 +54,8 @@ class Action
 			duration : 5,
 			frequency : 10,
 			url: false,
-			sound: SoundsAssetPaths.cool__wav,
-			sprite: ImageAssetPaths.Tank__png,		
+			sound: SoundAssetsPaths.cool__wav,
+			sprite: ImageAssetsPath.Tank__png,		
 			acceleration: 30
 		},
 		{
@@ -64,8 +64,8 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: false,
-			sound: SoundsAssetPaths.cool__wav,
-			sprite: ImageAssetPaths.Yacht__png,
+			sound: SoundAssetsPaths.cool__wav,
+			sprite: ImageAssetsPath.Yacht__png,
 			acceleration: 50
 		},
 		{
@@ -74,8 +74,8 @@ class Action
 			duration : 5,
 			frequency : 30,
 			url: true,
-			sound: SoundsAssetPaths.cool__wav,
-			sprite: ImageAssetPaths.moi__png,
+			sound: SoundAssetsPaths.cool__wav,
+			sprite: ImageAssetsPath.moi__png,
 			acceleration: 50
 		},
 		{
@@ -84,8 +84,8 @@ class Action
 			duration : 3,
 			frequency : 15,
 			url: false,
-			sound: SoundsAssetPaths.aaaah__wav,
-			sprite: ImageAssetPaths.misterBelly__png,
+			sound: SoundAssetsPaths.aaaah__wav,
+			sprite: ImageAssetsPath.misterBelly__png,
 			acceleration : 50
 		},
 	];

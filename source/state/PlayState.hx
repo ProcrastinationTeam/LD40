@@ -1,7 +1,7 @@
 package state;
 
-import asset_paths.MusicAssetPaths;
-import asset_paths.SoundsAssetPaths;
+import assetspath.MusicAssetsPath;
+import assetspath.SoundAssetsPaths;
 import flixel.FlxCamera;
 import flixel.FlxState;
 import ui.InfoScreen;
@@ -29,10 +29,10 @@ class PlayState extends FlxState
 	{
 		super.create();
 		
-		_backgroundMusic = FlxG.sound.load(MusicAssetPaths.mainS__wav, 1, true);
-		_buySound = FlxG.sound.load(SoundsAssetPaths.cool__wav);
-		_cantBuySound = FlxG.sound.load(SoundsAssetPaths.nope__wav);
-		_sellSound = FlxG.sound.load(SoundsAssetPaths.pnj_tabasse__wav);
+		_backgroundMusic = FlxG.sound.load(MusicAssetsPath.mainS__wav, 1, true);
+		_buySound = FlxG.sound.load(SoundAssetsPaths.cool__wav);
+		_cantBuySound = FlxG.sound.load(SoundAssetsPaths.nope__wav);
+		_sellSound = FlxG.sound.load(SoundAssetsPaths.pnj_tabasse__wav);
 		
 		_infoScreen = new InfoScreen(this);
 		add(_infoScreen);

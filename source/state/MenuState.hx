@@ -22,7 +22,7 @@ import openfl.utils.ByteArray;
 import sys.io.File;
 #end
 import firetongue.FireTongue;
-import asset_paths.ImageAssetPaths;
+import assetspath.ImageAssetsPath;
 
 //SHARING OPTIONS
 //import extension.share.Share;
@@ -43,7 +43,7 @@ class MenuState extends FlxUIState
 		_tonguee.init("fr-FR", onLoadedFireTongue);
 
 		_backgroundSprite = new FlxSprite(0, 0);
-		_backgroundSprite.loadGraphic(ImageAssetPaths.artworkS__png, true, 640, 480, true);
+		_backgroundSprite.loadGraphic(ImageAssetsPath.artworkS__png, true, 640, 480, true);
 		_backgroundSprite.animation.add("YOLO", [0,1, 2,3, 4, 5, 6, 7, 8, 9,0,0], 9, true, false, false);
 
 		add(_backgroundSprite);
